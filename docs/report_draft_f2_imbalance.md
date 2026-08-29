@@ -14,6 +14,14 @@ thí nghiệm đều gọi cùng một `get_train_test()` từ `src.data`, dùng
 mẫu held-out test, 90 feature sau one-hot và `random_state=42`. Không có scale hoặc split
 riêng trong notebook.
 
+*Kết quả trong tài liệu này được tạo từ một lần chạy `notebooks/04_improve_imbalance.ipynb`
+với môi trường: Python 3.14.0, numpy 2.5.2, pandas 3.0.5, scikit-learn 1.9.0,
+matplotlib 3.11.1, imbalanced-learn 0.14.2. Notebook đã chạy lại từ kernel sạch sau khi xóa
+hai dòng `M2a`/`M2b` cũ trong `outputs/results.csv`, và mọi assert/guardrail nội bộ (chống
+leakage, đúng cấu hình, `error_rate == 1 - test_acc`, macro metrics trong `[0, 1]`) đều PASS.
+Số liệu bên dưới khớp tuyệt đối với `outputs/results.csv`,
+`outputs/classification_report_M2a.txt` và `outputs/classification_report_M2b.txt`.*
+
 ## Hai phương pháp cân bằng lớp
 
 ### M2a — `class_weight='balanced'`
@@ -39,9 +47,11 @@ DecisionTreeClassifier(random_state=42).fit(X_train_smote, y_train_smote)
 ```
 
 Trước SMOTE, train có 1.137 Dropout, 635 Enrolled và 1.767 Graduate. Sau resampling,
-mỗi lớp có 1.767 mẫu, tức 5.301 mẫu train. **SMOTE không được áp dụng lên toàn bộ dataset
-và không được áp dụng lên test set.** Tập test vẫn là 885 quan sát thật, không thay đổi;
-vì vậy các metric bên dưới không bị rò rỉ từ dữ liệu tổng hợp.
+mỗi lớp có 1.767 mẫu, tức 5.301 mẫu train (1.762 mẫu synthetic). **SMOTE không được áp
+dụng lên toàn bộ dataset và không được áp dụng lên test set.** Notebook xác nhận bằng
+guardrail hash SHA-256: `X_test`, `y_test` và `X_train` gốc giữ nguyên bit-for-bit trước
+và sau khi gọi `fit_resample()`; vì vậy các metric bên dưới không bị rò rỉ từ dữ liệu
+tổng hợp.
 
 ## Kết quả held-out test
 
@@ -55,6 +65,21 @@ vì vậy các metric bên dưới không bị rò rỉ từ dữ liệu tổng 
 | Precision macro | 0,607642 | 0,584250 | **0,636513** | −0,023392 | **+0,028871** |
 | Recall macro | 0,609310 | 0,587848 | **0,642937** | −0,021462 | **+0,033627** |
 | F1 macro | 0,608271 | 0,585409 | **0,638747** | −0,022862 | **+0,030475** |
+| Tree depth / leaves | 27 / 634 | 28 / 696 | **39 / 847** | — | — |
+
+### Precision theo từng lớp (đọc từ classification report, chưa có trong schema `results.csv`)
+
+| Lớp | M2a precision | M2b precision | M2a F1 | M2b F1 |
+|---|---:|---:|---:|---:|
+| Dropout | 0,6328 | **0,7003** | 0,6553 | **0,7040** |
+| Enrolled | 0,3234 | **0,4044** | 0,3313 | **0,4327** |
+| Graduate | 0,7966 | 0,8048 | 0,7696 | 0,7795 |
+
+Điểm đáng chú ý: M2b không chỉ tăng recall Enrolled mà còn tăng **precision** Enrolled
+(0,3234 → 0,4044). Tức khi M2b dự đoán một sinh viên là "Enrolled", xác suất dự đoán đó
+đúng cũng cao hơn M2a, không chỉ đơn thuần là M2b "dự đoán Enrolled nhiều hơn một cách bừa
+bãi" để đổi lấy recall cao hơn. Đây là lý do F1 Enrolled của M2b (0,4327) vượt xa M2a
+(0,3313).
 
 ![Confusion matrix của M2a](../figures/D_cm_M2a.png)
 
@@ -66,9 +91,9 @@ vì vậy các metric bên dưới không bị rò rỉ từ dữ liệu tổng 
 
 ![Cây M2a với class weight balanced](../figures/D_tree_M2a.png)
 
-*Hình f.2c. Bốn tầng đầu của cây M2a. Thay đổi trọng số lớp có thể thay đổi Gini và cấu
-trúc split, nên đây vẫn là một cấu hình cây quyết định cần được trình bày, không chỉ là một
-tham số bổ sung.*
+*Hình f.2c. Cây M2a hiển thị đến độ sâu 4 (root = độ sâu 0), trên tổng số 28 tầng thật
+của cây. Thay đổi trọng số lớp có thể thay đổi Gini và cấu trúc split, nên đây vẫn là một
+cấu hình cây quyết định cần được trình bày, không chỉ là một tham số bổ sung.*
 
 ![Cây M2a đầy đủ](../figures/D_tree_M2a_full.png)
 
@@ -76,6 +101,16 @@ tham số bổ sung.*
 mà minh họa quy mô thực tế của cây — gần tương đương độ phức tạp của M0 (27 tầng, 634 lá),
 cho thấy `class_weight='balanced'` không làm cây đơn giản hơn, chỉ thay đổi cách phân bổ
 trọng số khi chọn split.*
+
+![Cây M2b với SMOTE](../figures/D_tree_M2b.png)
+
+*Hình f.2e. Cây M2b hiển thị đến độ sâu 4, trên tổng số 39 tầng thật, 847 lá — cây được
+train trên tập đã SMOTE (5.301 dòng) nhưng được đánh giá trên tập test gốc.*
+
+![Cây M2b đầy đủ](../figures/D_tree_M2b_full.png)
+
+*Hình f.2f. Toàn bộ cây M2b (39 tầng, 847 lá) — sâu và nhiều lá hơn hẳn M0 và M2a, vì tập
+train sau SMOTE có 5.301 dòng thay vì 3.539 dòng, cho cây nhiều cơ hội chia nhỏ hơn.*
 
 ## So sánh M2a và M2b, đặc biệt với lớp Enrolled
 
@@ -98,6 +133,50 @@ thí nghiệm, không phải kết luận nhân quả rằng mọi dataset hoặ
 mức tăng. M2b có cây sâu 39 và 847 lá, nên cải thiện recall không đồng nghĩa cây đơn giản
 hơn; mục tiêu của M2 là cân bằng hiệu năng theo lớp, không phải pruning.
 
+## Hạn chế: vanilla SMOTE trên dữ liệu categorical mã hóa số
+
+`src/data.py` chỉ one-hot 4 nhóm cột (`Marital Status`, `Application mode`, `Course`,
+`Previous qualification`); các cột categorical cardinality cao khác — `Mother's
+qualification`, `Father's qualification`, `Mother's occupation`, `Father's occupation`,
+`Nacionality` (nominal, không có thứ tự) và `Application order` (ordinal) — vẫn giữ dạng mã
+số nguyên (xem `docs/feature_types.md`). SMOTE gốc coi mọi feature là liên tục và nội suy
+tuyến tính giữa các điểm láng giềng, nên về lý thuyết có thể tạo ra giá trị không tương ứng
+với category thật nào.
+
+Notebook đo trực tiếp hiện tượng này trên 1.762 hàng synthetic mà M2b thực sự dùng để train:
+
+| Nhóm cột | Chỉ số đo | Kết quả |
+|---|---|---|
+| 6 cột mã số (5 nominal + 1 ordinal) | Tỷ lệ giá trị không nguyên trong hàng synthetic | 0,0% cho cả 6 cột |
+| Marital Status (one-hot) | Tỷ lệ hàng synthetic có vector one-hot không tổng bằng 1 | 14,7% |
+| Application mode (one-hot) | Tỷ lệ hàng synthetic có vector one-hot không tổng bằng 1 | 65,4% |
+| **Course (one-hot)** | Tỷ lệ hàng synthetic có vector one-hot không tổng bằng 1 | **83,0%** |
+| Previous qualification (one-hot) | Tỷ lệ hàng synthetic có vector one-hot không tổng bằng 1 | 24,8% |
+
+Hai nhóm kết quả cần đọc khác nhau:
+
+- **Với 6 cột giữ mã số**, phép đo không phát hiện giá trị thập phân nào trong dữ liệu
+  synthetic. Kết quả này không được diễn giải là "SMOTE không ảnh hưởng các cột này" một
+  cách chắc chắn: nhiều khả năng giá trị nội suy đã bị làm tròn/ép kiểu về số nguyên trong
+  quá trình `fit_resample()` xử lý dtype của cột, nên phép đo ở mức giá trị số không phát
+  hiện được. Ngay cả khi giá trị luôn là số nguyên, mã số đó vẫn có thể không tương ứng với
+  category thật nào nếu quá trình nội suy/làm tròn không bảo toàn danh tính category — đây
+  là giới hạn của phép đo, không phải bằng chứng loại trừ vấn đề.
+- **Với 4 nhóm one-hot**, phép đo cho kết quả rõ ràng và định lượng được: đa số hàng
+  synthetic có vector one-hot "pha trộn" giữa nhiều category thay vì đúng một category —
+  riêng `Course` lên tới 83,0%. Đây là bằng chứng cụ thể rằng vanilla SMOTE tạo ra các hàng
+  dữ liệu không đại diện đúng cho bất kỳ ngành học/hình thức nhập học nào có thật trong
+  dataset gốc.
+
+Đây là **hạn chế đã biết** của vanilla SMOTE khi áp dụng cho biểu diễn dữ liệu hỗn hợp
+(mixed representation); tài liệu chính thức của `imbalanced-learn` khuyến nghị `SMOTENC`
+cho trường hợp có cả feature liên tục và categorical. Nhóm **giữ nguyên vanilla `SMOTE`**
+cho M2b vì đây đúng là kỹ thuật được yêu cầu trong đề bài, và pipeline chung của dự án
+(`src/data.py`) không thuộc phạm vi Role D để chỉnh sửa. Kết quả M2b trong tài liệu này cần
+được đọc với hạn chế trên: cải thiện recall/precision đo được là thật trên held-out test,
+nhưng một phần dữ liệu train mà cây học từ đó không phải là các sinh viên "hợp lệ" theo
+đúng nghĩa của các cột categorical.
+
 ## Đánh đổi accuracy và recall
 
 Trong bài toán mất cân bằng lớp, accuracy tổng không thể là tiêu chí duy nhất. Một mô hình
@@ -109,18 +188,21 @@ giảm, nên kết quả cần được báo cáo thẳng thay vì chọn lọc 
 lại, M2b không phải đánh đổi accuracy lấy recall trong held-out split hiện tại: nó tăng
 đồng thời test accuracy, recall Dropout và recall Enrolled; chi phí là recall Graduate
 giảm nhẹ 0,91 điểm phần trăm. Vì vậy, nếu ưu tiên phát hiện sinh viên Dropout/Enrolled,
-M2b là lựa chọn tốt hơn M0 và M2a trong thí nghiệm này.
+M2b là lựa chọn tốt hơn M0 và M2a trên held-out split hiện tại.
 
-Các kết quả chỉ được đo trên một held-out split cố định. Trước khi triển khai thực tế, cần
-đánh giá thêm trên các split hoặc cohort khác và xem xét fairness đối với các nhóm nhạy
-cảm trong dataset. Tuy nhiên, với split chung của dự án, M2b trả lời tích cực câu hỏi của
-cải tiến: lớp thiểu số Enrolled và lớp Dropout được nhận diện tốt hơn khi SMOTE chỉ được
-thực hiện trên tập train.
+Các kết quả chỉ được đo trên một held-out split cố định, và phần dữ liệu train synthetic
+của M2b có hạn chế categorical đã nêu ở trên. Trước khi triển khai thực tế, cần đánh giá
+thêm trên các split/cohort khác, cân nhắc `SMOTENC` như một thí nghiệm bổ sung, và xem xét
+fairness đối với các nhóm nhạy cảm trong dataset. Với split chung của dự án và trong phạm vi
+thí nghiệm này, M2b trả lời tích cực câu hỏi của cải tiến: lớp thiểu số Enrolled và lớp
+Dropout được nhận diện tốt hơn khi SMOTE chỉ được thực hiện trên tập train.
 
 ## Kết luận Improvement Method 2
 
 `class_weight='balanced'` (M2a) không cải thiện M0 trên held-out test này. SMOTE trên tập
 train (M2b) tăng recall Enrolled **8,18 điểm phần trăm**, recall Dropout **2,82 điểm phần
-trăm**, và đồng thời giảm error rate từ 0,331073 xuống 0,311864. Do đó nhóm chọn M2b là
-cấu hình cân bằng lớp thành công hơn; phần báo cáo vẫn giữ M2a để minh bạch rằng không phải
-mọi kỹ thuật cân bằng lớp đều tạo ra cải thiện với cùng dữ liệu và cùng mô hình.
+trăm**, đồng thời tăng precision Enrolled từ 0,3234 lên 0,4044, và giảm error rate từ
+0,331073 xuống 0,311864. Do đó nhóm chọn M2b là cấu hình cân bằng lớp thành công hơn trong
+phạm vi thí nghiệm này; phần báo cáo vẫn giữ M2a để minh bạch rằng không phải mọi kỹ thuật
+cân bằng lớp đều tạo ra cải thiện với cùng dữ liệu và cùng mô hình, đồng thời công khai hạn
+chế categorical của vanilla SMOTE thay vì chỉ trình bày các con số thuận lợi.
