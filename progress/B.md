@@ -4,29 +4,34 @@
 > Agent: đọc file này ngay sau khi xác nhận mình đang phục vụ role B (bước 5, Mục 0 của `AGENT.md`), và **cập nhật lại trước khi bàn giao cuối mỗi phiên** (bước 8, Mục 0).
 
 ## Trạng thái hiện tại
-_(cập nhật lần cuối: chưa có)_
-- Đang làm: —
-- Bị chặn bởi: — _(thường là: chờ A push `src/data.py` — xem `progress/A.md`)_
+_(cập nhật lần cuối: 2026-08-29)_
+- Đang làm: Đã hoàn thành, chờ người dùng review diff và tự commit.
+- Bị chặn bởi: —
 
 ## Đã xong
-- [ ] Viết `src/evaluate.py` — `evaluate_model()` tính đủ 16 cột, tự append `results.csv`
-- [ ] Viết `src/visualize.py` — `plot_tree_figure()`, `export_rules()`
-- [ ] Train M0 baseline
-- [ ] Xuất cây đầy đủ + cây rút gọn `max_depth=3` + confusion matrix + `rules_M0.txt`
-- [ ] Viết phân tích 5 câu (root split, 3 tầng đầu, độ sâu/leaf, overfit, luật IF-THEN)
-- [ ] Kiểm tra nhanh Gini vs Entropy (không tính vào 3 cải tiến chính — xem `docs/02-...` Phần C0)
+- [x] Viết `src/evaluate.py` — `evaluate_model()` tính đủ 16 cột, tự append `results.csv`
+- [x] Viết `src/visualize.py` — `plot_tree_figure()`, `export_rules()`
+- [x] Train M0 baseline
+- [x] Xuất cây đầy đủ + cây rút gọn `max_depth=3` + confusion matrix + `rules_M0.txt`
+- [x] Viết phân tích 5 câu (root split, 3 tầng đầu, độ sâu/leaf, overfit, luật IF-THEN)
+- [x] Kiểm tra nhanh Gini vs Entropy (không tính vào 3 cải tiến chính — xem `docs/02-...` Phần C0)
+- [x] Viết `docs/report_draft_d_e.md` và cập nhật `README.md`
+- [x] Hoàn thành kiểm thử cuối và QA trực quan artifact
 
 ## Quyết định đã chốt
-- ccp_alpha / criterion baseline dùng: _(mặc định `gini`, ghi rõ nếu đổi)_
-- Kết quả train/test accuracy thực tế: _(điền sau khi chạy)_
+- ccp_alpha / criterion baseline dùng: `ccp_alpha=0.0`, criterion mặc định `gini`; không giới hạn depth/split/leaf.
+- Kết quả train/test accuracy thực tế: `1.000000` / `0.668927`; error rate `0.331073`; depth `27`; leaves `634`.
+- Root split: `Curricular units 2nd sem (approved) <= 4.5`; Gini `0.615292 -> 0.449325`, giảm có trọng số `0.165967`.
+- Generalization gap: `0.331073`; 1.267 node, 279 leaf một mẫu, 399 leaf không quá hai mẫu, 100% leaf thuần.
+- An toàn tái sử dụng: kiểm tra conflict CSV trước khi chạm artifact; ghi report/PNG/rules qua file tạm rồi thay thế nguyên tử; retry khóa file Windows và coi artifact giống hệt là lần ghi idempotent (không ghi đè trực tiếp); renderer PNG dùng backend Agg nên chạy được cả notebook/script/headless; M0 chỉ serialize tập key tham số ổn định giữa các phiên bản sklearn.
 
 ## Việc tiếp theo
-- —
+- Người dùng review diff và tự commit/push; Role C/D/E có thể tái sử dụng helper của B.
 
 ## Nhật ký phiên làm việc
 <!-- Mỗi phiên thêm 1 mục mới lên TRÊN CÙNG, không xóa mục cũ -->
 
-### _(ngày)_
-- Đã làm gì:
-- Kết quả:
-- Vướng gì / để lại cho phiên sau:
+### 2026-08-29
+- Đã làm gì: Đồng bộ `main`; đọc đề gốc và toàn bộ quy định Role B; triển khai `evaluate_model()` với schema 16 cột, ROC-AUC từ `predict_proba`, recall theo tên lớp, artifact báo cáo/CM và ghi CSV idempotent; triển khai `plot_tree_figure()` và `export_rules()` có kiểm tra metadata, tạo thư mục cha và đóng figure. Sau audit trước push, bổ sung preflight conflict trước artifact, ghi artifact nguyên tử, retry/so sánh byte khi Windows khóa file, backend Agg không phụ thuộc GUI/Tk, bộ params M0 ổn định và hướng dẫn + checklist tái sử dụng cho M1 trong README.
+- Kết quả: `src/evaluate.py` và `src/visualize.py` đã qua kiểm thử tích hợp. Notebook chạy lại bằng `nbconvert` đủ 13 code cell, execution count 1–13 và không có error; M0 train/test accuracy `1.000000/0.668927`, error `0.331073`, depth `27`, leaves `634`; đã sinh đủ 3 PNG, rules và classification report. Hoàn thành phân tích root/ba tầng đầu/độ phức tạp/overfit/ba luật, viết `docs/report_draft_d_e.md` và cập nhật README. Entropy giảm test accuracy khoảng `0.0158` so với Gini và không được append vào CSV. Đã kiểm tra idempotency/conflict CSV, xác nhận conflict không còn ghi đè artifact, mô phỏng thành công luồng M1 của Role C, chạy kernel từ cả repo root và thư mục `notebooks`, recompute metric độc lập, import/compile, QA trực quan ba PNG, `git diff --check` và phạm vi file Role B.
+- Vướng gì / để lại cho phiên sau: Không có; chỉ còn người dùng review và tự commit/push.

@@ -1,0 +1,1900 @@
+|--- Curricular units 2nd sem (approved) <= 4.500
+|   |--- Curricular units 2nd sem (approved) <= 1.500
+|   |   |--- Curricular units 2nd sem (enrolled) <= 0.500
+|   |   |   |--- Admission grade <= 136.050
+|   |   |   |   |--- Tuition fees up to date <= 0.500
+|   |   |   |   |   |--- Father's qualification <= 37.500
+|   |   |   |   |   |   |--- weights: [12.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |--- Father's qualification >  37.500
+|   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |--- Tuition fees up to date >  0.500
+|   |   |   |   |   |--- Application order <= 1.500
+|   |   |   |   |   |   |--- Unemployment rate <= 10.100
+|   |   |   |   |   |   |   |--- Father's occupation <= 6.000
+|   |   |   |   |   |   |   |   |--- Father's qualification <= 2.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Father's qualification >  2.500
+|   |   |   |   |   |   |   |   |   |--- Admission grade <= 117.850
+|   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Admission grade >  117.850
+|   |   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 30.000
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Age at enrollment >  30.000
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Father's occupation >  6.000
+|   |   |   |   |   |   |   |   |--- Debtor <= 0.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 5.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Debtor >  0.500
+|   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |--- Unemployment rate >  10.100
+|   |   |   |   |   |   |   |--- Scholarship holder <= 0.500
+|   |   |   |   |   |   |   |   |--- Application mode_43 <= 0.500
+|   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 5.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [11.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Mother's occupation >  5.500
+|   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 6.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  6.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 141.000
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Debtor <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [7.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Debtor >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate <= 15.850
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate >  15.850
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  141.000
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 146.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  146.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Application mode_43 >  0.500
+|   |   |   |   |   |   |   |   |   |--- Father's qualification <= 10.000
+|   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Father's qualification >  10.000
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- Scholarship holder >  0.500
+|   |   |   |   |   |   |   |   |--- Admission grade <= 113.850
+|   |   |   |   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Admission grade >  113.850
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |--- Application order >  1.500
+|   |   |   |   |   |   |--- Mother's occupation <= 2.500
+|   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |--- Mother's occupation >  2.500
+|   |   |   |   |   |   |   |--- Admission grade <= 126.650
+|   |   |   |   |   |   |   |   |--- Inflation rate <= 1.000
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 6.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Inflation rate >  1.000
+|   |   |   |   |   |   |   |   |   |--- Application order <= 3.500
+|   |   |   |   |   |   |   |   |   |   |--- GDP <= 2.625
+|   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 6.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification <= 37.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification >  37.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  6.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |--- GDP >  2.625
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Application order >  3.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Admission grade >  126.650
+|   |   |   |   |   |   |   |   |--- Father's occupation <= 3.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Father's occupation >  3.500
+|   |   |   |   |   |   |   |   |   |--- weights: [4.000, 0.000, 0.000] class: Dropout
+|   |   |   |--- Admission grade >  136.050
+|   |   |   |   |--- Debtor <= 0.500
+|   |   |   |   |   |--- Age at enrollment <= 29.500
+|   |   |   |   |   |   |--- Admission grade <= 176.350
+|   |   |   |   |   |   |   |--- Unemployment rate <= 14.700
+|   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 157.000
+|   |   |   |   |   |   |   |   |   |--- Father's occupation <= 2.500
+|   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 138.000
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 3.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  138.000
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 5.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |--- Father's occupation >  2.500
+|   |   |   |   |   |   |   |   |   |   |--- Application mode_43 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 136.450
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_1 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_1 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  136.450
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 26.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |--- Application mode_43 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 130.000
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  130.000
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  157.000
+|   |   |   |   |   |   |   |   |   |--- Mother's qualification <= 4.000
+|   |   |   |   |   |   |   |   |   |   |--- Application order <= 1.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Application order >  1.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |--- Mother's qualification >  4.000
+|   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 143.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Admission grade >  143.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Application mode_1 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Application mode_1 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 5.000] class: Graduate
+|   |   |   |   |   |   |   |--- Unemployment rate >  14.700
+|   |   |   |   |   |   |   |   |--- Father's qualification <= 28.000
+|   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 141.000
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 3.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  141.000
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 4.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Father's qualification >  28.000
+|   |   |   |   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |--- Admission grade >  176.350
+|   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |--- Age at enrollment >  29.500
+|   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |--- Debtor >  0.500
+|   |   |   |   |   |--- Inflation rate <= 3.250
+|   |   |   |   |   |   |--- weights: [5.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |--- Inflation rate >  3.250
+|   |   |   |   |   |   |--- Tuition fees up to date <= 0.500
+|   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |--- Tuition fees up to date >  0.500
+|   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |--- Curricular units 2nd sem (enrolled) >  0.500
+|   |   |   |--- Mother's occupation <= 116.500
+|   |   |   |   |--- Curricular units 2nd sem (grade) <= 13.585
+|   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 7.500
+|   |   |   |   |   |   |--- Marital Status_3 <= 0.500
+|   |   |   |   |   |   |   |--- Previous qualification (grade) <= 99.500
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- Previous qualification (grade) >  99.500
+|   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 4.500
+|   |   |   |   |   |   |   |   |   |--- weights: [189.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  4.500
+|   |   |   |   |   |   |   |   |   |--- Admission grade <= 120.800
+|   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 152.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 109.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 108.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [5.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  108.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  109.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [99.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  152.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (enrolled) <= 5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (enrolled) >  5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |--- Admission grade >  120.800
+|   |   |   |   |   |   |   |   |   |   |--- Nacionality <= 23.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 121.000
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  121.000
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9119 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification <= 37.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9003 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate <= 8.250
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification <= 35.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [13.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification >  35.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 20.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment >  20.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_39 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [5.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_39 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate >  8.250
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [69.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9003 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 3.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  3.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [4.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification >  37.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification_12 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation <= 5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (enrolled) <= 5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (enrolled) >  5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation >  5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [6.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification_12 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9119 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_1 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 6.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [8.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  6.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP <= -1.400
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP >  -1.400
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_1 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Nacionality >  23.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |--- Marital Status_3 >  0.500
+|   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  7.500
+|   |   |   |   |   |   |--- Course_9119 <= 0.500
+|   |   |   |   |   |   |   |--- Age at enrollment <= 23.500
+|   |   |   |   |   |   |   |   |--- Inflation rate <= -0.550
+|   |   |   |   |   |   |   |   |   |--- Father's qualification <= 20.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 5.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |--- Father's qualification >  20.500
+|   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 121.800
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [8.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Admission grade >  121.800
+|   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 18.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment >  18.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Inflation rate >  -0.550
+|   |   |   |   |   |   |   |   |   |--- Previous qualification_42 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 18.000
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 11.450
+|   |   |   |   |   |   |   |   |   |   |   |   |--- GDP <= 1.765
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 4.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 156.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9991 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 6.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation <= 5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 134.350
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  134.350
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation >  5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [8.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  6.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [29.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9991 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 6.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  6.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  156.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  4.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification <= 2.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification >  2.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |--- GDP >  1.765
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification <= 20.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification >  20.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  11.450
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [24.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  18.000
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |--- Previous qualification_42 >  0.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- Age at enrollment >  23.500
+|   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 157.000
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 4.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [92.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  4.500
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 7.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  7.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [6.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  157.000
+|   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (approved) <= 0.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (approved) >  0.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |--- Course_9119 >  0.500
+|   |   |   |   |   |   |   |--- Father's occupation <= 3.500
+|   |   |   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Father's occupation >  3.500
+|   |   |   |   |   |   |   |   |--- Unemployment rate <= 9.150
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 11.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  11.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Unemployment rate >  9.150
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 4.000, 0.000] class: Enrolled
+|   |   |   |   |--- Curricular units 2nd sem (grade) >  13.585
+|   |   |   |   |   |--- Curricular units 1st sem (approved) <= 1.500
+|   |   |   |   |   |   |--- weights: [0.000, 4.000, 0.000] class: Enrolled
+|   |   |   |   |   |--- Curricular units 1st sem (approved) >  1.500
+|   |   |   |   |   |   |--- Admission grade <= 139.050
+|   |   |   |   |   |   |   |--- weights: [6.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |--- Admission grade >  139.050
+|   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |--- Mother's occupation >  116.500
+|   |   |   |   |--- Curricular units 1st sem (evaluations) <= 3.000
+|   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |--- Curricular units 1st sem (evaluations) >  3.000
+|   |   |   |   |   |--- weights: [0.000, 7.000, 0.000] class: Enrolled
+|   |--- Curricular units 2nd sem (approved) >  1.500
+|   |   |--- Tuition fees up to date <= 0.500
+|   |   |   |--- GDP <= 1.765
+|   |   |   |   |--- International <= 0.500
+|   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.875
+|   |   |   |   |   |   |--- weights: [68.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |--- Curricular units 2nd sem (grade) >  12.875
+|   |   |   |   |   |   |--- Application mode_17 <= 0.500
+|   |   |   |   |   |   |   |--- weights: [8.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |--- Application mode_17 >  0.500
+|   |   |   |   |   |   |   |--- Debtor <= 0.500
+|   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Debtor >  0.500
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |--- International >  0.500
+|   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |--- GDP >  1.765
+|   |   |   |   |--- Curricular units 1st sem (enrolled) <= 5.500
+|   |   |   |   |   |--- Previous qualification_39 <= 0.500
+|   |   |   |   |   |   |--- weights: [0.000, 5.000, 0.000] class: Enrolled
+|   |   |   |   |   |--- Previous qualification_39 >  0.500
+|   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |--- Curricular units 1st sem (enrolled) >  5.500
+|   |   |   |   |   |--- Admission grade <= 129.150
+|   |   |   |   |   |   |--- Father's occupation <= 90.000
+|   |   |   |   |   |   |   |--- weights: [17.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |--- Father's occupation >  90.000
+|   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |--- Admission grade >  129.150
+|   |   |   |   |   |   |--- Curricular units 2nd sem (enrolled) <= 6.500
+|   |   |   |   |   |   |   |--- weights: [0.000, 5.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |--- Curricular units 2nd sem (enrolled) >  6.500
+|   |   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |   |--- Tuition fees up to date >  0.500
+|   |   |   |--- Curricular units 2nd sem (approved) <= 3.500
+|   |   |   |   |--- Age at enrollment <= 26.500
+|   |   |   |   |   |--- Curricular units 1st sem (approved) <= 5.500
+|   |   |   |   |   |   |--- Course_9853 <= 0.500
+|   |   |   |   |   |   |   |--- Mother's occupation <= 0.500
+|   |   |   |   |   |   |   |   |--- weights: [5.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Mother's occupation >  0.500
+|   |   |   |   |   |   |   |   |--- Inflation rate <= 1.000
+|   |   |   |   |   |   |   |   |   |--- Application order <= 3.500
+|   |   |   |   |   |   |   |   |   |   |--- Scholarship holder <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (without evaluations) <= 2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (enrolled) <= 5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 18.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_1 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_18 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 3.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_18 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_1 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment >  18.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation <= 9.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.833
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 16.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  12.833
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_1 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_1 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation >  9.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate <= 10.900
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate >  10.900
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 3.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (enrolled) >  5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Gender <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9254 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 1.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 13.875
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 11.417
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9238 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9238 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  11.417
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 9.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  13.875
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  1.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9254 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Gender >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 4.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification <= 37.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [11.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification >  37.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  4.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 11.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  11.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 5.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (without evaluations) >  2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Scholarship holder >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification <= 10.000
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 18.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment >  18.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification >  10.000
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (approved) <= 2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (approved) >  2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 10.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 5.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  10.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Inflation rate <= -0.550
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Inflation rate >  -0.550
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |--- Application order >  3.500
+|   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 132.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [8.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  132.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Inflation rate >  1.000
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 19.000
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 10.100
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate <= 14.100
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 7.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate >  14.100
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  12.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [5.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  10.100
+|   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 123.050
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9254 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (without evaluations) <= 2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 113.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP <= 2.625
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 12.800
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 11.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  12.800
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP >  2.625
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  113.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 29.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (without evaluations) >  2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_17 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_17 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9254 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 11.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  11.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  123.050
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9130 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Inflation rate <= 2.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 1.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Scholarship holder <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Daytime/evening attendance <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification <= 28.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification >  28.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Daytime/evening attendance >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 10.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Scholarship holder >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  1.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [5.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Inflation rate >  2.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9085 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Debtor <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 10.250
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  10.250
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 20.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Debtor >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9085 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9130 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  19.000
+|   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |--- Course_9853 >  0.500
+|   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 12.500
+|   |   |   |   |   |   |   |   |--- weights: [11.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  12.500
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 4.000
+|   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  4.000
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |--- Curricular units 1st sem (approved) >  5.500
+|   |   |   |   |   |   |--- Age at enrollment <= 19.500
+|   |   |   |   |   |   |   |--- GDP <= 1.030
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 7.000] class: Graduate
+|   |   |   |   |   |   |   |--- GDP >  1.030
+|   |   |   |   |   |   |   |   |--- Father's occupation <= 55.000
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Father's occupation >  55.000
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |--- Age at enrollment >  19.500
+|   |   |   |   |   |   |   |--- Age at enrollment <= 20.500
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 7.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- Age at enrollment >  20.500
+|   |   |   |   |   |   |   |   |--- Application mode_39 <= 0.500
+|   |   |   |   |   |   |   |   |   |--- Admission grade <= 145.000
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 10.973
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  10.973
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [7.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Admission grade >  145.000
+|   |   |   |   |   |   |   |   |   |   |--- Gender <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |--- Gender >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Application mode_39 >  0.500
+|   |   |   |   |   |   |   |   |   |--- Unemployment rate <= 15.850
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |--- Unemployment rate >  15.850
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |--- Age at enrollment >  26.500
+|   |   |   |   |   |--- Curricular units 2nd sem (approved) <= 2.500
+|   |   |   |   |   |   |--- Curricular units 2nd sem (without evaluations) <= 0.500
+|   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 16.000
+|   |   |   |   |   |   |   |   |--- weights: [18.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  16.000
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |--- Curricular units 2nd sem (without evaluations) >  0.500
+|   |   |   |   |   |   |   |--- Marital Status_1 <= 0.500
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |--- Marital Status_1 >  0.500
+|   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |--- Curricular units 2nd sem (approved) >  2.500
+|   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 7.500
+|   |   |   |   |   |   |   |--- weights: [0.000, 4.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  7.500
+|   |   |   |   |   |   |   |--- Admission grade <= 141.850
+|   |   |   |   |   |   |   |   |--- Admission grade <= 99.350
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Admission grade >  99.350
+|   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 37.500
+|   |   |   |   |   |   |   |   |   |   |--- Father's qualification <= 3.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Inflation rate <= 1.000
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |--- Inflation rate >  1.000
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Father's qualification >  3.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [13.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Age at enrollment >  37.500
+|   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 123.400
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 3.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Admission grade >  123.400
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Admission grade >  141.850
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 3.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  3.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |--- Curricular units 2nd sem (approved) >  3.500
+|   |   |   |   |--- Curricular units 1st sem (approved) <= 3.500
+|   |   |   |   |   |--- Debtor <= 0.500
+|   |   |   |   |   |   |--- Age at enrollment <= 20.500
+|   |   |   |   |   |   |   |--- Father's occupation <= 0.500
+|   |   |   |   |   |   |   |   |--- Application order <= 2.500
+|   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Application order >  2.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |--- Father's occupation >  0.500
+|   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 14.500
+|   |   |   |   |   |   |   |   |   |--- Father's occupation <= 50.000
+|   |   |   |   |   |   |   |   |   |   |--- Application order <= 5.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Application mode_17 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 18.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Application mode_17 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 1.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 10.583
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  10.583
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Displaced <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Displaced >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  1.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 8.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Application order >  5.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |--- Father's occupation >  50.000
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  14.500
+|   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |--- Age at enrollment >  20.500
+|   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.375
+|   |   |   |   |   |   |   |   |--- Inflation rate <= 0.850
+|   |   |   |   |   |   |   |   |   |--- Marital Status_2 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 4.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |--- Marital Status_2 >  0.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Inflation rate >  0.850
+|   |   |   |   |   |   |   |   |   |--- GDP <= 2.625
+|   |   |   |   |   |   |   |   |   |   |--- weights: [8.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- GDP >  2.625
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  12.375
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (without evaluations) <= 0.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 5.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (without evaluations) >  0.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |--- Debtor >  0.500
+|   |   |   |   |   |   |--- Previous qualification (grade) <= 136.550
+|   |   |   |   |   |   |   |--- weights: [4.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |--- Previous qualification (grade) >  136.550
+|   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |--- Curricular units 1st sem (approved) >  3.500
+|   |   |   |   |   |--- Curricular units 1st sem (enrolled) <= 5.500
+|   |   |   |   |   |   |--- Course_9991 <= 0.500
+|   |   |   |   |   |   |   |--- Course_9147 <= 0.500
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 14.583
+|   |   |   |   |   |   |   |   |   |--- Previous qualification_39 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 10.625
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  10.625
+|   |   |   |   |   |   |   |   |   |   |   |--- Course_9119 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 21.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 11.375
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  11.375
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation <= 4.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification <= 28.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification >  28.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation >  4.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 10.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |--- Course_9119 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |--- Previous qualification_39 >  0.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  14.583
+|   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Course_9147 >  0.500
+|   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 138.000
+|   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 11.675
+|   |   |   |   |   |   |   |   |   |   |--- Application order <= 3.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 109.200
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  109.200
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_1 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 5.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_1 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Displaced <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Displaced >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Application order >  3.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 5.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  11.675
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 11.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 10.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  11.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  138.000
+|   |   |   |   |   |   |   |   |   |--- Admission grade <= 119.900
+|   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Admission grade >  119.900
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 7.000] class: Graduate
+|   |   |   |   |   |   |--- Course_9991 >  0.500
+|   |   |   |   |   |   |   |--- Gender <= 0.500
+|   |   |   |   |   |   |   |   |--- Previous qualification_1 <= 0.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Previous qualification_1 >  0.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 8.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- Gender >  0.500
+|   |   |   |   |   |   |   |   |--- Admission grade <= 139.050
+|   |   |   |   |   |   |   |   |   |--- weights: [4.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Admission grade >  139.050
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |--- Curricular units 1st sem (enrolled) >  5.500
+|   |   |   |   |   |   |--- Mother's qualification <= 26.500
+|   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 4.500
+|   |   |   |   |   |   |   |   |--- GDP <= 0.555
+|   |   |   |   |   |   |   |   |   |--- Admission grade <= 122.850
+|   |   |   |   |   |   |   |   |   |   |--- weights: [7.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Admission grade >  122.850
+|   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 130.950
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |--- Admission grade >  130.950
+|   |   |   |   |   |   |   |   |   |   |   |--- Displaced <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Displaced >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- GDP >  0.555
+|   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 116.500
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 11.000
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  11.000
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  116.500
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 10.650
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  10.650
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 8.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  4.500
+|   |   |   |   |   |   |   |   |--- Course_9130 <= 0.500
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 11.243
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 6.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  11.243
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 5.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 4.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 11.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  4.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- GDP <= 1.265
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 9.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 3.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  9.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Displaced <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Displaced >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- GDP >  1.265
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 4.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  5.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Scholarship holder <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 11.375
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 19.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment >  19.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  11.375
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Displaced <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 9.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Displaced >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 8.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP <= 1.905
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 3.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP >  1.905
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  8.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Inflation rate <= 3.250
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification <= 38.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 8.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification >  38.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Inflation rate >  3.250
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Scholarship holder >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9853 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 9.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9853 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Course_9130 >  0.500
+|   |   |   |   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |--- Mother's qualification >  26.500
+|   |   |   |   |   |   |   |--- Admission grade <= 128.500
+|   |   |   |   |   |   |   |   |--- Father's occupation <= 9.500
+|   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 11.325
+|   |   |   |   |   |   |   |   |   |   |--- Application order <= 1.500
+|   |   |   |   |   |   |   |   |   |   |   |--- GDP <= 1.765
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 3.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- GDP >  1.765
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |--- Application order >  1.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [4.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  11.325
+|   |   |   |   |   |   |   |   |   |   |--- Inflation rate <= 0.550
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.675
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 4.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  12.675
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9085 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9085 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Inflation rate >  0.550
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 7.000
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  7.000
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 8.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Father's occupation >  9.500
+|   |   |   |   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Admission grade >  128.500
+|   |   |   |   |   |   |   |   |--- Father's qualification <= 38.500
+|   |   |   |   |   |   |   |   |   |--- Application order <= 2.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [12.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Application order >  2.500
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 10.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  10.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Father's qualification >  38.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|--- Curricular units 2nd sem (approved) >  4.500
+|   |--- Tuition fees up to date <= 0.500
+|   |   |--- GDP <= 1.905
+|   |   |   |--- Previous qualification (grade) <= 143.500
+|   |   |   |   |--- Curricular units 1st sem (grade) <= 10.357
+|   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |--- Curricular units 1st sem (grade) >  10.357
+|   |   |   |   |   |--- Application order <= 3.500
+|   |   |   |   |   |   |--- Scholarship holder <= 0.500
+|   |   |   |   |   |   |   |--- weights: [32.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |--- Scholarship holder >  0.500
+|   |   |   |   |   |   |   |--- Course_9238 <= 0.500
+|   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Course_9238 >  0.500
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |--- Application order >  3.500
+|   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 8.000
+|   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  8.000
+|   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |--- Previous qualification (grade) >  143.500
+|   |   |   |   |--- Curricular units 1st sem (credited) <= 1.500
+|   |   |   |   |   |--- Marital Status_1 <= 0.500
+|   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |--- Marital Status_1 >  0.500
+|   |   |   |   |   |   |--- weights: [0.000, 0.000, 7.000] class: Graduate
+|   |   |   |   |--- Curricular units 1st sem (credited) >  1.500
+|   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |--- GDP >  1.905
+|   |   |   |--- Age at enrollment <= 18.500
+|   |   |   |   |--- Previous qualification (grade) <= 114.000
+|   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |--- Previous qualification (grade) >  114.000
+|   |   |   |   |   |--- weights: [0.000, 8.000, 0.000] class: Enrolled
+|   |   |   |--- Age at enrollment >  18.500
+|   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.542
+|   |   |   |   |   |--- Curricular units 1st sem (enrolled) <= 5.500
+|   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |--- Curricular units 1st sem (enrolled) >  5.500
+|   |   |   |   |   |   |--- weights: [7.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |--- Curricular units 2nd sem (grade) >  12.542
+|   |   |   |   |   |--- Mother's qualification <= 28.000
+|   |   |   |   |   |   |--- Curricular units 1st sem (enrolled) <= 11.500
+|   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 6.500
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  6.500
+|   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 16.000
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 8.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  16.000
+|   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |--- Curricular units 1st sem (enrolled) >  11.500
+|   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |--- Mother's qualification >  28.000
+|   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |--- Tuition fees up to date >  0.500
+|   |   |--- Curricular units 1st sem (evaluations) <= 8.500
+|   |   |   |--- Curricular units 2nd sem (approved) <= 5.500
+|   |   |   |   |--- Curricular units 2nd sem (enrolled) <= 5.500
+|   |   |   |   |   |--- Debtor <= 0.500
+|   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 10.500
+|   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  10.500
+|   |   |   |   |   |   |   |--- Application order <= 7.500
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 10.350
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  10.350
+|   |   |   |   |   |   |   |   |   |--- Mother's qualification <= 41.500
+|   |   |   |   |   |   |   |   |   |   |--- Course_9119 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification <= 1.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation <= 2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation >  2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation <= 8.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 23.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation >  8.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.762
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Scholarship holder <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Scholarship holder >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  12.762
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Gender <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 8.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Gender >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification >  1.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Marital Status_4 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 15.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 111.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 8.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  8.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 4.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  111.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 101.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  15.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 15.700
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  15.700
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 4.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Marital Status_4 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP <= -1.400
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP >  -1.400
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |--- Application order >  5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 7.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  7.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |--- Course_9119 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 8.000
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification <= 7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 133.750
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  133.750
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification >  7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 7.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  8.000
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |--- Mother's qualification >  41.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- Application order >  7.500
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |--- Debtor >  0.500
+|   |   |   |   |   |   |--- Course_9147 <= 0.500
+|   |   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |--- Course_9147 >  0.500
+|   |   |   |   |   |   |   |--- Previous qualification (grade) <= 134.050
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- Previous qualification (grade) >  134.050
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |--- Curricular units 2nd sem (enrolled) >  5.500
+|   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.387
+|   |   |   |   |   |   |--- Previous qualification (grade) <= 121.500
+|   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 5.500
+|   |   |   |   |   |   |   |   |--- Gender <= 0.500
+|   |   |   |   |   |   |   |   |   |--- Course_9853 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 23.000
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 4.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |--- Age at enrollment >  23.000
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Course_9853 >  0.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Gender >  0.500
+|   |   |   |   |   |   |   |   |   |--- weights: [4.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  5.500
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 8.000] class: Graduate
+|   |   |   |   |   |   |--- Previous qualification (grade) >  121.500
+|   |   |   |   |   |   |   |--- Debtor <= 0.500
+|   |   |   |   |   |   |   |   |--- Inflation rate <= -0.550
+|   |   |   |   |   |   |   |   |   |--- Application order <= 3.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |--- Application order >  3.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Inflation rate >  -0.550
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 14.175
+|   |   |   |   |   |   |   |   |   |   |--- Application mode_1 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 3.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 13.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Application order >  3.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Inflation rate <= 0.850
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Inflation rate >  0.850
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP <= -1.160
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP >  -1.160
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Application mode_1 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Scholarship holder <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Inflation rate <= 3.150
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 13.067
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 6.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  13.067
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 122.700
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  122.700
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Inflation rate >  3.150
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification <= 10.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification >  10.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |--- Scholarship holder >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- GDP <= 2.765
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 18.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment >  18.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |--- GDP >  2.765
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  14.175
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |--- Debtor >  0.500
+|   |   |   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |--- Curricular units 2nd sem (grade) >  12.387
+|   |   |   |   |   |   |--- Mother's occupation <= 0.500
+|   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |--- Mother's occupation >  0.500
+|   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 14.900
+|   |   |   |   |   |   |   |   |--- Application mode_43 <= 0.500
+|   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 94.500
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 7.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 39.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Inflation rate <= -0.550
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Inflation rate >  -0.550
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 7.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 13.800
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 12.917
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 145.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation <= 9.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 5.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation >  9.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  145.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  12.917
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification <= 11.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [4.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification >  11.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 1.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  1.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  13.800
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 4.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment >  39.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  7.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 123.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Displaced <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 20.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 4.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment >  20.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Displaced >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 14.550
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9254 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 12.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9254 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Scholarship holder <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Scholarship holder >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  14.550
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  123.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 11.267
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate <= 11.600
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate >  11.600
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  11.267
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate <= 8.250
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 21.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment >  21.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate >  8.250
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation <= 3.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.900
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  12.900
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 5.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation >  3.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 32.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |--- Mother's occupation >  94.500
+|   |   |   |   |   |   |   |   |   |   |--- Father's occupation <= 121.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Father's occupation >  121.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Application mode_43 >  0.500
+|   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 25.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |--- Age at enrollment >  25.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  14.900
+|   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 7.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  7.500
+|   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |--- Curricular units 2nd sem (approved) >  5.500
+|   |   |   |   |--- Curricular units 2nd sem (without evaluations) <= 0.500
+|   |   |   |   |   |--- Course_9119 <= 0.500
+|   |   |   |   |   |   |--- Curricular units 1st sem (credited) <= 4.500
+|   |   |   |   |   |   |   |--- Scholarship holder <= 0.500
+|   |   |   |   |   |   |   |   |--- Course_9991 <= 0.500
+|   |   |   |   |   |   |   |   |   |--- Father's qualification <= 38.500
+|   |   |   |   |   |   |   |   |   |   |--- Unemployment rate <= 13.300
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 17.048
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 172.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (approved) <= 6.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 11.083
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  11.083
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 155.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.417
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 7.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  12.417
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9238 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9238 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 141.400
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 118.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  141.400
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 128.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  128.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 14.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  155.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9773 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 7.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9773 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Displaced <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_17 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_17 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 6.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  6.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Displaced >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation <= 1.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 136.650
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  136.650
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation >  1.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Gender <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 33.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Gender >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9500 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 8.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9500 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (approved) >  6.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9853 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9853 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 4.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  172.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 132.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification_19 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_43 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 11.615
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate <= 10.250
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 4.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate >  10.250
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification_1 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification_1 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  11.615
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9670 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 143.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 129.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 9.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 33.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  9.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 5.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 4.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  5.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  129.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 125.650
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 123.650
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation <= 4.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Marital Status_5 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Marital Status_5 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation >  4.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 12.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  123.650
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification <= 11.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 3.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification >  11.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 6.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  6.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  125.650
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 132.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 8.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_39 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 6.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_39 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  8.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  132.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 11.667
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Displaced <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Displaced >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  11.667
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 126.450
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 6.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  126.450
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 46.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 14.016
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 7.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  14.016
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_17 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_17 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  143.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 38.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9670 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation <= 2.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation >  2.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 14.527
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 4.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  14.527
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 3.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  3.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_43 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 12.867
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  12.867
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification_19 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_8014 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_8014 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  132.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Debtor <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Debtor >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  17.048
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Unemployment rate >  13.300
+|   |   |   |   |   |   |   |   |   |   |   |--- Course_9853 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 4.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  4.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_16 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_7 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Debtor <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 14.067
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 14.059
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9254 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 160.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 14.750
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP <= -2.490
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 9.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 4.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 9.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  4.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  9.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP >  -2.490
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation <= 9.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 29.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation >  9.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification <= 2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification >  2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  14.750
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  160.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9254 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  14.059
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  14.067
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 34.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 8.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 14.836
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  14.836
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Debtor >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 23.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment >  23.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_7 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (credited) <= 3.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (credited) >  3.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 131.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  131.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP <= -0.065
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP >  -0.065
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_16 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |--- Course_9853 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |--- Father's qualification >  38.500
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 7.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  7.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Course_9991 >  0.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- Scholarship holder >  0.500
+|   |   |   |   |   |   |   |   |--- Admission grade <= 98.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Admission grade >  98.500
+|   |   |   |   |   |   |   |   |   |--- Course_9773 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (without evaluations) <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Course_9070 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_43 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 10.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation <= 8.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.264
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.229
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 25.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  12.229
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  12.264
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 176.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation >  8.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9670 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 118.300
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 117.900
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 13.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  117.900
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation <= 100.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's occupation >  100.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  118.300
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 75.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 14.030
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 6.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  14.030
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9670 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Inflation rate <= 0.100
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Inflation rate >  0.100
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 6.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  10.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Gender <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 7.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Gender >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_43 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 22.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 5.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment >  22.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Course_9070 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 144.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate <= 8.250
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate >  8.250
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 141.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 13.812
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 22.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  13.812
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 14.083
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  14.083
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  141.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.917
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  12.917
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  144.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (without evaluations) >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Debtor <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 4.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |--- Debtor >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Course_9773 >  0.500
+|   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 136.800
+|   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 135.950
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 144.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 3.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP <= 0.045
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP >  0.045
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  3.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 118.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 115.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  115.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  118.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 14.917
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 26.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  14.917
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification <= 37.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification >  37.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  144.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  135.950
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Gender <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Gender >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |--- Admission grade >  136.800
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 20.000] class: Graduate
+|   |   |   |   |   |   |--- Curricular units 1st sem (credited) >  4.500
+|   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |--- Course_9119 >  0.500
+|   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |--- Curricular units 2nd sem (without evaluations) >  0.500
+|   |   |   |   |   |--- Mother's qualification <= 11.500
+|   |   |   |   |   |   |--- weights: [0.000, 0.000, 4.000] class: Graduate
+|   |   |   |   |   |--- Mother's qualification >  11.500
+|   |   |   |   |   |   |--- Previous qualification (grade) <= 124.500
+|   |   |   |   |   |   |   |--- weights: [4.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |--- Previous qualification (grade) >  124.500
+|   |   |   |   |   |   |   |--- GDP <= -2.020
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- GDP >  -2.020
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |--- Curricular units 1st sem (evaluations) >  8.500
+|   |   |   |--- Curricular units 1st sem (approved) <= 5.500
+|   |   |   |   |--- Curricular units 2nd sem (enrolled) <= 6.500
+|   |   |   |   |   |--- Course_9853 <= 0.500
+|   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 14.618
+|   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.464
+|   |   |   |   |   |   |   |   |--- Course_9238 <= 0.500
+|   |   |   |   |   |   |   |   |   |--- Father's qualification <= 26.500
+|   |   |   |   |   |   |   |   |   |   |--- Course_9773 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification <= 1.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- GDP <= -3.590
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- GDP >  -3.590
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 7.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification >  1.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 4.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 137.750
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 102.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  102.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 1.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 10.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  1.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 11.917
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP <= 2.150
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- GDP >  2.150
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  11.917
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 3.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  137.750
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_39 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_39 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  4.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 5.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |--- Course_9773 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [4.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Father's qualification >  26.500
+|   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 145.850
+|   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 18.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- GDP <= -0.065
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 6.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  6.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 3.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- GDP >  -0.065
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |--- Age at enrollment >  18.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 17.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |--- Admission grade >  145.850
+|   |   |   |   |   |   |   |   |   |   |   |--- Marital Status_2 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 3.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Marital Status_2 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 161.150
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  161.150
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Course_9238 >  0.500
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 10.775
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 10.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  10.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 3.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  10.775
+|   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 139.450
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 24.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |--- Admission grade >  139.450
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  12.464
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 4.500
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 13.417
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 13.786
+|   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 16.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |--- Application order >  2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 10.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  10.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  13.786
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  13.417
+|   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 129.750
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Admission grade >  129.750
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  4.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 27.000] class: Graduate
+|   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  14.618
+|   |   |   |   |   |   |   |--- Father's qualification <= 37.500
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 5.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- Father's qualification >  37.500
+|   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |--- Course_9853 >  0.500
+|   |   |   |   |   |   |--- Father's occupation <= 7.500
+|   |   |   |   |   |   |   |--- Application order <= 4.000
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 9.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- Application order >  4.000
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |--- Father's occupation >  7.500
+|   |   |   |   |   |   |   |--- Mother's qualification <= 19.000
+|   |   |   |   |   |   |   |   |--- Father's qualification <= 37.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Father's qualification >  37.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |--- Mother's qualification >  19.000
+|   |   |   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |--- Curricular units 2nd sem (enrolled) >  6.500
+|   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 9.500
+|   |   |   |   |   |   |--- Admission grade <= 105.600
+|   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 11.964
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  11.964
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |--- Admission grade >  105.600
+|   |   |   |   |   |   |   |--- Application mode_51 <= 0.500
+|   |   |   |   |   |   |   |   |--- Age at enrollment <= 33.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 23.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Age at enrollment >  33.500
+|   |   |   |   |   |   |   |   |   |--- Father's occupation <= 7.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Father's occupation >  7.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- Application mode_51 >  0.500
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  9.500
+|   |   |   |   |   |   |--- Previous qualification_1 <= 0.500
+|   |   |   |   |   |   |   |--- Curricular units 1st sem (without evaluations) <= 1.500
+|   |   |   |   |   |   |   |   |--- weights: [9.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Curricular units 1st sem (without evaluations) >  1.500
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |--- Previous qualification_1 >  0.500
+|   |   |   |   |   |   |   |--- Inflation rate <= 2.100
+|   |   |   |   |   |   |   |   |--- Gender <= 0.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 4.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Gender >  0.500
+|   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 3.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 3.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |--- Mother's occupation >  3.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Inflation rate >  2.100
+|   |   |   |   |   |   |   |   |--- Application mode_39 <= 0.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Application mode_39 >  0.500
+|   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |--- Curricular units 1st sem (approved) >  5.500
+|   |   |   |   |--- Curricular units 1st sem (grade) <= 11.655
+|   |   |   |   |   |--- Curricular units 2nd sem (credited) <= 9.500
+|   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 10.500
+|   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.563
+|   |   |   |   |   |   |   |   |--- Application order <= 2.500
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (credited) <= 6.000
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 17.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (credited) >  6.000
+|   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Application order >  2.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  12.563
+|   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 13.062
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 4.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  13.062
+|   |   |   |   |   |   |   |   |   |--- Unemployment rate <= 9.350
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |--- Unemployment rate >  9.350
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  10.500
+|   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 11.500
+|   |   |   |   |   |   |   |   |--- Scholarship holder <= 0.500
+|   |   |   |   |   |   |   |   |   |--- Course_9147 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.208
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (enrolled) <= 12.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 14.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (enrolled) >  12.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  12.208
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (approved) <= 5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (approved) >  5.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 11.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  11.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Course_9147 >  0.500
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 7.000
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  7.000
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Scholarship holder >  0.500
+|   |   |   |   |   |   |   |   |   |--- Application mode_39 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 4.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |--- Application mode_39 >  0.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  11.500
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (enrolled) <= 15.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 6.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (enrolled) >  15.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |--- Curricular units 2nd sem (credited) >  9.500
+|   |   |   |   |   |   |--- Mother's qualification <= 17.500
+|   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 4.000] class: Graduate
+|   |   |   |   |   |   |--- Mother's qualification >  17.500
+|   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 16.000
+|   |   |   |   |   |   |   |   |--- weights: [9.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  16.000
+|   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |--- Curricular units 1st sem (grade) >  11.655
+|   |   |   |   |   |--- Curricular units 2nd sem (approved) <= 6.500
+|   |   |   |   |   |   |--- Curricular units 1st sem (enrolled) <= 8.500
+|   |   |   |   |   |   |   |--- Curricular units 2nd sem (enrolled) <= 6.500
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 13.732
+|   |   |   |   |   |   |   |   |   |--- Course_9130 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |--- Application mode_1 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate <= 15.850
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 11.750
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 133.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  133.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  11.750
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 20.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate >  15.850
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9254 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9254 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Application mode_1 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 4.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 5.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  4.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 10.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 129.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  129.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 8.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  10.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Course_9130 >  0.500
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 12.917
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  12.917
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  13.732
+|   |   |   |   |   |   |   |   |   |--- Admission grade <= 168.900
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 28.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |--- Admission grade >  168.900
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |--- Curricular units 2nd sem (enrolled) >  6.500
+|   |   |   |   |   |   |   |   |--- Inflation rate <= 0.400
+|   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 0.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Mother's occupation >  0.500
+|   |   |   |   |   |   |   |   |   |   |--- Application order <= 5.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 9.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Application order >  5.500
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Inflation rate >  0.400
+|   |   |   |   |   |   |   |   |   |--- Admission grade <= 134.300
+|   |   |   |   |   |   |   |   |   |   |--- Mother's qualification <= 28.000
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 12.950
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 123.550
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 4.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  123.550
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  12.950
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 10.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  10.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |--- Mother's qualification >  28.000
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 9.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |--- Admission grade >  134.300
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 3.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |--- Curricular units 1st sem (enrolled) >  8.500
+|   |   |   |   |   |   |   |--- Application mode_53 <= 0.500
+|   |   |   |   |   |   |   |   |--- Application order <= 2.000
+|   |   |   |   |   |   |   |   |   |--- weights: [8.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Application order >  2.000
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |--- Application mode_53 >  0.500
+|   |   |   |   |   |   |   |   |--- Debtor <= 0.500
+|   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Debtor >  0.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |--- Curricular units 2nd sem (approved) >  6.500
+|   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 11.919
+|   |   |   |   |   |   |   |--- GDP <= 1.265
+|   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) <= 21.500
+|   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 15.000] class: Graduate
+|   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (evaluations) >  21.500
+|   |   |   |   |   |   |   |   |   |--- weights: [3.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- GDP >  1.265
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 12.551
+|   |   |   |   |   |   |   |   |   |--- Course_9991 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) <= 10.864
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  10.864
+|   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 9.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |--- Course_9991 >  0.500
+|   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  12.551
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (credited) <= 4.000
+|   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (credited) >  4.000
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |--- Curricular units 2nd sem (grade) >  11.919
+|   |   |   |   |   |   |   |--- Previous qualification_4 <= 0.500
+|   |   |   |   |   |   |   |   |--- Application mode_27 <= 0.500
+|   |   |   |   |   |   |   |   |   |--- Nacionality <= 73.000
+|   |   |   |   |   |   |   |   |   |   |--- Age at enrollment <= 41.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification_12 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (approved) <= 7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_39 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_42 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) <= 9.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 13.105
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order <= 4.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 7.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application order >  4.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 7.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  7.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  13.105
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 3.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 2.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  3.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 13.324
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  13.324
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 3.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (evaluations) >  9.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 12.310
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification <= 2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate <= 12.550
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Unemployment rate >  12.550
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's qualification >  2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 6.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  12.310
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 28.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_42 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_39 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) <= 7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 4.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (approved) >  7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 4.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 2nd sem (approved) >  7.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_16 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Educational special needs <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification_39 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 154.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9853 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_171 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 106.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_171 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification <= 37.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 10.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Father's qualification >  37.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 130.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  130.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_9853 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) <= 140.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 5.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification (grade) >  140.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  154.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_171 <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 3.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Course_171 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification_39 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation <= 2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Mother's occupation >  2.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 6.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- Educational special needs >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Application mode_16 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |--- Previous qualification_12 >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |   |   |   |--- Age at enrollment >  41.500
+|   |   |   |   |   |   |   |   |   |   |   |--- Displaced <= 0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade <= 107.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) <= 11.873
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 1.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- Curricular units 1st sem (grade) >  11.873
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |   |   |   |--- Admission grade >  107.000
+|   |   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 0.000, 7.000] class: Graduate
+|   |   |   |   |   |   |   |   |   |   |   |--- Displaced >  0.500
+|   |   |   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 2.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |   |--- Nacionality >  73.000
+|   |   |   |   |   |   |   |   |   |   |--- weights: [0.000, 1.000, 0.000] class: Enrolled
+|   |   |   |   |   |   |   |   |--- Application mode_27 >  0.500
+|   |   |   |   |   |   |   |   |   |--- weights: [1.000, 0.000, 0.000] class: Dropout
+|   |   |   |   |   |   |   |--- Previous qualification_4 >  0.500
+|   |   |   |   |   |   |   |   |--- weights: [2.000, 0.000, 0.000] class: Dropout
