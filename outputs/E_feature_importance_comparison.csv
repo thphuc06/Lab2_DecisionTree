@@ -1,0 +1,37 @@
+original_feature,available_in_M3,M0_importance,M3_importance,M0_rank,M3_rank
+Marital Status,True,0.0046521628,0.0087479149,28,20
+Application mode,True,0.0235325108,0.0396182908,15,12
+Application order,True,0.0270206659,0.0202956729,13,15
+Course,True,0.0440942266,0.1177632979,6,1
+Daytime/evening attendance,True,0.0009420274,0.0006888575,34,24
+Previous qualification,True,0.0093569707,0.0116585546,25,18
+Previous qualification (grade),True,0.0308452759,0.0839300694,8,4
+Nacionality,True,0.0015001997,0.0020989781,33,21
+Mother's qualification,True,0.0172661836,0.0458837285,19,9
+Father's qualification,True,0.0179808140,0.0434133545,18,10
+Mother's occupation,True,0.0282825897,0.0539087134,10,7
+Father's occupation,True,0.0170241856,0.0641056331,20,6
+Admission grade,True,0.0443681667,0.1128666917,5,2
+Displaced,True,0.0069527891,0.0140901075,27,17
+Educational special needs,True,0.0008590754,0.0013706463,36,22
+Debtor,True,0.0110015482,0.0111555002,23,19
+Tuition fees up to date,True,0.0451842890,0.1115596728,3,3
+Gender,True,0.0073961762,0.0194770830,26,16
+Scholarship holder,True,0.0096769945,0.0418761789,24,11
+Age at enrollment,True,0.0273073878,0.0790165575,12,5
+International,True,0.0008953732,0.0007500893,35,23
+Curricular units 1st sem (credited),False,0.0044036005,,29,
+Curricular units 1st sem (enrolled),False,0.0110063816,,22,
+Curricular units 1st sem (evaluations),False,0.0335160264,,7,
+Curricular units 1st sem (approved),False,0.0288258459,,9,
+Curricular units 1st sem (grade),False,0.0281083492,,11,
+Curricular units 1st sem (without evaluations),False,0.0029262328,,31,
+Curricular units 2nd sem (credited),False,0.0024174884,,32,
+Curricular units 2nd sem (enrolled),False,0.0449849136,,4,
+Curricular units 2nd sem (evaluations),False,0.0236549719,,14,
+Curricular units 2nd sem (approved),False,0.3403686817,,1,
+Curricular units 2nd sem (grade),False,0.0453431608,,2,
+Curricular units 2nd sem (without evaluations),False,0.0039105656,,30,
+Unemployment rate,True,0.0127415567,0.0370469239,21,13
+Inflation rate,True,0.0184087524,0.0320871036,17,14
+GDP,True,0.0232438599,0.0465903798,16,8
