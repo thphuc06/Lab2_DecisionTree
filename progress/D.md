@@ -14,7 +14,7 @@ _(cập nhật lần cuối: 2026-08-29)_
 - [x] Train M2b: SMOTE — **chỉ trên `X_train`**, kiểm tra lại không áp dụng trước khi split
 - [x] Gọi `evaluate_model()` từ `src/evaluate.py`
 - [x] Bảng so sánh recall từng lớp M0 vs M2a vs M2b
-- [x] Xuất `D_tree_M2a.png`, `D_cm_M2a.png`, `D_cm_M2b.png`
+- [x] Xuất `D_tree_M2a.png`, `D_tree_M2a_full.png`, `D_cm_M2a.png`, `D_cm_M2b.png`
 - [x] Viết bản nháp mục báo cáo f.2 trong `docs/report_draft_f2_imbalance.md`
 
 ## Quyết định đã chốt
@@ -29,6 +29,11 @@ _(cập nhật lần cuối: 2026-08-29)_
 
 ## Nhật ký phiên làm việc
 <!-- Mỗi phiên thêm 1 mục mới lên TRÊN CÙNG, không xóa mục cũ -->
+
+### 2026-08-29 (phiên 3)
+- Đã làm gì: Thêm cell xuất `D_tree_M2a_full.png` (cây M2a đầy đủ, không giới hạn max_depth) để minh họa quy mô thực tế; chạy lại toàn bộ notebook, không lỗi.
+- Kết quả: Có thêm bằng chứng trực quan cho thấy M2a (28 tầng, 696 lá) gần tương đương độ phức tạp M0; đã cập nhật ảnh này vào report f.2.
+- Vướng gì / để lại cho phiên sau: Chưa đọc paper SMOTE; chờ người dùng review lần cuối trước khi commit.
 
 ### 2026-08-29 (phiên 2)
 - Đã làm gì: Kiểm tra quy ước bản nháp f.1 của Role C, rồi viết `docs/report_draft_f2_imbalance.md` riêng cho mục f.2. Bản nháp dùng số liệu M0/M2a/M2b trong `outputs/results.csv`, hai classification report và các artifact D.

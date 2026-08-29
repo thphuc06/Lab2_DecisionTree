@@ -70,6 +70,13 @@ vì vậy các metric bên dưới không bị rò rỉ từ dữ liệu tổng 
 trúc split, nên đây vẫn là một cấu hình cây quyết định cần được trình bày, không chỉ là một
 tham số bổ sung.*
 
+![Cây M2a đầy đủ](../figures/D_tree_M2a_full.png)
+
+*Hình f.2d. Toàn bộ cây M2a (28 tầng, 696 lá). Ảnh này không dùng để đọc luật quyết định
+mà minh họa quy mô thực tế của cây — gần tương đương độ phức tạp của M0 (27 tầng, 634 lá),
+cho thấy `class_weight='balanced'` không làm cây đơn giản hơn, chỉ thay đổi cách phân bổ
+trọng số khi chọn split.*
+
 ## So sánh M2a và M2b, đặc biệt với lớp Enrolled
 
 M2a không đạt mục tiêu của thí nghiệm trên split này. Test accuracy giảm **1,81 điểm phần
