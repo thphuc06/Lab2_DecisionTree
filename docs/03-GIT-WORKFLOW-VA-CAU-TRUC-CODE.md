@@ -144,7 +144,8 @@ figures/A_eda_target_distribution.png
 figures/B_tree_M0_full.png
 figures/C_ccp_alpha_curve.png
 figures/D_cm_M2_smote.png
-figures/E_feature_importance_M3.png
+figures/E_feature_importance.png
+figures/E_feature_importance_permutation.png
 ```
 
 ---
@@ -153,19 +154,9 @@ figures/E_feature_importance_M3.png
 
 Đây là file text ai cũng ghi vào. Nếu 2 người push gần nhau, git sẽ báo conflict — nhưng vì CSV chỉ là các dòng text, xử lý rất dễ, không đáng sợ như conflict trong code.
 
-**Cách né hoàn toàn — khuyến nghị cho nhóm mới dùng git:**
+**Quy ước repo hiện tại:** dùng duy nhất `outputs/results.csv`; mỗi role chỉ được thêm hoặc đối soát model ID do mình sở hữu và không xóa/sửa row của role khác. Riêng Role E phải snapshot raw row M0/M1/M2a/M2b trước và sau `evaluate_model()` để chứng minh việc chạy M3 không thay đổi kết quả đã handoff.
 
-Mỗi người ghi kết quả vào file riêng, A gộp lại cuối cùng:
-```
-outputs/results_A.csv    (baseline nếu A phụ thêm)
-outputs/results_B.csv    (M0)
-outputs/results_C.csv    (M1)
-outputs/results_D.csv    (M2, M2b)
-outputs/results_E.csv    (M3)
-```
-Cuối Giai đoạn 2, A viết một đoạn code nhỏ gộp cả 5 file thành `outputs/results.csv` — không ai đụng file chung của ai, **conflict = 0**.
-
-**Nếu vẫn muốn dùng chung 1 file `results.csv` từ đầu**, cách xử lý khi conflict xảy ra:
+**Khi file chung `results.csv` xảy ra conflict**, xử lý như sau:
 
 ```bash
 git pull origin main

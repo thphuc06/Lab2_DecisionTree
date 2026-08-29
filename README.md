@@ -17,20 +17,17 @@ progress/       Nhật ký theo role
 ## Cài đặt
 
 ```powershell
-# Cách 1: Python Launcher đã nhận CPython 3.11
-py -3.11 -m venv .venv
-
-# Cách 2: nếu `py -3.11 --version` báo không tìm thấy Python
-& "C:\duong-dan-den-python311\python.exe" -m venv .venv
+# Dùng đúng CPython 3.14.0; không thay bằng patch/version khác khi regenerate artifact canonical
+& "C:\duong-dan-den-python-3.14.0\python.exe" -m venv .venv
 
 # Dùng trực tiếp interpreter trong venv để tránh nhầm Python trên PATH
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe -m pip install notebook nbconvert ipykernel
+.\.venv\Scripts\python.exe -m pip install numpy==2.3.4 pandas==2.3.3 scipy==1.17.1 scikit-learn==1.9.0 matplotlib==3.11.1 seaborn==0.13.2 imbalanced-learn==0.14.2 ucimlrepo==0.0.7 joblib==1.5.3 threadpoolctl==3.6.0 nbformat==5.11.1 nbconvert==7.17.1 ipython==9.17.0 ipykernel==7.3.0 narwhals==2.25.0 sklearn-compat==0.1.6
+.\.venv\Scripts\python.exe -m pip check
 ```
 
-Kiểm tra `.\.venv\Scripts\python.exe --version` phải chạy được trước khi tiếp tục. Trên macOS/Linux, dùng `python3 -m venv .venv` và thay `Scripts\python.exe` bằng `.venv/bin/python`.
+Kiểm tra `.\.venv\Scripts\python.exe --version` phải trả về đúng `3.14.0` và `pip check` phải PASS trước khi tiếp tục. Trên macOS/Linux, thay `Scripts\python.exe` bằng `.venv/bin/python`.
 
-Artifact M0 hiện tại đã được tái lập với Python 3.11.9, scikit-learn 1.9.0, pandas 3.0.5, NumPy 2.4.6 và Matplotlib 3.11.1. Vì `requirements.txt` đang dùng khoảng phiên bản mở, nếu máy khác cho metric khác thì hãy so sánh phiên bản thư viện trước khi thay đổi pipeline hoặc split chung.
+Artifact canonical D/E dùng Python 3.14.0 và scikit-learn 1.9.0. `requirements.txt` hiện vẫn là danh sách dependency mở, chưa phải lock file; cho đến khi integration owner commit lock chung, phải dùng đúng lệnh pin ở trên khi regenerate artifact D/E.
 
 ## Pipeline dữ liệu dùng chung
 
@@ -128,5 +125,38 @@ Nếu `model_id` đã tồn tại với nội dung khác, helper dừng trước
 - Sau khi chốt cấu hình, fit lại M1 trên toàn bộ train rồi chỉ đánh giá test qua `evaluate_model()` với `model_id="M1"`, `author="C"`.
 - Xuất tối thiểu `figures/C_ccp_alpha_curve.png`, `figures/C_tree_M1.png`, `figures/C_cm_M1.png` và `outputs/classification_report_M1.txt`; lưu bảng grid search trong notebook.
 - Trước khi bàn giao, **Restart & Run All**, xác nhận `outputs/results.csv` chỉ có đúng một dòng M1 và không có cell lỗi.
+
+## Chạy Role E — M3 dự báo sớm
+
+Mở `notebooks/05_improve_features.ipynb` và chọn **Restart & Run All**, hoặc chạy từ repo root trong môi trường canonical Python 3.14.0, NumPy 2.3.4, pandas 2.3.3, SciPy 1.17.1 và scikit-learn 1.9.0:
+
+```powershell
+.\.venv\Scripts\python.exe -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=900 notebooks/05_improve_features.ipynb
+```
+
+Notebook tự dừng trước khi train nếu phiên bản môi trường không khớp. M3 loại đúng 12 feature kết quả HK1/HK2, giữ 24 feature gốc/78 cột encoded, gồm `International`, `Unemployment rate`, `Inflation rate` và `GDP`, rồi fit `DecisionTreeClassifier(random_state=42)` trên split chung.
+
+Artifact Role E:
+
+- `outputs/classification_report_M3.txt` và dòng `M3` trong `outputs/results.csv`
+- `outputs/E_feature_importance_comparison.csv`
+- `outputs/E_feature_importance_permutation.csv`
+- `figures/E_cm_M3.png`
+- `figures/E_tree_M3.png`
+- `figures/E_feature_importance.png`
+- `figures/E_feature_importance_permutation.png`
+- `progress/E.md`
+
+`E_feature_importance.png` là Gini/MDI của cây đã fit trên train và đã gộp dummy về feature gốc. `E_feature_importance_permutation.png` dùng grouped permutation trên đúng 885 test rows, 30 repeats, seed 42 và scorer accuracy; toàn bộ dummy của một feature categorical được hoán vị cùng nhau. Cả hai chỉ phản ánh association, không chứng minh quan hệ nhân quả.
+
+Kết quả canonical M3: test accuracy `0.5412429378531074`, macro-F1 `0.49305009179124043`, depth 30 và 963 leaf. Accuracy thấp hơn M0 là đánh đổi có chủ đích để dự báo được ngay từ thời điểm nhập học.
+
+Checklist bàn giao E cho phạm vi code hiện tại:
+
+- Notebook assert đúng môi trường, feature contract, split/target fingerprint và `random_state=42`.
+- Bốn row M0/M1/M2a/M2b cùng artifact D được snapshot/hash trước và sau evaluation, không bị E thay đổi.
+- Hai lần Run All độc lập phải cho cùng metric, classification report, hai CSV importance và bốn PNG.
+- Notebook phải validate, execution count liên tục và không có stored error hoặc path máy cá nhân.
+- Report, slide và video không thuộc phạm vi sửa Role E lần này; nhóm sẽ thực hiện chung ở giai đoạn sau.
 
 Đọc `AGENT.md` trước khi sửa repo để tuân thủ phạm vi file, workflow Git và trách nhiệm của từng role.

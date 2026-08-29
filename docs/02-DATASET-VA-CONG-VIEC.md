@@ -291,15 +291,16 @@ Curricular units 2nd sem (without evaluations)
 **Còn lại 24 feature.**
 
 > ✅ **Giữ lại 3 biến vĩ mô** (`Unemployment rate`, `Inflation rate`, `GDP`) — chúng phụ thuộc năm nhập học, đã biết tại thời điểm dự báo, không phải thông tin tương lai.
-
-**Mở rộng (nếu còn thời gian):** dựa vào bảng A6, bỏ thêm `International` (r=0.91 với `Nationality`) → còn 23 feature.
+> M3 canonical cũng giữ `International`: thí nghiệm chỉ thay đổi đúng 12 feature học kỳ để còn 24 feature gốc và dễ đối chiếu trực tiếp với M0.
 
 **Cần xuất ra:**
-- [ ] `figures/tree_M3.png`
-- [ ] `figures/feature_importance.png` — so sánh top-10 importance của M0 vs M3
-- [ ] 1 dòng `results.csv`
+- [ ] `figures/E_tree_M3.png` và `figures/E_cm_M3.png`
+- [ ] `outputs/classification_report_M3.txt` và đúng một dòng M3 trong `outputs/results.csv`
+- [ ] `figures/E_feature_importance.png` + `outputs/E_feature_importance_comparison.csv` — Gini/MDI gộp one-hot về feature gốc
+- [ ] `figures/E_feature_importance_permutation.png` + `outputs/E_feature_importance_permutation.csv` — grouped permutation trên 885 test rows, 30 repeats, seed 42, scorer accuracy
+- [ ] Quality gate chứng minh M0/M1/M2a/M2b và artifact D bất biến trước/sau khi E chạy
 
-**Dự đoán:** accuracy giảm đáng kể (có thể 0.70 → 0.62–0.66). **Đó là kết quả mong đợi và là điểm mấu chốt:**
+**Kết quả canonical hiện tại:** accuracy giảm từ M0 `0.6689` xuống M3 `0.5412`. **Đó là kết quả mong đợi và là điểm mấu chốt:**
 
 > *"M0 chính xác hơn M3 khoảng X%, nhưng M0 cần biết kết quả 2 học kỳ — tức là chỉ cảnh báo được khi sinh viên đã trượt môn. M3 kém hơn nhưng là model duy nhất triển khai được như hệ thống can thiệp sớm. Model tốt nhất theo accuracy không phải model tốt nhất theo mục tiêu ứng dụng."*
 
@@ -406,16 +407,14 @@ roc_auc = roc_auc_score(
 - [ ] Xuất deliverable mục C2
 - [ ] Viết mục **f.2** Improvement Method 2 — **nhớ phân tích đánh đổi accuracy vs recall**
 
-## E6. E — Feature Selection & Media
+## E6. E — Early-warning Feature Selection
 
 - [ ] Lọc đúng 12 cột theo mục C3, train M3
-- [ ] So sánh feature importance M0 vs M3
+- [ ] So sánh Gini/MDI và held-out grouped permutation importance M0 vs M3
 - [ ] Xuất deliverable mục C3
-- [ ] Viết mục **f.3** Improvement Method 3
+- [ ] Chạy lặp độc lập hai lần trong môi trường canonical và bảo vệ toàn bộ kết quả D
 - [ ] Hỗ trợ B viết mục **e**
-- [ ] Làm slide 12–15 trang
-- [ ] Ghép video (kịch bản: mỗi người nói phần mình, 12–15 phút)
-- [ ] Viết mục **i** References
+- Report/References, slide và video không thuộc phạm vi sửa E lần này; nhóm thực hiện chung ở giai đoạn sau.
 
 ## E7. Trưởng nhóm — đóng gói
 
@@ -534,7 +533,7 @@ Một đoạn ngắn thôi, nhưng nó thể hiện độ chín của nhóm và 
 | [Tên B] | | Xây dựng và đánh giá baseline, trực quan hóa cây, trích luật quyết định, viết mục Baseline Model & Analysis of the Tree | 20% |
 | [Tên C] | | Nghiên cứu và triển khai cải tiến pruning (cost-complexity + giới hạn depth/leaf), viết mục Improvement Method 1 | 20% |
 | [Tên D] | | Nghiên cứu và triển khai cải tiến xử lý mất cân bằng lớp (class weighting, SMOTE), viết mục Improvement Method 2 | 20% |
-| [Tên E] | | Nghiên cứu và triển khai cải tiến feature selection cho dự báo sớm, làm slide, dựng video, tổng hợp References | 20% |
+| [Tên E] | | Nghiên cứu và triển khai feature selection cho dự báo sớm, kiểm chứng Gini/MDI và grouped permutation importance, bảo đảm tái lập và tích hợp an toàn với kết quả D | 20% |
 
 > Nếu đóng góp thực tế không đều thì ghi đúng thực tế. Trưởng nhóm đối chiếu bảng này với **ai thực sự nói phần nào trong video** trước khi nộp (checklist E7).
 

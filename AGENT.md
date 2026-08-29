@@ -96,7 +96,7 @@ Giữ lại 3 biến vĩ mô (`Unemployment rate`, `Inflation rate`, `GDP`) vì 
 
 Khi phiên làm việc bắt đầu và người dùng chưa nói rõ, agent hỏi:
 
-> "Bạn đang làm role nào trong nhóm — A (Data Lead), B (Baseline & Tree Analysis), C (Pruning), D (Class Imbalance), hay E (Feature Selection & Media)?"
+> "Bạn đang làm role nào trong nhóm — A (Data Lead), B (Baseline & Tree Analysis), C (Pruning), D (Class Imbalance), hay E (Early-warning Feature Selection)?"
 
 Sau khi có câu trả lời, đọc đúng mục tương ứng ở Mục 5 và **chỉ làm việc trong phạm vi đó**.
 
@@ -118,7 +118,7 @@ Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (v
 3. Xác định cột nào là categorical dù lưu dạng số (xem bảng đầy đủ trong `docs/02-...`), ghi vào `docs/feature_types.md`
 4. Viết `src/data.py` với tối thiểu 2 hàm public: `load_and_preprocess()` và `get_train_test()` — có docstring, có type hint
 5. EDA: phân bố target, thống kê mô tả, heatmap tương quan (4–5 hình, lưu `figures/A_*.png`)
-6. Cuối dự án: gộp `results.csv` (hoặc `results_A.csv`...`results_E.csv` nếu nhóm chọn phương án file riêng), vẽ biểu đồ so sánh
+6. Cuối dự án: kiểm tra file chung `outputs/results.csv` có đúng các model ID và vẽ biểu đồ so sánh
 
 **Không được làm:** sửa `src/evaluate.py`, `src/visualize.py`, hay bất kỳ notebook nào có tên khác `01_` hoặc `06_`.
 
@@ -188,9 +188,9 @@ Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (v
 
 ---
 
-### Role E — Improvement 3: Feature Selection & Media
+### Role E — Improvement 3: Early-warning Feature Selection
 
-**File được sửa:** `notebooks/05_improve_features.ipynb`, `progress/E.md`, mục Improvement Method 3 + References trong báo cáo, slide, video.
+**File được sửa trong giai đoạn code hiện tại:** `notebooks/05_improve_features.ipynb`, `progress/E.md`, artifact `E_*`, chỉ row M3 trong `outputs/results.csv`, và các đoạn Role E được cấp quyền hẹp trong `README.md`/tài liệu kỹ thuật.
 
 **Mục tiêu:** Trả lời câu hỏi "có cảnh báo sớm được không, trước khi có kết quả học kỳ?"
 
@@ -198,14 +198,16 @@ Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (v
 1. Loại đúng 12 cột liệt kê ở Mục 3 (nhóm HK1 + HK2), giữ 24 feature còn lại kể cả 3 biến vĩ mô
 2. Train `DecisionTreeClassifier(random_state=42)` trên tập feature đã lọc
 3. Gọi `evaluate_model()` từ `src/evaluate.py`
-4. So sánh feature importance của M0 (đủ feature) vs M3 (đã lọc) — `figures/E_feature_importance.png`
-5. Hỗ trợ B hoàn thiện mục Analysis of the Tree nếu B cần
-6. Làm slide (12–15 trang) và ghép video (12–15 phút, kịch bản chi tiết đã có trong tài liệu kế hoạch tổng)
-7. Viết mục References theo danh sách đã có sẵn trong `docs/02-...`
+4. So sánh Gini/MDI importance của M0 vs M3 theo feature gốc — `figures/E_feature_importance.png`, `outputs/E_feature_importance_comparison.csv`
+5. Tính grouped permutation importance trên test: 30 repeats, `random_state=42`, scorer accuracy; permute toàn bộ dummy của cùng feature bằng chung một hoán vị — `figures/E_feature_importance_permutation.png`, `outputs/E_feature_importance_permutation.csv`
+6. Snapshot bốn row M0/M1/M2a/M2b và artifact D trước/sau evaluation; phải chứng minh byte-for-byte bất biến
+7. Hỗ trợ B hoàn thiện mục Analysis of the Tree nếu B cần
+
+**Ngoài phạm vi giai đoạn code hiện tại:** report, References, slide và video. Nhóm sẽ thực hiện chung ở giai đoạn sau theo quyết định người dùng; không xem đây là thiếu sót ngăn bàn giao code E.
 
 **Không được làm:** sửa `src/data.py`, `src/evaluate.py`, `src/visualize.py`.
 
-**Definition of Done:** `results.csv` có dòng M3; biểu đồ so sánh feature importance; mục báo cáo nêu rõ luận điểm "model chính xác nhất ≠ model dùng được sớm nhất"; video có đủ 5 giọng của 5 thành viên.
+**Definition of Done cho phạm vi code:** `results.csv` có đúng một dòng M3; loại đúng 12/giữ 24 feature; có tree, confusion matrix, classification report, Gini/MDI và held-out grouped permutation CSV/PNG; hai Run All độc lập tái lập cùng kết quả; non-M3 rows và artifact D bất biến; notebook không có stored error/path máy cá nhân.
 
 ---
 
