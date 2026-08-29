@@ -17,20 +17,21 @@ progress/       Nhật ký theo role
 ## Cài đặt
 
 ```powershell
-# Cách 1: Python Launcher đã nhận CPython 3.11
-py -3.11 -m venv .venv
+# Cách 1: Python Launcher đã nhận CPython 3.14
+py -3.14 -m venv .venv
 
-# Cách 2: nếu `py -3.11 --version` báo không tìm thấy Python
-& "C:\duong-dan-den-python311\python.exe" -m venv .venv
+# Cách 2: nếu `py -3.14 --version` báo không tìm thấy Python
+& "C:\duong-dan-den-python314\python.exe" -m venv .venv
 
 # Dùng trực tiếp interpreter trong venv để tránh nhầm Python trên PATH
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip check
 .\.venv\Scripts\python.exe -m pip install notebook nbconvert ipykernel
 ```
 
 Kiểm tra `.\.venv\Scripts\python.exe --version` phải chạy được trước khi tiếp tục. Trên macOS/Linux, dùng `python3 -m venv .venv` và thay `Scripts\python.exe` bằng `.venv/bin/python`.
 
-Artifact M0 hiện tại đã được tái lập với Python 3.11.9, scikit-learn 1.9.0, pandas 3.0.5, NumPy 2.4.6 và Matplotlib 3.11.1. Vì `requirements.txt` đang dùng khoảng phiên bản mở, nếu máy khác cho metric khác thì hãy so sánh phiên bản thư viện trước khi thay đổi pipeline hoặc split chung.
+Artifact M0 hiện tại đã được tái lập với môi trường canonical: Python 3.14.0, `scikit-learn==1.9.0`, `imbalanced-learn==0.14.2`, `pandas==2.3.3`, `numpy==2.3.4`, và `matplotlib==3.11.1` (các direct pin đã có trong `requirements-lock.txt`). Hướng dẫn cài từ manifest/lock đã commit. Không dùng version mở. Thêm lệnh pip check để xác nhận tương thích. Trình tự tích hợp là environment -> D -> E.
 
 ## Pipeline dữ liệu dùng chung
 
@@ -62,6 +63,37 @@ Artifact M0:
 - `outputs/rules_M0.txt`
 - `outputs/classification_report_M0.txt`
 - Dòng `M0` trong `outputs/results.csv`
+
+## Chạy Role D — M2a/M2b (Class Imbalance)
+
+Role D thực hiện cải tiến Class Imbalance bằng hai cấu hình. 
+Mở `notebooks/04_improve_imbalance.ipynb` và chọn **Restart & Run All**, hoặc chạy:
+
+```powershell
+.\.venv\Scripts\python.exe -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=900 notebooks/04_improve_imbalance.ipynb
+```
+
+Cấu hình của Role D:
+- **M2a**: `DecisionTreeClassifier(class_weight="balanced", random_state=42)`
+- **M2b**: Dùng SMOTE với `sampling_strategy="auto", random_state=42, k_neighbors=5`, và chỉ resample trên tập train.
+
+Artifact Role D:
+- Báo cáo: [docs/report_draft_f2_imbalance.md](docs/report_draft_f2_imbalance.md)
+- Progress: [progress/D.md](progress/D.md)
+- `figures/D_cm_M2a.png`, `figures/D_cm_M2b.png`
+- `figures/D_tree_M2a.png`, `figures/D_tree_M2a_full.png`
+- `figures/D_tree_M2b.png`, `figures/D_tree_M2b_full.png`
+- `outputs/classification_report_M2a.txt`, `outputs/classification_report_M2b.txt`
+- Dòng `M2a` và `M2b` trong `outputs/results.csv`
+
+### Checklist bàn giao cho Role D
+- Chỉ gọi `get_train_test()` một lần; không tự split/scale lại dữ liệu.
+- SMOTE chỉ resample tập train sau khi split, chứng minh không leakage.
+- Các row D đúng author="D" và đúng params.
+- Run A/Run B độc lập cho kết quả khớp tuyệt đối.
+- Validator pass (đủ 6 hình, 2 báo cáo, audit).
+- Đồng nhất cross-file.
+- Không thay đổi M0/M1/M3 và dữ liệu chung.
 
 ## Tái sử dụng helper cho M1/M2/M3
 

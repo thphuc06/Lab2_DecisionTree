@@ -15,7 +15,7 @@ mẫu held-out test, 90 feature sau one-hot và `random_state=42`. Không có sc
 riêng trong notebook.
 
 *Kết quả trong tài liệu này được tạo từ một lần chạy `notebooks/04_improve_imbalance.ipynb`
-với môi trường: Python 3.14.0, numpy 2.5.2, pandas 3.0.5, scikit-learn 1.9.0,
+với môi trường: Python 3.14.0, numpy 2.3.4, pandas 2.3.3, scikit-learn 1.9.0,
 matplotlib 3.11.1, imbalanced-learn 0.14.2. Notebook đã chạy lại từ kernel sạch sau khi xóa
 hai dòng `M2a`/`M2b` cũ trong `outputs/results.csv`, và mọi assert/guardrail nội bộ (chống
 leakage, đúng cấu hình, `error_rate == 1 - test_acc`, macro metrics trong `[0, 1]`) đều PASS.
@@ -162,11 +162,14 @@ Hai nhóm kết quả cần đọc khác nhau:
   hiện được. Ngay cả khi giá trị luôn là số nguyên, mã số đó vẫn có thể không tương ứng với
   category thật nào nếu quá trình nội suy/làm tròn không bảo toàn danh tính category — đây
   là giới hạn của phép đo, không phải bằng chứng loại trừ vấn đề.
-- **Với 4 nhóm one-hot**, phép đo cho kết quả rõ ràng và định lượng được: đa số hàng
-  synthetic có vector one-hot "pha trộn" giữa nhiều category thay vì đúng một category —
-  riêng `Course` lên tới 83,0%. Đây là bằng chứng cụ thể rằng vanilla SMOTE tạo ra các hàng
-  dữ liệu không đại diện đúng cho bất kỳ ngành học/hình thức nhập học nào có thật trong
-  dataset gốc.
+- **Với 4 nhóm one-hot**, phép đo cho kết quả rõ ràng và định lượng được: `imbalanced-learn`
+  0.14.2 khôi phục dtype DataFrame đầu ra về đúng dtype cột đầu vào (`ArraysTransformer.astype`).
+  Vì các cột dummy do `src/data.py` tạo ra có dtype là `int`, các giá trị nội suy phân số của
+  vanilla SMOTE bị ép về integer. Với phép nội suy giữa hai vector one-hot khác category, các
+  thành phần phân số thường bị làm tròn về 0. Khi đó, vector vi phạm chủ yếu là all-zero (không
+  có category nào hoạt động), chứ không phải là "pha trộn nhiều category". Điều này giải thích
+  vì sao `Course` có tới 83,0% hàng synthetic vi phạm tổng bằng 1. Đây là bằng chứng cụ thể
+  rằng vanilla SMOTE tạo ra các representation categorical không hợp lệ.
 
 Đây là **hạn chế đã biết** của vanilla SMOTE khi áp dụng cho biểu diễn dữ liệu hỗn hợp
 (mixed representation); tài liệu chính thức của `imbalanced-learn` khuyến nghị `SMOTENC`
@@ -206,3 +209,9 @@ trăm**, đồng thời tăng precision Enrolled từ 0,3234 lên 0,4044, và gi
 phạm vi thí nghiệm này; phần báo cáo vẫn giữ M2a để minh bạch rằng không phải mọi kỹ thuật
 cân bằng lớp đều tạo ra cải thiện với cùng dữ liệu và cùng mô hình, đồng thời công khai hạn
 chế categorical của vanilla SMOTE thay vì chỉ trình bày các con số thuận lợi.
+
+## Tài liệu tham khảo
+
+- Chawla, N. V., Bowyer, K. W., Hall, L. O., & Kegelmeyer, W. P. (2002). SMOTE: synthetic minority over-sampling technique. *Journal of artificial intelligence research*, 16, 321-357.
+- API Tham khảo `SMOTE`, Tài liệu `imbalanced-learn 0.14.2`: [imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.SMOTE.html](https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.SMOTE.html)
+- `imbalanced-learn 0.14.2` Over-sampling: [imbalanced-learn.org/stable/over_sampling.html](https://imbalanced-learn.org/stable/over_sampling.html)

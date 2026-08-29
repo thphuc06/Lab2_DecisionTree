@@ -169,7 +169,7 @@ Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (v
 
 ### Role D — Improvement 2: Class Imbalance
 
-**File được sửa:** `notebooks/04_improve_imbalance.ipynb`, `progress/D.md`, mục Improvement Method 2 trong báo cáo.
+**File được sửa:** `notebooks/04_improve_imbalance.ipynb`, `progress/D.md`, `docs/report_draft_f2_imbalance.md`, `outputs/classification_report_M2a.txt`, `outputs/classification_report_M2b.txt`. Ngoại lệ: được cập nhật thông tin cài đặt/M2a/M2b trong `README.md`, `docs/02-DATASET-VA-CONG-VIEC.md`, `docs/03-GIT-WORKFLOW-VA-CAU-TRUC-CODE.md` và `AGENT.md`.
 
 **Mục tiêu:** Trả lời câu hỏi "lớp thiểu số (Enrolled 18%, Dropout 32%) có được phát hiện tốt hơn không?"
 
@@ -178,13 +178,13 @@ Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (v
 2. M2b: SMOTE — **`from imblearn.over_sampling import SMOTE`, chỉ `fit_resample` trên `X_train, y_train`**, không bao giờ trên toàn bộ dataset trước khi split
 3. Gọi `evaluate_model()` từ `src/evaluate.py`, không tự viết lại
 4. So sánh **recall từng lớp** (Dropout, Enrolled, Graduate) giữa M0/M2a/M2b — đây là điểm chính của phân tích, không phải accuracy tổng
-5. Xuất: `figures/D_cm_M2a.png`, `figures/D_cm_M2b.png`, bảng recall so sánh
+5. Xuất: `figures/D_cm_M2a.png`, `figures/D_cm_M2b.png`, `figures/D_tree_M2a.png`, `figures/D_tree_M2a_full.png`, `figures/D_tree_M2b.png`, `figures/D_tree_M2b_full.png` và 2 bảng classification report.
 
 **Nếu accuracy tổng giảm sau khi cân bằng lớp:** đây là kết quả **đúng và mong đợi** (xem Mục 3). Không cần "tối ưu lại" cho tới khi accuracy quay lại bằng M0 — mục tiêu của cải tiến này là recall lớp thiểu số, không phải accuracy tổng.
 
 **Không được làm:** sửa `src/data.py`, `src/evaluate.py`, `src/visualize.py`. Không áp dụng SMOTE trước khi gọi `get_train_test()`.
 
-**Definition of Done:** `results.csv` có 2 dòng (M2a, M2b); bảng recall 3 lớp × 3 model; mục báo cáo phân tích rõ đánh đổi accuracy vs recall, không né tránh việc accuracy có thể giảm.
+**Definition of Done:** `results.csv` có 2 dòng (M2a, M2b); báo cáo `report_draft_f2_imbalance.md` có bảng recall 3 lớp × 3 model, giải thích ép kiểu categorical và 2 hình cây; đủ 6 hình D; file dùng chung (`README.md`, docs) đã cập nhật xong theo ngoại lệ; validator PASS; có hash thật trên manifest `progress/D.md`.
 
 ---
 

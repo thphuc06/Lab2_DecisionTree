@@ -257,14 +257,14 @@ DecisionTreeClassifier(class_weight='balanced', random_state=42)
 
 # M2b — SMOTE
 from imblearn.over_sampling import SMOTE
-X_res, y_res = SMOTE(random_state=42).fit_resample(X_train, y_train)  # CHỈ train!
+X_res, y_res = SMOTE(sampling_strategy="auto", random_state=42, k_neighbors=5).fit_resample(X_train, y_train)  # CHỈ train!
 ```
 
 > ⚠️ **Bẫy chí mạng:** SMOTE **chỉ áp dụng trên tập train**, tuyệt đối không trước khi split. Sai chỗ này = rò rỉ dữ liệu, accuracy ảo, và là câu hỏi đầu tiên thầy sẽ hỏi.
 
 **Cần xuất ra:**
-- [ ] `figures/D_tree_M2a.png` — ⚠️ **đừng quên hình cây.** Đề yêu cầu ở mục 3.4.f: *"Modified tree **or** model setting"* cho MỖI cải tiến, không riêng M1/M3. `class_weight='balanced'` vẫn làm Gini bị tính lại theo trọng số → cấu trúc split có thể đổi so với M0, nên vẫn cần so hình cây, không chỉ nêu tham số
-- [ ] `figures/cm_M2a.png` và `figures/cm_M2b.png`
+- [ ] `figures/D_tree_M2a.png`, `figures/D_tree_M2a_full.png`, `figures/D_tree_M2b.png`, `figures/D_tree_M2b_full.png` — ⚠️ **đừng quên hình cây.** Đề yêu cầu ở mục 3.4.f: *"Modified tree **or** model setting"* cho MỖI cải tiến, không riêng M1/M3. `class_weight='balanced'` vẫn làm Gini bị tính lại theo trọng số → cấu trúc split có thể đổi so với M0, nên vẫn cần so hình cây, không chỉ nêu tham số
+- [ ] `figures/D_cm_M2a.png` và `figures/D_cm_M2b.png`
 - [ ] Bảng so sánh **recall từng lớp** M0 vs M2a vs M2b
 - [ ] 2 dòng `results.csv`
 
@@ -454,13 +454,14 @@ roc_auc = roc_auc_score(
 
 **requirements.txt:**
 ```
-pandas
-numpy
-scikit-learn>=1.0
-matplotlib
-seaborn
-imbalanced-learn
-ucimlrepo
+pandas==2.3.3
+numpy==2.3.4
+scipy==1.17.1
+scikit-learn==1.9.0
+matplotlib==3.11.1
+seaborn==0.13.2
+imbalanced-learn==0.14.2
+ucimlrepo==0.0.7
 ```
 
 ---

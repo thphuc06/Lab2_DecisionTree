@@ -122,6 +122,8 @@ git push origin main
 
 **A là nút thắt.** Không ai code được phần đánh giá thật sự cho tới khi có `src/data.py`. Xử lý bằng 2 cách song song:
 
+**Lưu ý cho D và E:** Vì Role D được phép cập nhật tài liệu chung (`README.md`), Role E bắt buộc phải pull code (hoặc làm) **sau** khi Role D đã hoàn thành để tránh conflict file `README.md`.
+
 **Cách 1 — A chạy đua xong sớm:** A dồn toàn lực trong 1–2 ngày đầu để push `src/data.py` với hàm `get_train_test()` chạy được, dù EDA chưa xong.
 
 **Cách 2 — 4 người kia không ngồi chờ:** trong lúc chờ A, C/D/E viết sẵn khung notebook của mình dùng **dữ liệu giả** (`sklearn.datasets.load_iris()` hoặc tự tạo `X, y` ngẫu nhiên), code toàn bộ logic train/tune/evaluate. Khi A push `src/data.py` xong, chỉ cần đổi 1 dòng:
@@ -143,7 +145,7 @@ Cách này giúp cả nhóm không có ai rảnh tay quá lâu.
 figures/A_eda_target_distribution.png
 figures/B_tree_M0_full.png
 figures/C_ccp_alpha_curve.png
-figures/D_cm_M2_smote.png
+figures/D_cm_M2b.png
 figures/E_feature_importance_M3.png
 ```
 
@@ -160,7 +162,8 @@ Mỗi người ghi kết quả vào file riêng, A gộp lại cuối cùng:
 outputs/results_A.csv    (baseline nếu A phụ thêm)
 outputs/results_B.csv    (M0)
 outputs/results_C.csv    (M1)
-outputs/results_D.csv    (M2, M2b)
+# Lưu ý: Hiện tại nhóm đang dùng chung outputs/results.csv, 
+# Role D ghi trực tiếp 2 dòng M2a, M2b vào file chung này.
 outputs/results_E.csv    (M3)
 ```
 Cuối Giai đoạn 2, A viết một đoạn code nhỏ gộp cả 5 file thành `outputs/results.csv` — không ai đụng file chung của ai, **conflict = 0**.
