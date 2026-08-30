@@ -4,7 +4,8 @@
 > dòng. Số liệu lấy trực tiếp từ `outputs/results.csv` (qua `notebooks/06_comparison.ipynb`)
 > và đối chiếu với các bản nháp `docs/report_draft_f1_pruning.md`,
 > `docs/report_draft_f2_imbalance.md`, `notebooks/05_improve_features.ipynb`. Đây là **bản
-> nháp** — copy vào Google Doc chung, chỉnh văn phong nếu cần.
+> nguồn tiếng Việt đã fact-check** cho các section g/h trong `docs/report/sections/`;
+> dự án dùng LaTeX, không còn dùng quy trình Google Doc cũ.
 
 ---
 
@@ -81,16 +82,16 @@ Không có một câu trả lời duy nhất — phụ thuộc tiêu chí:
 |---|---|---|
 | Accuracy / F1 / ROC-AUC tổng thể | **M1** | Cao nhất ở gần như mọi chỉ số tổng hợp, đồng thời cây gọn nhất |
 | Phát hiện sinh viên Dropout | **M2b** | Recall Dropout cao nhất (0,7077) |
-| Phát hiện sinh viên Enrolled (lớp khó nhất) | **M2b** | Recall Enrolled cao nhất (0,4654), gấp ~1,35 lần M0 |
+| Phát hiện sinh viên Enrolled (lớp khó nhất) | **M2b** | Recall Enrolled cao nhất (0,4654), gấp ~1,21 lần M0 |
 | Dễ diễn giải / trình bày | **M1** | Chỉ 17 lá, đọc được toàn bộ luật, so với 634–963 lá của các model còn lại |
 | Khả năng triển khai sớm (trước khi có kết quả học kỳ) | **M3** | Model duy nhất không cần dữ liệu học kỳ 1–2 |
 
 **Nếu chỉ xét theo accuracy đơn thuần, M1 thắng.** Nhưng bài học chính của việc so sánh cả
-4 model là: **"tốt nhất" phụ thuộc mục tiêu ứng dụng.** M1 tốt nhất nếu mục tiêu là một hệ
+5 cấu hình là: **"tốt nhất" phụ thuộc mục tiêu ứng dụng.** M1 tốt nhất nếu mục tiêu là một hệ
 thống phân loại chính xác, dễ diễn giải, dùng sau khi đã có đủ dữ liệu học kỳ. M2b tốt nhất
 nếu mục tiêu là không bỏ sót sinh viên nguy cơ (Dropout/Enrolled), chấp nhận đánh đổi một ít
 accuracy tổng. M3 là lựa chọn duy nhất khả thi nếu mục tiêu là **can thiệp sớm ngay từ lúc
-nhập học** — không model nào khác trong 4 model có thể chạy tại thời điểm đó, bất kể accuracy
+nhập học** — không cấu hình nào khác trong 4 cấu hình còn lại có thể chạy tại thời điểm đó, bất kể accuracy
 của chúng cao hơn bao nhiêu.
 
 ---

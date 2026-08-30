@@ -10,7 +10,8 @@
 [GroupID]-decision-tree/
 ├── AGENT.md                         ← đọc trước tiên khi mở agent, đừng để lệch chỗ
 ├── README.md                       ← Trưởng nhóm
-├── requirements.txt                ← A tạo, ai cần thêm lib thì tự thêm dòng
+├── requirements.txt                ← dependency trực tiếp; role đề xuất lib mới cho A
+├── requirements-lock.txt           ← lock canonical; CHỈ A/Integrator refresh sau full rerun
 ├── .gitignore                      ← A tạo lúc khởi tạo repo
 │
 ├── data/
@@ -38,16 +39,20 @@
 │   ├── D.md                        ← CHỈ D
 │   └── E.md                        ← CHỈ E
 │
-├── figures/                         ← mỗi người tự lưu hình của mình vào đây, tên file có prefix (xem mục 4)
+├── figures/                         ← 22 PNG canonical, tên file có prefix (xem mục 4)
 │
 ├── outputs/
-│   └── results.csv                 ⭐ file dùng chung, xem mục 5 — điểm conflict thật sự duy nhất
+│   ├── results.csv                 ⭐ 5 cấu hình, schema 16 cột
+│   ├── comparison_table.csv
+│   ├── classification_report_M*.txt
+│   └── rules_M0.txt
 │
 └── docs/
     ├── 00-DE-BAI-GOC.pdf           ← đề gốc của thầy, nguồn xác thực cao nhất
     ├── 02-DATASET-VA-CONG-VIEC.md
     ├── 03-GIT-WORKFLOW-VA-CAU-TRUC-CODE.md   ← chính là file này
-    └── feature_types.md            ← A
+    ├── feature_types.md            ← A
+    └── report/                     ← LaTeX source, sections, references và report.pdf
 ```
 
 **`.gitignore` cần có:**
@@ -80,6 +85,8 @@ __pycache__/
 
 ## 3. Chiến lược nhánh (branch)
 
+> Bảng tên nhánh ban đầu bên dưới là **quy ước lập kế hoạch**, không phải danh sách ref hiện có. Tại vòng tích hợp 2026-08-30, các ref đã fetch là `main`, `feature/pruning` và `role-e-final-thuy`; nhánh đang làm là `role-e-final-thuy` và đang merge `origin/main` mới nhất.
+
 Với nhóm 5 người mới dùng git, **branch theo người** là đơn giản và đủ an toàn — không cần quy trình PR phức tạp.
 
 ```bash
@@ -89,7 +96,7 @@ git pull
 git checkout -b feature/pruning        # ví dụ của C
 ```
 
-| Người | Tên nhánh |
+| Role | Tên nhánh khuyến nghị cho công việc mới |
 |---|---|
 | A | `feature/data-pipeline` |
 | B | `feature/baseline` |
@@ -98,6 +105,8 @@ git checkout -b feature/pruning        # ví dụ của C
 | E | `feature/early-warning` |
 
 **Quy trình làm việc mỗi ngày:**
+
+> Các lệnh `git add`/`commit`/`push` trong ví dụ này chỉ dành cho **thành viên thao tác Git**. Theo `AGENT.md`, coding agent phải dừng trước ba lệnh này và bàn giao thay đổi để con người duyệt.
 ```bash
 git checkout feature/pruning
 git pull origin main          # LUÔN kéo main mới nhất trước khi làm tiếp
@@ -142,11 +151,12 @@ Cách này giúp cả nhóm không có ai rảnh tay quá lâu.
 
 **Đặt tên hình theo prefix** để tránh trùng tên khi 5 người cùng lưu vào `figures/`:
 ```
-figures/A_eda_target_distribution.png
+figures/A_target_distribution.png
 figures/B_tree_M0_full.png
 figures/C_ccp_alpha_curve.png
 figures/D_cm_M2b.png
-figures/E_feature_importance_M3.png
+figures/E_feature_importance.png
+figures/E_feature_importance_permutation.png
 ```
 
 ---
@@ -155,20 +165,9 @@ figures/E_feature_importance_M3.png
 
 Đây là file text ai cũng ghi vào. Nếu 2 người push gần nhau, git sẽ báo conflict — nhưng vì CSV chỉ là các dòng text, xử lý rất dễ, không đáng sợ như conflict trong code.
 
-**Cách né hoàn toàn — khuyến nghị cho nhóm mới dùng git:**
+**Quy ước repo hiện tại:** dùng duy nhất `outputs/results.csv`; mỗi role chỉ được thêm hoặc đối soát model ID do mình sở hữu và không xóa/sửa row của role khác. Riêng Role E phải snapshot raw row M0/M1/M2a/M2b trước và sau `evaluate_model()` để chứng minh việc chạy M3 không thay đổi kết quả đã handoff.
 
-Mỗi người ghi kết quả vào file riêng, A gộp lại cuối cùng:
-```
-outputs/results_A.csv    (baseline nếu A phụ thêm)
-outputs/results_B.csv    (M0)
-outputs/results_C.csv    (M1)
-# Lưu ý: Hiện tại nhóm đang dùng chung outputs/results.csv, 
-# Role D ghi trực tiếp 2 dòng M2a, M2b vào file chung này.
-outputs/results_E.csv    (M3)
-```
-Cuối Giai đoạn 2, A viết một đoạn code nhỏ gộp cả 5 file thành `outputs/results.csv` — không ai đụng file chung của ai, **conflict = 0**.
-
-**Nếu vẫn muốn dùng chung 1 file `results.csv` từ đầu**, cách xử lý khi conflict xảy ra:
+**Khi file chung `results.csv` xảy ra conflict**, xử lý như sau:
 
 ```bash
 git pull origin main
@@ -211,7 +210,7 @@ Prefix bằng ký hiệu tên để dễ tra `git log` và dễ dùng cho bảng
 - [ ] Notebook đã `Restart & Run All` — số thứ tự cell chạy liền mạch từ 1
 - [ ] Đã xóa cell rác, cell lỗi, cell thử nghiệm
 - [ ] Không sửa file không thuộc quyền của mình (đối chiếu bảng mục 2)
-- [ ] `results.csv` (hoặc `results_X.csv`) đã có dòng của mình, đúng schema chung
+- [ ] `outputs/results.csv` đã có đúng dòng model thuộc role của mình, đúng schema chung và không thay đổi row của role khác
 
 ---
 

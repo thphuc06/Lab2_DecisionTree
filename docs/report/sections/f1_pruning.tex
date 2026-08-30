@@ -21,11 +21,11 @@
 
 \subsubsection{Method description}
 
-\todo{Describe cost-complexity pruning: \texttt{cost\_complexity\_pruning\_path} to get candidate \texttt{ccp\_alpha} values, alpha selection by cross-validation on TRAIN ONLY (never on test), plus the required grid over \texttt{max\_depth} $\in \{5,8,10,15\}$ and \texttt{min\_samples\_leaf} $\in \{1,5,10,20\}$. State explicitly that test accuracy was never used to pick hyperparameters -- this is the one thing an instructor is guaranteed to check.}
+\todo{Describe cost-complexity pruning, candidate alpha generation, and alpha selection by cross-validation on training data only. Include the required depth grid $\{5,8,10,15\}$ and minimum-leaf-size grid $\{1,5,10,20\}$. State explicitly that test accuracy never selected hyperparameters.}
 
 \subsubsection{Modified tree / model setting}
 
-\todo{State the final chosen configuration (ccp\_alpha, max\_depth, min\_samples\_leaf, random\_state=42) and the CV accuracy that selected it.}
+\todo{Report the selected alpha, depth cap, minimum leaf size, random seed, and the cross-validation accuracy that selected the configuration.}
 
 \begin{figure}[H]
   \centering

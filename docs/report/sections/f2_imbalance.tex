@@ -69,10 +69,10 @@
 
 \subsubsection{Accuracy and error rate}
 
-\todo{Report M2a and M2b test\_acc / error\_rate against M0 from \texttt{outputs/results.csv}, plus the per-class recall table (Dropout / Enrolled / Graduate) for M0 vs.\ M2a vs.\ M2b -- this table is the actual point of the experiment, not overall accuracy.}
+\todo{Report M2a and M2b test accuracy and error rate against M0. Add the per-class recall table for Dropout, Enrolled, and Graduate across M0/M2a/M2b; that table is the point of this experiment, not overall accuracy alone.}
 
 \subsubsection{Why this does (or does not) improve the result}
 
 \todo{State plainly that M2a does \emph{not} help on this split (both accuracy and Enrolled recall drop) -- do not hide this. Explain M2b's improvement mechanism (synthetic minority-class samples give the tree more opportunities to find a separating split), and be explicit that recall Enrolled/Dropout going up while overall accuracy is a secondary concern is the correct way to judge success here, per AGENT.md's own guidance that overall accuracy is not the target metric for this improvement.}
 
-\todo{Optional but already written and verified in the source draft: the SMOTE-on-one-hot-columns limitation (vanilla SMOTE interpolates one-hot dummy vectors, and \texttt{imbalanced-learn}'s dtype restoration then truncates -- not rounds -- the fractional interpolated values back to \texttt{int}, producing invalid all-zero one-hot rows for a measurable fraction of synthetic samples, worst for \texttt{Course} at 83.0\%). Worth including as a stated limitation even though it does not invalidate the recall/precision gains, which were measured on the real held-out test set.}
+\todo{Optional verified limitation: vanilla SMOTE interpolates one-hot dummy vectors. Integer restoration truncates fractional values and can create invalid all-zero groups; Course was worst at 83.0\%. Explain that this limitation does not invalidate metrics measured on the real held-out test set.}

@@ -1,0 +1,73 @@
+model_id,original_feature,available_in_model,scorer,n_repeats,random_state,importance_mean,importance_std,rank
+M0,Marital Status,True,accuracy,30,42,-0.0037664783,0.0009821774,34
+M0,Application mode,True,accuracy,30,42,-0.0030885122,0.0039352039,33
+M0,Application order,True,accuracy,30,42,-0.0029001883,0.0032183009,32
+M0,Course,True,accuracy,30,42,0.0115630885,0.0064692486,10
+M0,Daytime/evening attendance,True,accuracy,30,42,0.0001129944,0.0006748201,29
+M0,Previous qualification,True,accuracy,30,42,0.0007909605,0.0017782405,24
+M0,Previous qualification (grade),True,accuracy,30,42,-0.0103578154,0.0042886612,36
+M0,Nacionality,True,accuracy,30,42,0.0009039548,0.0009408660,23
+M0,Mother's qualification,True,accuracy,30,42,-0.0002636535,0.0044022705,31
+M0,Father's qualification,True,accuracy,30,42,-0.0042561205,0.0035214055,35
+M0,Mother's occupation,True,accuracy,30,42,0.0013559322,0.0031068310,21
+M0,Father's occupation,True,accuracy,30,42,0.0028625235,0.0032583847,18
+M0,Admission grade,True,accuracy,30,42,0.0069303202,0.0067967978,14
+M0,Displaced,True,accuracy,30,42,0.0015065913,0.0017585864,20
+M0,Educational special needs,True,accuracy,30,42,0.0003766478,0.0005326605,26
+M0,Debtor,True,accuracy,30,42,0.0062523540,0.0029426780,15
+M0,Tuition fees up to date,True,accuracy,30,42,0.0447080979,0.0067651026,2
+M0,Gender,True,accuracy,30,42,0.0048210923,0.0022960076,17
+M0,Scholarship holder,True,accuracy,30,42,0.0126553672,0.0041608933,9
+M0,Age at enrollment,True,accuracy,30,42,0.0075329567,0.0048410603,13
+M0,International,True,accuracy,30,42,0.0004896422,0.0007542367,25
+M0,Curricular units 1st sem (credited),True,accuracy,30,42,0.0110734463,0.0040045300,11
+M0,Curricular units 1st sem (enrolled),True,accuracy,30,42,0.0103201507,0.0024363031,12
+M0,Curricular units 1st sem (evaluations),True,accuracy,30,42,0.0409792844,0.0070198103,3
+M0,Curricular units 1st sem (approved),True,accuracy,30,42,0.0404519774,0.0070044346,4
+M0,Curricular units 1st sem (grade),True,accuracy,30,42,0.0297175141,0.0080490797,7
+M0,Curricular units 1st sem (without evaluations),True,accuracy,30,42,0.0000376648,0.0010712966,30
+M0,Curricular units 2nd sem (credited),True,accuracy,30,42,0.0002636535,0.0006955249,27
+M0,Curricular units 2nd sem (enrolled),True,accuracy,30,42,0.0129190207,0.0066059563,8
+M0,Curricular units 2nd sem (evaluations),True,accuracy,30,42,0.0314500942,0.0060785173,6
+M0,Curricular units 2nd sem (approved),True,accuracy,30,42,0.2253107345,0.0160345844,1
+M0,Curricular units 2nd sem (grade),True,accuracy,30,42,0.0392843691,0.0065477168,5
+M0,Curricular units 2nd sem (without evaluations),True,accuracy,30,42,0.0002636535,0.0022158292,28
+M0,Unemployment rate,True,accuracy,30,42,0.0010922787,0.0046996534,22
+M0,Inflation rate,True,accuracy,30,42,0.0058003766,0.0032452971,16
+M0,GDP,True,accuracy,30,42,0.0022222222,0.0039519315,19
+M3,Marital Status,True,accuracy,30,42,-0.0039548023,0.0019733615,23
+M3,Application mode,True,accuracy,30,42,0.0066666667,0.0083256213,13
+M3,Application order,True,accuracy,30,42,0.0036158192,0.0031476584,15
+M3,Course,True,accuracy,30,42,0.0471186441,0.0097513972,2
+M3,Daytime/evening attendance,True,accuracy,30,42,0.0001883239,0.0004211051,19
+M3,Previous qualification,True,accuracy,30,42,0.0023728814,0.0019862594,16
+M3,Previous qualification (grade),True,accuracy,30,42,0.0093785311,0.0090918918,11
+M3,Nacionality,True,accuracy,30,42,0.0008662900,0.0009078697,17
+M3,Mother's qualification,True,accuracy,30,42,-0.0036911488,0.0062975698,22
+M3,Father's qualification,True,accuracy,30,42,-0.0048210923,0.0058490874,24
+M3,Mother's occupation,True,accuracy,30,42,0.0067043315,0.0058998009,12
+M3,Father's occupation,True,accuracy,30,42,0.0108851224,0.0048774077,10
+M3,Admission grade,True,accuracy,30,42,0.0145386064,0.0057002138,7
+M3,Displaced,True,accuracy,30,42,-0.0003389831,0.0026281815,21
+M3,Educational special needs,True,accuracy,30,42,0.0003013183,0.0012354968,18
+M3,Debtor,True,accuracy,30,42,0.0122410546,0.0043867751,9
+M3,Tuition fees up to date,True,accuracy,30,42,0.0685499058,0.0067250363,1
+M3,Gender,True,accuracy,30,42,0.0183050847,0.0061225840,6
+M3,Scholarship holder,True,accuracy,30,42,0.0261016949,0.0077922420,4
+M3,Age at enrollment,True,accuracy,30,42,0.0367984934,0.0116652036,3
+M3,International,True,accuracy,30,42,0.0000376648,0.0002028311,20
+M3,Unemployment rate,True,accuracy,30,42,0.0123163842,0.0066806964,8
+M3,Inflation rate,True,accuracy,30,42,0.0047457627,0.0049546015,14
+M3,GDP,True,accuracy,30,42,0.0233521657,0.0059743518,5
+M3,Curricular units 1st sem (credited),False,accuracy,0,42,,,
+M3,Curricular units 1st sem (enrolled),False,accuracy,0,42,,,
+M3,Curricular units 1st sem (evaluations),False,accuracy,0,42,,,
+M3,Curricular units 1st sem (approved),False,accuracy,0,42,,,
+M3,Curricular units 1st sem (grade),False,accuracy,0,42,,,
+M3,Curricular units 1st sem (without evaluations),False,accuracy,0,42,,,
+M3,Curricular units 2nd sem (credited),False,accuracy,0,42,,,
+M3,Curricular units 2nd sem (enrolled),False,accuracy,0,42,,,
+M3,Curricular units 2nd sem (evaluations),False,accuracy,0,42,,,
+M3,Curricular units 2nd sem (approved),False,accuracy,0,42,,,
+M3,Curricular units 2nd sem (grade),False,accuracy,0,42,,,
+M3,Curricular units 2nd sem (without evaluations),False,accuracy,0,42,,,

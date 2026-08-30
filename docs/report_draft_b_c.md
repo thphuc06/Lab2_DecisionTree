@@ -3,7 +3,8 @@
 > Viết bởi Role A, dựa trên: đề gốc `docs/00-DE-BAI-GOC.pdf`, số liệu thực tế chạy từ
 > `notebooks/01_eda.ipynb` (không copy từ metadata UCI), và tài liệu tham khảo đã liệt kê
 > ở `docs/02-DATASET-VA-CONG-VIEC.md` Phần H.
-> Đây là **bản nháp** — copy vào Google Doc chung của nhóm, chỉnh sửa văn phong nếu cần.
+> Đây là **bản nguồn tiếng Việt đã fact-check** cho các section b/c trong
+> `docs/report/sections/`; dự án dùng LaTeX, không còn dùng quy trình Google Doc cũ.
 > Chưa điền: tên nhóm, MSSV, GroupID (mục a — Trưởng nhóm phụ trách).
 
 ---
@@ -211,25 +212,17 @@ Sau tiền xử lý: **3.539 mẫu train / 885 mẫu test**, mỗi mẫu có 90 
 *Hình c.5. Heatmap tương quan Pearson, **tự tính lại trực tiếp trên `data/raw/data.csv`**
 (không copy số từ tài liệu kế hoạch). Ba cặp tương quan cao nhất toàn dataset: `1st sem
 credited` ↔ `2nd sem credited` (r=0,945), `1st sem enrolled` ↔ `2nd sem enrolled` (r=0,943),
-và **`Mother's occupation` ↔ `Father's occupation` (r=0,911)** — cặp này cao hơn cả nhóm
+và **`Mother's occupation` ↔ `Father's occupation` (r=0,910)** — cặp này cao hơn cả nhóm
 feature học kỳ 1 quan hệ với học kỳ 2 (`1st/2nd sem approved`, r=0,904). Cặp `Nacionality` ↔
 `International` có r=0,791 — vẫn là tương quan cao (sinh viên quốc tế gần như luôn có
 `Nacionality` khác Bồ Đào Nha) nhưng thấp hơn 3 cặp trên.*
 
-> ⚠️ Bảng đa cộng tuyến ở `docs/02-DATASET-VA-CONG-VIEC.md` Phần A6 có 2 số liệu không khớp
-> khi đối chiếu lại với `data/raw/data.csv` thật: cặp `Nacionality`↔`International` bảng đó
-> ghi r=0,912 (thực tế r=0,791), và cặp `Mother's/Father's occupation` bảng đó ghi r=0,724
-> (thực tế r=0,911 — **cao hơn nhiều** so với số đã ghi, đây là cặp tương quan cao thứ 3 toàn
-> dataset chứ không phải hạng 9 như bảng cũ xếp). Số liệu trong báo cáo dùng giá trị tự tính
-> lại ở trên; nên cập nhật lại bảng A6 để tránh lệch khi role E dùng bảng đó làm căn cứ chọn
-> cột trong mục f.3.
-
 Decision tree không bị ảnh hưởng nặng bởi đa cộng tuyến như hồi quy tuyến tính (không cần
 loại bỏ feature trùng lặp để mô hình hội tụ), nhưng đa cộng tuyến vẫn làm feature importance
-bị chia sẻ giữa các cột tương quan cao và có thể khiến cấu trúc cây kém ổn định giữa các lần
-chạy khác nhau của cùng thuật toán. Đây là căn cứ định lượng cho việc E cân nhắc loại bớt cột
-trùng lặp (VD `International`, hoặc một trong hai cột nghề nghiệp cha/mẹ) khi mở rộng thí
-nghiệm feature selection ở mục f.3.
+bị chia sẻ giữa các cột tương quan cao và có thể khiến cấu trúc cây kém ổn định giữa các mẫu.
+Những hệ số này là bối cảnh chẩn đoán, không phải quy tắc chọn cột của M3. Thí nghiệm M3
+canonical loại đúng 12 cột kết quả học kỳ theo thời điểm có dữ liệu và giữ cả `Nacionality`
+lẫn `International`, để availability là khác biệt có chủ đích duy nhất so với M0.
 
 ### Vì sao dataset này phù hợp cho decision tree modeling
 

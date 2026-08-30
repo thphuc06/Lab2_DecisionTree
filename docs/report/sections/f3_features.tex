@@ -35,14 +35,14 @@
 
 \subsubsection{Method description}
 
-\todo{Describe the method: drop exactly the 12 semester-outcome columns (all six \texttt{Curricular units 1st sem (\ldots)} and six \texttt{Curricular units 2nd sem (\ldots)} columns), keep the remaining 24 original features including the 3 macroeconomic variables (known at enrollment time), and train an unconstrained \texttt{DecisionTreeClassifier(random\_state=42)} exactly like M0 so the only experimental difference is feature availability.}
+\todo{Describe the method: remove all six first-semester and all six second-semester outcome columns, retain 24 original features including the three macroeconomic variables known at enrollment, and train the same unconstrained Gini tree with seed 42. Feature availability must be the only intentional difference from M0.}
 
 \subsubsection{Modified tree / model setting}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.75\textwidth]{E_tree_M3.png}
-  \caption{\todo{Caption: M3 tree (state depth/leaves from \texttt{outputs/results.csv}).}}
+  \caption{\todo{Caption: M3 tree; state its full depth and leaf count.}}
 \end{figure}
 
 \begin{figure}[H]
@@ -53,7 +53,7 @@
 
 \subsubsection{Accuracy and error rate}
 
-\todo{Report M3's test\_acc / error\_rate / F1 macro against M0 from \texttt{outputs/results.csv}, and the confusion matrix below.}
+\todo{Report M3 test accuracy, error rate, and macro-F1 against M0, then discuss the confusion matrix below.}
 
 \begin{figure}[H]
   \centering
@@ -63,4 +63,4 @@
 
 \subsubsection{Why this does not improve accuracy --- and why that is expected}
 
-\todo{Explain plainly that accuracy drops substantially (this is the intended finding, not a failure): the 12 dropped columns include several of M0's strongest actual Gini-importance features (see \texttt{outputs/E\_feature\_importance\_comparison.csv} -- \texttt{2nd sem approved} is M0's single most important feature by a wide margin), all of which are only known after a semester ends. State the trade-off explicitly: M0 is more accurate but only actionable after the fact; M3 is less accurate but is the only model of the four that is actually usable at enrollment time for early, preventive intervention. Cite \citep{martins2021early} here if used as background for the early-prediction framing.}
+\todo{Explain plainly that the accuracy drop is intended, not a failure: the removed columns include several of M0's strongest Gini-importance features, especially second-semester approvals, but those values arrive too late for enrollment-time action. State the M0/M3 trade-off and cite \citep{martins2021early} if it supports the early-prediction framing.}

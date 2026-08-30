@@ -94,16 +94,12 @@ admission grade, tuition status, the 3 macroeconomic variables, \ldots).
 
 \begin{quote}
 \small
-\emph{Note: the top-5 feature table reported by \citet{realinho2022predicting}
-(which lists \texttt{1st sem approved} at rank~2) reflects permutation
-importance from Random Forest/XGBoost/LightGBM/CatBoost in the original
-paper -- \textbf{not} this project's own M0 tree's Gini importance. The
-two tables ranking
-differently is expected since they come from different algorithms:
-\texttt{1st sem approved} ranks only \textbf{9th} in this project's own
-M0 (importance 0.029), not in the real top-5 of the baseline model. The
-paragraph above uses only self-measured numbers, not values borrowed
-from Section~A5.}
+\emph{The original paper ranks first-semester approvals second using
+permutation importance from four ensemble algorithms
+\citep{realinho2022predicting}. That is a different method from this
+project's M0 Gini importance. The feature ranks ninth in M0 (importance
+0.029), so the different rankings are expected. The paragraph above uses
+only importance values measured from M0 itself.}
 \end{quote}
 
 \subsection{Which model is ``best''?}
@@ -128,11 +124,11 @@ There is no single answer -- it depends on the criterion:
 \end{table}
 
 \textbf{On accuracy alone, M1 wins.} But the main lesson of comparing all
-four models is that \textbf{``best'' depends on the application goal.} M1
+five model configurations is that \textbf{``best'' depends on the application goal.} M1
 is best for an accurate, interpretable classification system used once
 semester data already exists. M2b is best if the goal is to miss as few
 at-risk students as possible (Dropout/Enrolled), accepting a small
 overall-accuracy trade-off. M3 is the only feasible choice if the goal is
 \textbf{early intervention right at enrollment} -- none of the other
-three models can run at that point in time, no matter how much higher
+four configurations can run at that point in time, no matter how much higher
 their accuracy is.

@@ -202,9 +202,9 @@ train/test split.
       each split reads as a clear yes/no question (e.g.\ ``is this the
       Nursing program?'').
     \item \textbf{Keep the raw integer code} for high-cardinality
-      columns: \texttt{Mother's/Father's occupation} (32/46 values),
-      \texttt{Mother's/Father's qualification} (29/34),
-      \texttt{Nacionality} (21) -- one-hot encoding these would create
+      columns: the mother's and father's occupations (32/46 values),
+      the mother's and father's qualifications (29/34 values), and
+      \texttt{Nacionality} (21 values) -- one-hot encoding these would create
       dozens of sparse columns, destabilizing the tree more than it
       would help. This trade-off is noted explicitly as a limitation.
     \item After this step the feature count grows from 36 to
@@ -273,11 +273,13 @@ pairs above.
 A decision tree is not as sensitive to multicollinearity as linear
 regression (it does not need redundant features removed to converge),
 but multicollinearity still splits feature importance across correlated
-columns and can make the tree structure less stable across runs. This is
-a quantitative basis for Role E to consider dropping a redundant column
-(e.g.\ \texttt{International}, or one of the two parent-occupation
-columns) when extending the feature-selection experiment in
-Section~\ref{sec:f} (f.3).
+columns and can make the tree structure less stable across samples. These
+correlations therefore provide diagnostic context, but they are not the
+selection rule for M3. The canonical early-warning experiment removes
+exactly the 12 semester-outcome columns based on availability at
+enrollment, while retaining both \texttt{Nacionality} and
+\texttt{International} so that feature timing is the only intentional
+difference from M0.
 
 \subsection{Why this dataset is appropriate for decision tree modeling}
 
@@ -287,9 +289,11 @@ Section~\ref{sec:f} (f.3).
     split translates into an ordinary sentence -- this plays directly to
     a decision tree's interpretability strength, unlike image or text
     data where that advantage is less exploitable.
-  \item \textbf{A mix of categorical and numerical features} -- a tree
-    handles both natively without scaling, unlike KNN or linear models
-    which require it.
+  \item \textbf{A mix of categorical and numerical features} -- after
+    nominal categories are encoded, the tree handles the resulting
+    numerical and indicator columns without scaling. This is unlike KNN
+    and many linear-model workflows, where feature scale directly affects
+    distances or optimization.
   \item \textbf{A genuine class imbalance} (50\%/32\%/18\%) -- creates a
     realistic scenario to apply and compare imbalance-handling
     techniques, one of the improvement directions the brief itself

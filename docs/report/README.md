@@ -47,12 +47,12 @@ section file exists -- treat it as team-lead/Role A territory.
 Role A's four sections (b, c, g, h) already contain full English content,
 translated from the fact-checked Vietnamese drafts
 (`docs/report_draft_b_c.md`, `docs/report_draft_g_h.md`) after the
-2026-08-30 audit that found and fixed 5 real errors (wrong correlation
-values, an invented tree rule, a feature-importance table mix-up -- see
-`progress/A.md` for the full list). Nothing in those four files was
-invented for this skeleton.
+2026-08-30 audits that found and fixed multiple real errors (wrong
+correlation values, incomplete tree rules, and model-comparison mix-ups --
+see `progress/A.md` for the full audit trail). Nothing in those four files
+was invented for this skeleton.
 
-The other five sections (a, d, e, f1, f2, f3) are **structural skeletons
+The other six sections (a, d, e, f1, f2, f3) are **structural skeletons
 only**: correct `\section`/`\subsection` headers matching the assignment's
 exact wording, `\includegraphics` calls already pointing at the right,
 already-committed figure files, and `\todo{...}` placeholders (rendered
@@ -86,10 +86,17 @@ real prose right after the figure) when filling in `d_baseline.tex`,
 
 ## How to compile
 
-You need a LaTeX distribution (TeX Live, MiKTeX, or Overleaf -- no
-distribution is installed on the machine this skeleton was built on, so
-it has **not** been compiled yet; do a first compile early and fix any
-issue before the rest of the team builds on top of it).
+You need a LaTeX distribution (TeX Live, MiKTeX, or Overleaf).
+`report.pdf` is the current 22-page A4 preview tracked with this source. It
+was compiled with MiKTeX 26.5 and rendered page by page during the final
+2026-08-30 integration audit: the LaTeX log has no errors, undefined
+citations/references, rerun requests, or overfull boxes. This establishes
+that the report framework and every referenced figure are technically
+healthy; it is still a **skeleton preview, not a submission-ready report**,
+because the six owner sections listed above intentionally retain red
+`\todo{...}` placeholders. Recompile whenever any `.tex`, `.bib`, or
+referenced figure changes; do not treat an older PDF timestamp as evidence
+that the source still compiles.
 
 ```bash
 cd docs/report
@@ -107,7 +114,7 @@ LaTeX set up locally.
 ## Before final submission
 
 - Search the whole `sections/` folder for `\todo` and make sure none
-  remain (`grep -rn "\\\\todo" sections/`).
+  remain (`rg -n '\\todo' sections`).
 - Compile once from a clean checkout to make sure nothing depends on a
   local file outside this repo.
 - Cross-check every number against `outputs/results.csv` /

@@ -4,8 +4,8 @@
 > Agent: đọc file này ngay sau khi xác nhận mình đang phục vụ role A (bước 5, Mục 0 của `AGENT.md`), và **cập nhật lại trước khi bàn giao cuối mỗi phiên** (bước 8, Mục 0).
 
 ## Trạng thái hiện tại
-_(cập nhật lần cuối: 2026-08-28)_
-- Đang làm: —
+_(cập nhật lần cuối: 2026-08-30)_
+- Đang làm: Merge `origin/main` (nhánh Role E) vào local đã xong — 2 conflict thật (`docs/02-DATASET-VA-CONG-VIEC.md`, `docs/report/report.pdf`) đã resolve tay, report compile sạch (22 trang, 0 lỗi). Chờ người dùng review diff rồi tự `git add`/`commit`/`push` để hoàn tất merge.
 - Bị chặn bởi: —
 
 ## Đã xong
@@ -17,6 +17,8 @@ _(cập nhật lần cuối: 2026-08-28)_
 - [x] Gộp `results.csv` cuối dự án, vẽ `figures/comparison.png` — B/C/D/E đã xong M0-M3, đã gộp qua `notebooks/06_comparison.ipynb`
 - [x] Viết mục b/c (Introduction, Dataset Description) — `docs/report_draft_b_c.md`
 - [x] Viết mục g/h (Comparison of Results, Conclusion) — `docs/report_draft_g_h.md`
+- [x] Tích hợp `origin/main` `a29d356` vào Role E, tạo `requirements-lock.txt` canonical và tái lập artifact E hai lần độc lập
+- [x] Chạy audit cuối toàn repository: pipeline 01→06, notebook/CSV/PNG/link/dependency, số liệu M0–M3, LaTeX compile và render trực quan 22 trang A4
 
 ## Quyết định đã chốt
 _(Ghi các lựa chọn kỹ thuật đã quyết — để agent phiên sau không hỏi lại hoặc tự đổi ý)_
@@ -27,16 +29,34 @@ _(Ghi các lựa chọn kỹ thuật đã quyết — để agent phiên sau kh�
 - Smoke test: `DecisionTreeClassifier(random_state=42)` trên output của `get_train_test()` cho test acc = 0.6689 — khớp khoảng kỳ vọng 0.65–0.72 ở `AGENT.md` §3, không có dấu hiệu rò rỉ dữ liệu.
 
 ## Việc tiếp theo
-- Copy nội dung `docs/report_draft_b_c.md` và `docs/report_draft_g_h.md` vào Google Doc chung của nhóm.
-- Trưởng nhóm điền mục a (tên nhóm/MSSV/GroupID) và đối chiếu bảng đóng góp — LƯU Ý: commit `0969118` gắn tag `[C]` trong git log thực chất là việc của E (cùng git author với commit `[E]` thật `04ee0bd`), đừng tính nhầm công cho C khi điền bảng đóng góp.
-- Đề xuất: sửa `README.md` + `docs/02-DATASET-VA-CONG-VIEC.md` — hiện đang ghi có `requirements-lock.txt` "đã commit" nhưng file này không tồn tại trong repo, và khối `requirements.txt` khuyến nghị trong `docs/02` (version ghim cứng) không khớp với `requirements.txt` thật (vẫn version mở). Đây là 2 file không thuộc quyền A nên chưa tự sửa, cần D xác nhận.
-- Toàn bộ nội dung kỹ thuật/report của role A đã xong. Việc còn lại chỉ là thao tác thủ công (copy vào Google Doc, commit/push) và theo dõi việc sửa tài liệu ở trên.
+- Người dùng review diff cuối (đặc biệt 2 file vừa resolve tay: `docs/02-DATASET-VA-CONG-VIEC.md`, `docs/report/report.pdf`), rồi `git add -A && git commit` để hoàn tất merge commit, sau đó `git push`.
+- Bắt đầu pha viết report trên khung LaTeX hiện có: B điền d/e, C điền f.1, D điền f.2, E điền f.3; xóa từng `\todo{}` sau khi nội dung đã được đối chiếu với artifact canonical.
+- Trưởng nhóm điền mục a (tên nhóm/MSSV/GroupID/course/instructor) và đối chiếu bảng đóng góp — LƯU Ý: commit `0969118` gắn tag `[C]` trong git log thực chất là việc của E (cùng git author với commit `[E]` thật `04ee0bd`), đừng tính nhầm công cho C khi điền bảng đóng góp.
+- Sau khi report hết TODO và compile sạch, mới dùng chính số liệu/hình canonical đó để làm slide và video.
+- Nền tảng code, dữ liệu, artifact, tài liệu kỹ thuật và khung report đã sẵn sàng. Nội dung của sáu section report có chủ sở hữu vẫn là pha tiếp theo theo đúng kế hoạch, không được hiểu nhầm là bản báo cáo cuối đã hoàn tất.
 
 ## Nhật ký phiên làm việc
 <!-- Mỗi phiên thêm 1 mục mới lên TRÊN CÙNG, không xóa mục cũ -->
 
+### 2026-08-30 (phiên 17) — resolve merge conflict giữa local (A) và origin/main (nhánh Role E)
+- Đã làm gì: Người dùng `git pull` sau khi commit 2 việc trước đó (fix bảng A6 lần 1, tạo Phancong.md) thì gặp `git pull` báo local changes ở `progress/A.md` sẽ bị ghi đè — hướng dẫn người dùng commit trước rồi pull lại. Sau khi pull, git tự merge sạch hầu hết file (kể cả `progress/A.md`, `c_dataset.tex`, `AGENT.md` — không conflict vì 2 bên sửa khác vùng/khác nội dung tương thích), chỉ còn đúng 2 file conflict thật: `docs/02-DATASET-VA-CONG-VIEC.md` và `docs/report/report.pdf` (binary).
+  - `docs/02`: phát hiện bên `origin/main` (nhánh Role E, có vẻ do 1 agent khác chạy audit "release-readiness" độc lập) đã **tự tìm ra và sửa đúng y hệt 2 giá trị sai** ở bảng A6 mà tôi đã sửa trước đó (0,791 và 0,910) — khớp 100%, cross-verify tốt. Khác nhau ở cách trình bày: tôi sắp lại thứ tự bảng giảm dần, họ giữ nguyên vị trí gốc chỉ sửa số. Vì 2 cách khác nhau, git để sót 1 dòng trùng lặp ("Nationality↔International") ngoài vùng conflict marker — không chỉ chọn 1 bên mà phải dựng lại tay: giữ cấu trúc gốc (theo họ, đơn giản hơn) + xoá dòng trùng + dùng ghi chú giải thích của họ (chính xác hơn, khớp đúng code M3 thật — không loại cột theo correlation).
+  - `report.pdf`: không merge tay file nhị phân, mà **compile lại từ đầu** từ `.tex` đã merge — cách chắc chắn đúng nhất.
+- Kết quả: Compile lại sạch hoàn toàn — 3 pass exit 0, 0 lỗi, 0 undefined ref/citation, **0 overfull hbox** (tốt hơn cả trước, nhờ merge mang theo `\emergencystretch` từ nhánh kia). `report.pdf` 22 trang. Đã xem lại trang bảng A6/Table 4 (mục c) — số liệu khớp nhau hoàn toàn giữa `docs/02` và `c_dataset.tex`.
+- Vướng gì / để lại cho phiên sau: Không có blocker kỹ thuật. Ghi chú: nhánh Role E (tag `[E]`, git author `Arthern-30062006ww`) tự sửa `AGENT.md`/`README.md`/`docs/03` — cùng kiểu tự cấp quyền như D từng làm trước đây; nội dung hợp lý (mở rộng đúng phạm vi file Role A để cover `requirements-lock.txt`, làm rõ 5 cấu hình model) nên không revert, chỉ ghi nhận lại đây để minh bạch.
+
+### 2026-08-30 — audit release-readiness cuối trước pha report/slide/video
+- Đã làm gì: Fetch lại remote và xác nhận `origin/main` vẫn ở `a29d356`; rà toàn bộ diff merge; chạy pipeline notebook 01→06 hai vòng trong môi trường lock; sửa portability, số liệu/tài liệu stale và nguồn nondeterminism của pandas Styler; kiểm tra JSON/UTF-8, link Markdown, dependency LaTeX, inventory CSV/TXT/PNG và số liệu model; compile/render report thật.
+- Kết quả: Cả hai full pipeline đều exit 0 và mọi artifact dữ liệu/output/hình giữ nguyên bit-for-bit; notebook 02/04 sau khi cố định Styler UUID tiếp tục có hash ổn định qua hai lượt riêng. Sáu notebook có execution count lần lượt 1→11, 1→13, 1→12, 1→13, 1→10, 1→5; không stored error/warning/timing metadata hay đường dẫn máy cá nhân. `pip check` và lock dry-run PASS. `results.csv` có đúng 5 model/16 cột với metric canonical. Có đúng 22 PNG hợp lệ. `report.pdf` là A4, 22 trang; log 0 error, 0 undefined citation/reference, 0 overfull box; toàn bộ trang đã render và kiểm tra trực quan, không còn trang references mồ côi.
+- Vướng gì / để lại cho phiên sau: Không còn blocker kỹ thuật. Merge vẫn ở trạng thái chưa commit vì `AGENT.md` cấm agent chạy `git add`/`git commit`/`git push`; người dùng phải thực hiện ba thao tác đó. Report hiện là khung kỹ thuật khỏe nhưng vẫn còn placeholder đỏ ở a/d/e/f1/f2/f3, đúng phạm vi của pha viết tiếp theo.
+
+### 2026-08-30 — tích hợp Role E với main và khóa môi trường canonical
+- Đã làm gì: Merge `origin/main` `a29d356` vào branch `role-e-final-thuy` ở chế độ chưa commit; resolve tài liệu chung; tạo `requirements-lock.txt`; đồng bộ manifest/lock trong `README.md`, `AGENT.md`, `docs/02` và `docs/03`; cập nhật provenance E sang handoff D `6d558b1`.
+- Kết quả: `pip check` PASS; Role E Run All hai lần bằng kernel `.venv` định danh cho kết quả bit-for-bit giống nhau; notebook execution 1→10, không stored error/timing metadata; 11 artifact D bất biến và các artifact report/A từ `main` không bị thay đổi bởi quá trình chạy E.
+- Vướng gì / để lại cho phiên sau: Không còn blocker kỹ thuật. Người dùng cần tự `git add`/`git commit`/`git push`; agent không được chạy ba lệnh này theo `AGENT.md`.
+
 ### 2026-08-30 (phiên 7) — tạo khung LaTeX cho report (docs/report/)
-- Đã làm gì: Theo yêu cầu người dùng, tạo `docs/report/` chứa `report.tex` (master file), `references.bib` (13 reference đã gộp từ tất cả bản nháp b/c, f1, f2, f3, g/h — không bịa thêm), `README.md` hướng dẫn compile + bản đồ sở hữu, và 10 file `sections/*.tex` khớp đúng cấu trúc a-i của đề gốc (3.4). Đã **điền đầy đủ tiếng Anh** 4 mục thuộc quyền A (b, c, g, h) — dịch từ bản Việt đã fact-check, giữ nguyên số liệu đã sửa lỗi. 5 mục còn lại (a, d, e, f1, f2, f3) để **khung + `\todo{}` placeholder** trỏ đúng file nguồn Việt đã audit cho từng role tự dịch, không tự điền thay.
+- Đã làm gì: Theo yêu cầu người dùng, tạo `docs/report/` chứa `report.tex` (master file), `references.bib` (13 reference đã gộp từ tất cả bản nháp b/c, f1, f2, f3, g/h — không bịa thêm), `README.md` hướng dẫn compile + bản đồ sở hữu, và 10 file `sections/*.tex` khớp đúng cấu trúc a-i của đề gốc (3.4). Đã **điền đầy đủ tiếng Anh** 4 mục thuộc quyền A (b, c, g, h) — dịch từ bản Việt đã fact-check, giữ nguyên số liệu đã sửa lỗi. 6 mục còn lại (a, d, e, f1, f2, f3) để **khung + `\todo{}` placeholder** trỏ đúng file nguồn Việt đã audit cho từng role tự dịch, không tự điền thay.
 - Kiểm tra kỹ thuật: không có LaTeX trên máy này nên **chưa compile thử được thật** — đã bù bằng cách tự kiểm tra thủ công: (1) không còn `_` chưa escape ngoài phần đối số lệnh (`\input`/`\includegraphics`), (2) sửa 5 URL trong `.bib` bị thiếu bọc `\url{}` (URL có `_` sẽ vỡ compile nếu không bọc), (3) đếm ngoặc `{}` cân bằng ở cả 11 file `.tex` + `references.bib`, (4) mọi `\ref{}` đều có `\label{}` khớp, (5) mọi `\cite{}` đều có entry trong `.bib`, (6) số cột bảng khớp header/data ở cả 3 bảng.
 - Vướng gì / để lại cho phiên sau: **Chưa compile thật lần nào** — việc đầu tiên khi có máy có LaTeX (hoặc Overleaf) là chạy thử ngay, vì kiểm tra tay không thay thế được compile thật 100%. Cũng lưu ý README đã note rõ rằng đây là quyết định thay thế kế hoạch "Google Doc chung" cũ trong `docs/02` Phần E1.
 

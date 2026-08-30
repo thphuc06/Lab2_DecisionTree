@@ -39,10 +39,10 @@ The \textbf{main strength} of a decision tree compared to ``black-box''
 models (neural networks, complex ensembles) is \textbf{interpretability}:
 every path from the root to a leaf can be read directly as an
 \texttt{IF (condition 1) AND (condition 2) ... THEN (label)} rule, with no
-separate explanation technique (SHAP, LIME) required. Trees also handle
-both numerical and categorical features natively and require no feature
-scaling -- both properties are exploited directly in Section~\ref{sec:c}
-below.
+separate explanation technique (SHAP, LIME) required. Once nominal
+categories have been encoded, trees handle the resulting numerical and
+indicator features without feature scaling -- both properties are
+exploited directly in Section~\ref{sec:c} below.
 
 The \textbf{main weakness} is a tendency to \textbf{overfit}: an
 unconstrained tree keeps splitting until almost every leaf is pure on the
@@ -83,7 +83,7 @@ university students in Portugal. Concretely, the group:
       not necessarily the model that is actually deployable for early
       intervention.
   \end{itemize}
-  \item Quantitatively compares all four models and draws conclusions
+  \item Quantitatively compares all five model configurations and draws conclusions
     not only about the numbers, but about \textbf{which model suits
     which application goal} -- in the spirit the assignment brief
     emphasizes: not just running a model, but explaining how the tree is
