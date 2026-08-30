@@ -1,78 +1,414 @@
-% Owner: Role D. NOT translated yet -- structural skeleton only.
+% Owner: Role D.
 %
-% Source material (Vietnamese, already fact-checked -- progress/A.md
-% 2026-08-30 audit found and fixed 2 small wording errors, since corrected
-% directly in docs/report_draft_f2_imbalance.md; everything else verified
-% clean): docs/report_draft_f2_imbalance.md.
+% Source material (fact-checked against notebooks/04_improve_imbalance.ipynb
+% cell outputs, outputs/results.csv, outputs/classification_report_M2a.txt,
+% outputs/classification_report_M2b.txt): docs/report_draft_f2_imbalance.md.
+% All figures below are already committed under figures/ (filenames unchanged).
 %
-% Brief requires, for EACH improvement method (Section 3.4.f):
-%   - Description of the method
-%   - Modified tree or model setting
-%   - Accuracy and error rate
-%   - Explanation of why the method improves (or does not improve) the result
-%
-% Figures already committed and ready to reference (do not rename):
-%   figures/D_cm_M2a.png       figures/D_cm_M2b.png
-%   figures/D_tree_M2a.png     figures/D_tree_M2a_full.png
-%   figures/D_tree_M2b.png     figures/D_tree_M2b_full.png
-%
-% Reminder: SMOTE must only ever be described as fit on the TRAIN split,
-% never before the split -- this is the single most severe possible bug
-% in this whole project (AGENT.md Section 2), so state clearly in prose
-% that this was verified (the source draft documents a SHA-256 hash check
-% proving X_test/y_test were untouched by fit_resample()).
+% Required bibliography keys used in this section (add to the shared .bib
+% file if not already present -- suggested entries at the end of this file
+% as a comment block for the integration owner):
+%   chawla2002smote, imblearn_smote_api, imblearn_over_sampling_guide,
+%   imblearn_arrays_transformer
 
 \subsection{Improvement Method 2: Class Imbalance}
 \label{sec:f2}
 
-\subsubsection{Method description}
+\subsubsection{Motivation}
+\label{sec:f2-motivation}
 
-\todo{Describe both configurations: M2a = \texttt{class\_weight='balanced'}; M2b = SMOTE \citep{chawla2002smote, imblearn_smote_api}, fit \emph{only} on the training split obtained from \texttt{src.data.get\_train\_test()}, never before the split.}
+The target variable of the dataset is unevenly distributed across the three outcome
+classes: \textit{Graduate} is the majority class, \textit{Dropout} is the second
+largest, and \textit{Enrolled} is a clear minority. On the shared held-out test set
+of 885 students, the baseline model M0 correctly classifies 338 of 442
+\textit{Graduate} students and 193 of 284 \textit{Dropout} students, but only 61 of
+159 \textit{Enrolled} students. Consequently, although M0 achieves an overall test
+accuracy of $0.668927$, its recall on the \textit{Enrolled} class is only
+$0.383648$. This is a material limitation whenever the intended application requires
+identifying students who are not on track to graduate on time, rather than merely
+maximising the number of correct predictions on the majority class.
+
+Improvement Method 2 (M2) evaluates two complementary ways of increasing a decision
+tree's sensitivity to minority classes: reweighting the training objective
+(\textbf{M2a}) and synthetically rebalancing the training distribution
+(\textbf{M2b}). Both configurations reuse the single shared
+train/test split produced by \texttt{src.data.get\_train\_test()}
+(3{,}539 training rows and 885 held-out test rows, 90 features after one-hot
+encoding, \texttt{random\_state=42}); no feature scaling and no independent
+re-splitting are performed in the notebook, consistent with the project-wide data
+contract.
+
+\subsubsection{Method description}
+\label{sec:f2-method}
+
+\textbf{M2a -- class weighting.} M2a trains a single
+\texttt{DecisionTreeClassifier} with \texttt{class\_weight=`balanced'} and
+\texttt{random\_state=42}, fit directly on the original (non-resampled) training
+data:
+\begin{quote}
+\texttt{DecisionTreeClassifier(class\_weight='balanced', random\_state=42)}
+\end{quote}
+Under this setting, scikit-learn scales each class's contribution to the impurity
+criterion inversely to its frequency in the training data. No synthetic samples are
+created; the sample size and the feature space are identical to those used by M0.
+
+\textbf{M2b -- Synthetic Minority Over-sampling Technique (SMOTE).} M2b applies
+SMOTE \citep{chawla2002smote,imblearn_smote_api} to the training split only, after
+the shared split has already been produced, and fits an otherwise unmodified
+decision tree on the resampled data:
+\begin{quote}
+\texttt{X\_train\_smote, y\_train\_smote = SMOTE(sampling\_strategy="auto",
+random\_state=42, k\_neighbors=5).fit\_resample(X\_train, y\_train)} \\
+\texttt{DecisionTreeClassifier(random\_state=42).fit(X\_train\_smote, y\_train\_smote)}
+\end{quote}
+All three SMOTE hyperparameters are declared explicitly rather than left to their
+library defaults, so that the resulting artefact does not silently change if a
+future \texttt{imbalanced-learn} release alters its default behaviour
+\citep{imblearn_oversampling_guide}. Before resampling, the training split contains
+1{,}137 \textit{Dropout}, 635 \textit{Enrolled}, and 1{,}767 \textit{Graduate}
+samples. After resampling, every class contains exactly 1{,}767 samples, for a total
+of 5{,}301 training rows (1{,}762 synthetic rows).
+
+\textbf{Leakage safeguard.} SMOTE is applied strictly \emph{after} the train/test
+split and is fit exclusively on \texttt{X\_train}/\texttt{y\_train}. Because
+inadvertently exposing the test set to a resampling procedure would constitute the
+single most severe methodological error a model-improvement experiment of this kind
+can make, the notebook does not rely on this claim alone: it computes a
+value-, index-, shape-, column-order-, and dtype-aware fingerprint of
+\texttt{X\_train}, \texttt{X\_test}, \texttt{y\_train}, and \texttt{y\_test}
+immediately before calling \texttt{SMOTE.fit\_resample()}, and asserts that all four
+fingerprints are bit-for-bit unchanged immediately afterwards. The evaluation
+itself is likewise performed only on the original, untouched \texttt{X\_test}/
+\texttt{y\_test}; the resampled training data is used exclusively to fit the model,
+never to compute any reported metric.
 
 \subsubsection{Modified tree / model setting}
+\label{sec:f2-figures}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.6\textwidth]{D_cm_M2a.png}
-  \caption{\todo{Caption: M2a confusion matrix.}}
+  \includegraphics[width=0.85\textwidth]{D_cm_M2a.png}
+  \caption{Confusion matrix of M2a (balanced class weights) on the 885-sample
+  held-out test set.}
+  \label{fig:cm-m2a}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.6\textwidth]{D_cm_M2b.png}
-  \caption{\todo{Caption: M2b confusion matrix.}}
+  \includegraphics[width=0.85\textwidth]{D_cm_M2b.png}
+  \caption{Confusion matrix of M2b (SMOTE on the training set only) on the same
+  885-sample held-out test set. The model correctly classifies 201/284
+  \textit{Dropout}, 74/159 \textit{Enrolled}, and 334/442 \textit{Graduate}
+  students -- an improvement over both M0 and M2a on every class except a
+  marginal reduction on \textit{Graduate}.}
+  \label{fig:cm-m2b}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.75\textwidth]{D_tree_M2a.png}
-  \caption{\todo{Caption: M2a tree, truncated view (state real depth/leaves and note this view's depth limit).}}
+  \includegraphics[width=1\textwidth]{D_tree_M2a.png}
+  \caption{M2a decision tree, truncated to the first four levels for
+  legibility. The fitted tree has a true depth of 28 and 696 leaves.}
+  \label{fig:tree-m2a}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{D_tree_M2a_full.png}
-  \caption{\todo{Caption: full M2a tree -- state it is roughly as complex as M0, since class\_weight changes split priorities, not tree size.}}
+  \includegraphics[width=1\textwidth]{D_tree_M2a_full.png}
+  \caption{Full M2a decision tree (depth 28, 696 leaves). This view is not
+  intended to be read node-by-node; it illustrates that reweighting classes via
+  \texttt{class\_weight='balanced'} changes which splits the tree prioritises
+  but does not meaningfully change the size of the tree, which remains close in
+  complexity to M0 (depth 27, 634 leaves).}
+  \label{fig:tree-m2a-full}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.75\textwidth]{D_tree_M2b.png}
-  \caption{\todo{Caption: M2b tree, truncated view -- note it was trained on the SMOTE-resampled train set but evaluated on the original test set.}}
+  \includegraphics[width=1\textwidth]{D_tree_M2b.png}
+  \caption{M2b decision tree, truncated to the first four levels. The model
+  was trained on the SMOTE-resampled training set (5{,}301 rows) but is
+  evaluated exclusively on the original, untouched test set. The true depth of
+  the fitted tree is 39, with 847 leaves.}
+  \label{fig:tree-m2b}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{D_tree_M2b_full.png}
-  \caption{\todo{Caption: full M2b tree -- larger than M0/M2a because SMOTE grows the training set (3,539 $\to$ 5,301 rows), giving the tree more rows to split on.}}
+  \includegraphics[width=1\textwidth]{D_tree_M2b_full.png}
+  \caption{Full M2b decision tree (depth 39, 847 leaves) -- substantially
+  larger than both M0 and M2a, because SMOTE increases the number of training
+  rows available to split on (3{,}539 $\rightarrow$ 5{,}301), giving the tree
+  more opportunities to fragment the feature space.}
+  \label{fig:tree-m2b-full}
 \end{figure}
 
 \subsubsection{Accuracy and error rate}
+\label{sec:f2-results}
 
-\todo{Report M2a and M2b test accuracy and error rate against M0. Add the per-class recall table for Dropout, Enrolled, and Graduate across M0/M2a/M2b; that table is the point of this experiment, not overall accuracy alone.}
+Table~\ref{tab:f2-main-metrics} reports the full set of held-out test metrics for
+M0, M2a, and M2b, together with the change relative to the baseline. Table~
+\ref{tab:f2-per-class} reports per-class precision and F1-score, which are not part
+of the shared \texttt{results.csv} schema but are read directly from the two
+classification reports.
+
+\begin{table}[H]
+\centering
+\caption{Held-out test performance: M0 baseline versus M2a and M2b.}
+\label{tab:f2-main-metrics}
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{Metric} & \textbf{M0} & \textbf{M2a} & \textbf{M2b} & \textbf{M2a $-$ M0} & \textbf{M2b $-$ M0} \\
+\midrule
+Test accuracy        & 0.668927 & 0.650847 & \textbf{0.688136} & $-0.018079$ & \textbf{$+0.019209$} \\
+Error rate            & 0.331073 & 0.349153 & \textbf{0.311864} & $+0.018079$ & \textbf{$-0.019209$} \\
+Recall (Dropout)      & 0.679577 & 0.679577 & \textbf{0.707746} & $+0.000000$ & \textbf{$+0.028169$} \\
+Recall (Enrolled)     & 0.383648 & 0.339623 & \textbf{0.465409} & $-0.044025$ & \textbf{$+0.081761$} \\
+Recall (Graduate)     & \textbf{0.764706} & 0.744344 & 0.755656 & $-0.020362$ & $-0.009050$ \\
+Precision (macro)     & 0.607642 & 0.584250 & \textbf{0.636513} & $-0.023392$ & \textbf{$+0.028871$} \\
+Recall (macro)         & 0.609310 & 0.587848 & \textbf{0.642937} & $-0.021462$ & \textbf{$+0.033627$} \\
+F1-score (macro)       & 0.608271 & 0.585409 & \textbf{0.638747} & $-0.022862$ & \textbf{$+0.030475$} \\
+Tree depth / leaves   & 27 / 634 & 28 / 696 & \textbf{39 / 847} & -- & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.3cm}
+
+\begin{table}[H]
+\centering
+\caption{Per-class precision and F1-score for M2a and M2b.}
+\label{tab:f2-per-class}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Class} & \textbf{M2a Precision} & \textbf{M2b Precision} & \textbf{M2a F1} & \textbf{M2b F1} \\
+\midrule
+Dropout   & 0.6328 & \textbf{0.7003} & 0.6553 & \textbf{0.7040} \\
+Enrolled  & 0.3234 & \textbf{0.4044} & 0.3313 & \textbf{0.4327} \\
+Graduate  & 0.7966 & 0.8048 & 0.7696 & 0.7795 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Notably, M2b does not merely predict \textit{Enrolled} more often at the expense of
+precision: its \textit{Enrolled} precision \emph{also} increases relative to M2a
+(from $0.3234$ to $0.4044$), so that when M2b predicts a student as
+\textit{Enrolled} it is more likely to be correct, not merely more willing to
+guess that label. This is the reason the \textit{Enrolled} F1-score of M2b
+($0.4327$) is substantially higher than that of M2a ($0.3313$).
 
 \subsubsection{Why this does (or does not) improve the result}
+\label{sec:f2-discussion}
 
-\todo{State plainly that M2a does \emph{not} help on this split (both accuracy and Enrolled recall drop) -- do not hide this. Explain M2b's improvement mechanism (synthetic minority-class samples give the tree more opportunities to find a separating split), and be explicit that recall Enrolled/Dropout going up while overall accuracy is a secondary concern is the correct way to judge success here, per AGENT.md's own guidance that overall accuracy is not the target metric for this improvement.}
+\textbf{M2a does not achieve the goal of this experiment on this split.} Test
+accuracy falls by $1.81$ percentage points relative to M0; recall on
+\textit{Dropout} is unchanged, recall on \textit{Enrolled} falls by $4.40$
+percentage points, and recall on \textit{Graduate} falls by $2.04$ percentage
+points. Because both overall accuracy and the recall of the classes this
+improvement is meant to prioritise either fall or stay flat, there is no evidence
+from the held-out test set that \texttt{class\_weight='balanced'} alone improves
+M0 in this configuration. This negative result is reported in full rather than
+omitted, since selectively reporting only favourable configurations would
+misrepresent the effectiveness of class weighting for this dataset.
 
-\todo{Optional verified limitation: vanilla SMOTE interpolates one-hot dummy vectors. Integer restoration truncates fractional values and can create invalid all-zero groups; Course was worst at 83.0\%. Explain that this limitation does not invalidate metrics measured on the real held-out test set.}
+\textbf{M2b is clearly effective.} Recall on \textit{Enrolled} rises from
+$0.383648$ to $0.465409$ (61/159 $\rightarrow$ 74/159 students correctly
+identified), and recall on \textit{Dropout} rises from $0.679577$ to $0.707746$
+(193/284 $\rightarrow$ 201/284). \textit{Graduate} recall falls only marginally,
+from $0.764706$ to $0.755656$. All macro-averaged metrics improve simultaneously
+(macro F1: $0.608271 \rightarrow 0.638747$; macro recall:
+$0.609310 \rightarrow 0.642937$). This is consistent with the intended mechanism
+of SMOTE: \textit{Enrolled} has the fewest original observations in the training
+data, so synthetic interpolation in its feature-space neighbourhood gives the tree
+more candidate split points with which to separate \textit{Enrolled} from the
+other two classes. This is a mechanistic explanation specific to this experiment,
+not a causal claim that every dataset or split would show an identical gain. It is
+also worth noting explicitly that M2b's tree is substantially larger than M0's
+(depth 39 versus 27, 847 versus 634 leaves): the recall improvement is not the
+result of a simpler, more interpretable tree, since simplification is not the
+objective of this improvement method (that objective is addressed separately by
+Improvement Method 1, cost-complexity pruning).
+
+Crucially, an overall test-accuracy \emph{increase} for M2b is a welcome but
+secondary finding here; per the assignment's own guidance that overall accuracy
+alone is not a sufficient success criterion for a class-imbalance intervention,
+the correct basis for judging success is the per-class recall table above, on
+which M2b unambiguously outperforms both M0 and M2a for the two classes this
+improvement targets.
+
+\subsubsection{Limitation: Vanilla SMOTE on Encoded Categorical Features}
+\label{sec:f2-limitation}
+
+The shared preprocessing pipeline one-hot encodes only four
+categorical groups (\textit{Marital Status}, \textit{Application mode},
+\textit{Course}, \textit{Previous qualification}); the remaining high-cardinality
+categorical variables -- \textit{Mother's/Father's qualification},
+\textit{Mother's/Father's occupation}, \textit{Nacionality} (nominal), and
+\textit{Application order} (ordinal) - are retained as integer codes. Vanilla
+SMOTE treats every input feature as continuous and linearly interpolates between a
+sample and its nearest neighbours, which can in principle generate values that do
+not correspond to any real category.
+
+This effect was measured directly on the 1{,}762 synthetic rows that M2b actually
+uses for training, rather than assumed.
+
+\begin{table}[H]
+\centering
+\caption{Out-of-vocabulary category codes among the 1{,}762 synthetic rows, for
+the six integer-coded categorical columns.}
+\label{tab:f2-code-audit}
+\begin{tabular}{llrr}
+\toprule
+\textbf{Column} & \textbf{Type} & \textbf{Non-integer rate} & \textbf{Out-of-vocabulary rate} \\
+\midrule
+Mother's qualification & nominal & 0.00\% & 3.01\% \\
+Father's qualification & nominal & 0.00\% & 2.89\% \\
+Mother's occupation     & nominal & 0.00\% & 1.19\% \\
+Father's occupation     & nominal & 0.00\% & 2.04\% \\
+Nacionality              & nominal & 0.00\% & 2.38\% \\
+Application order        & ordinal & 0.00\% & 0.00\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.3cm}
+
+\begin{table}[H]
+\centering
+\caption{Interpolation outcome for the four one-hot-encoded groups, measured on
+the 1{,}762 synthetic rows. Percentages are row-wise: every synthetic row falls
+into exactly one of the first three columns.}
+\label{tab:f2-onehot-audit}
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{One-hot group} & \textbf{All-zero} & \textbf{Multi-hot} & \textbf{Fractional} & \textbf{Any violation} & \textbf{Valid one-hot} \\
+\midrule
+Marital Status          & 14.7\% & 0.0\% & 0.0\% & 14.7\% & 85.3\% \\
+Application mode        & 65.4\% & 0.0\% & 0.0\% & 65.4\% & 34.6\% \\
+\textbf{Course}          & \textbf{83.0\%} & 0.0\% & 0.0\% & \textbf{83.0\%} & 17.0\% \\
+Previous qualification  & 24.8\% & 0.0\% & 0.0\% & 24.8\% & 75.2\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The two measurements must be read differently.
+
+For the \textbf{six integer-coded columns}, the audit detects no non-integer
+values whatsoever in the synthetic data. This result must \emph{not} be
+interpreted as "SMOTE does not affect these columns": it is very plausible that
+interpolated fractional values were truncated to integers during
+\texttt{fit\_resample()}'s dtype-restoration step, which would make this
+measurement, at the level of raw values, unable to detect the interpolation that
+still occurred. Even where a value is an integer, it can still fail to correspond
+to any real category - and the out-of-vocabulary-rate column above shows exactly
+this: up to $3.01\%$ of synthetic values for \textit{Mother's qualification} are
+integer codes that never appear anywhere in the real training data.
+
+For the \textbf{four one-hot groups}, the measurement is unambiguous and fully
+quantitative. \texttt{imbalanced-learn} 0.14.2's internal \texttt{ArraysTransformer}
+restores the output DataFrame to the exact dtype of its input columns via
+\texttt{astype()} \citep{imblearn_arrays_transformer}. Because the dummy columns
+produced have integer dtype, any fractional value produced
+by SMOTE's linear interpolation between two different one-hot vectors is truncated
+toward zero rather than rounded. Given that a convex combination of two valid
+one-hot vectors can never itself exceed 1 in any single component, this truncation
+can only push a component down to $0$, never up past $1$: the audit accordingly
+finds a fractional-component rate of $0.0\%$ and a multi-hot rate of $0.0\%$ in
+every group, and \emph{100\% of the observed violations are all-zero vectors}
+(no category active) rather than any mixture of multiple categories. This fully
+explains why \textit{Course}, with the largest number of possible categories,
+shows the worst violation rate at $83.0\%$: more categories means a randomly
+chosen neighbour is more likely to belong to a different category, which is
+precisely the condition that produces a violating (all-zero) synthetic vector
+under this truncation mechanism.
+
+This is a documented limitation of vanilla SMOTE when applied to mixed
+continuous/categorical representations; the official \texttt{imbalanced-learn}
+documentation recommends \texttt{SMOTENC} for exactly this situation
+\citep{imblearn_oversampling_guide}. The group retains vanilla SMOTE for M2b
+because it is the technique explicitly required by the assignment brief. The M2b results reported above should
+therefore be read together with this limitation: the recall and precision
+improvements are genuinely measured on the real, untouched held-out test set, but
+part of the synthetic training data the tree learns from does not represent a
+"valid" student under the true meaning of the affected categorical columns.
+
+\subsubsection{Accuracy-recall trade-off}
+\label{sec:f2-tradeoff}
+
+In a class-imbalanced classification problem, overall accuracy alone cannot be the
+sole acceptance criterion. A model may legitimately trade a reduction in overall
+accuracy for a reduction in bias toward the majority class; when this happens,
+per-class recall - not a return to M0's accuracy figure - is the correct measure
+of success.
+
+M2a illustrates that this trade-off is not automatic: its accuracy falls
+\emph{and} its \textit{Enrolled} recall falls, so the result is reported plainly
+rather than selectively. M2b, by contrast, is not a trade-off at all on this
+held-out split: it simultaneously increases test accuracy, \textit{Dropout}
+recall, and \textit{Enrolled} recall, at the cost of a $0.90$ percentage-point
+reduction in \textit{Graduate} recall. If the deployment priority is detecting
+students who are at risk of dropping out or remaining indefinitely enrolled, M2b
+is therefore the preferable configuration among M0, M2a, and M2b on this held-out
+split.
+
+These findings are drawn from a single fixed held-out split, and the synthetic
+portion of M2b's training data carries the categorical-representation limitation
+discussed above. Before any real-world deployment, results should be validated
+across multiple splits or cohorts, \texttt{SMOTENC} should be considered as an
+additional experiment, and fairness across the dataset's sensitive attributes
+should be examined. Within the scope of this experiment and the project's shared
+data split, however, M2b answers the improvement question affirmatively: the
+minority \textit{Enrolled} class and the \textit{Dropout} class are both
+recognised more reliably when SMOTE is applied strictly to the training split.
+
+\subsubsection{Conclusion}
+\label{sec:f2-conclusion}
+
+Balanced class weighting (M2a) does not improve upon the M0 baseline on this
+held-out test set: overall accuracy, \textit{Enrolled} recall, and
+\textit{Graduate} recall all fall, while \textit{Dropout} recall is unchanged.
+Applying SMOTE to the training split only (M2b) increases \textit{Enrolled}
+recall by $8.18$ percentage points and \textit{Dropout} recall by $2.82$
+percentage points relative to M0, while simultaneously raising \textit{Enrolled}
+precision from $0.3234$ to $0.4044$ and lowering the overall error rate from
+$0.331073$ to $0.311864$. M2b is therefore adopted as the more successful
+class-imbalance configuration within the scope of this experiment. M2a is
+retained in this report rather than discarded, both for transparency - not every
+class-balancing technique improves a given model on a given dataset - and to
+document, alongside M2b, the quantitative categorical-representation limitation
+of vanilla SMOTE rather than presenting only favourable figures.
+
+% -----------------------------------------------------------------------
+% Suggested BibTeX entries for the shared bibliography file, if any of the
+% following keys are not already defined elsewhere in the project:
+%
+% @article{chawla2002smote,
+%   author  = {Chawla, Nitesh V. and Bowyer, Kevin W. and Hall, Lawrence O. and Kegelmeyer, W. Philip},
+%   title   = {{SMOTE}: Synthetic Minority Over-sampling Technique},
+%   journal = {Journal of Artificial Intelligence Research},
+%   volume  = {16},
+%   pages   = {321--357},
+%   year    = {2002}
+% }
+%
+% @misc{imblearn_smote_api,
+%   author = {{imbalanced-learn developers}},
+%   title  = {{SMOTE} -- {API} Reference, imbalanced-learn 0.14.2},
+%   year   = {2024},
+%   howpublished = {\url{https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.SMOTE.html}}
+% }
+%
+% @misc{imblearn_over_sampling_guide,
+%   author = {{imbalanced-learn developers}},
+%   title  = {Over-sampling -- User Guide, imbalanced-learn 0.14.2},
+%   year   = {2024},
+%   howpublished = {\url{https://imbalanced-learn.org/stable/over_sampling.html}}
+% }
+%
+% @misc{imblearn_arrays_transformer,
+%   author = {{imbalanced-learn developers}},
+%   title  = {{ArraysTransformer} source, imbalanced-learn 0.14.2},
+%   year   = {2024},
+%   howpublished = {\url{https://github.com/scikit-learn-contrib/imbalanced-learn/blob/0.14.2/imblearn/utils/_validation.py}}
+% }
+% -----------------------------------------------------------------------
