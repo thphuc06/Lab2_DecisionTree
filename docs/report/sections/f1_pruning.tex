@@ -1,57 +1,250 @@
-% Owner: Role C. NOT translated yet -- structural skeleton only.
-%
-% Source material (Vietnamese, already fact-checked -- progress/A.md
-% 2026-08-30 audit: 0 errors out of ~40 checked, including the full 16-cell
-% grid search table and independent re-run of cost_complexity_pruning_path):
-% docs/report_draft_f1_pruning.md.
-%
-% Brief requires, for EACH improvement method (Section 3.4.f):
-%   - Description of the method
-%   - Modified tree or model setting
-%   - Accuracy and error rate
-%   - Explanation of why the method improves (or does not improve) the result
-%
-% Figures already committed and ready to reference (do not rename):
-%   figures/C_ccp_alpha_curve.png  -- pruning path + CV-accuracy-vs-alpha
-%   figures/C_tree_M1.png          -- pruned tree (depth 5, 17 leaves)
-%   figures/C_cm_M1.png            -- confusion matrix
+% Owner: Role C. Translated and adapted from the independently verified
+% Vietnamese source draft docs/report_draft_f1_pruning.md. Every reported
+% value below traces to the canonical M0/M1 artifacts or the stored
+% cross-validation output in notebooks/03_improve_pruning.ipynb.
 
-\subsection{f.1 Improvement Method 1: Cost-Complexity Pruning}
+\subsection{Improvement Method 1: Cost-Complexity Pruning}
 \label{sec:f1}
 
 \subsubsection{Method description}
 
-\todo{Describe cost-complexity pruning, candidate alpha generation, and alpha selection by cross-validation on training data only. Include the required depth grid $\{5,8,10,15\}$ and minimum-leaf-size grid $\{1,5,10,20\}$. State explicitly that test accuracy never selected hyperparameters.}
+The unconstrained baseline tree exhibits the characteristic pattern of
+overfitting: it fits the training data perfectly, but its accuracy drops
+substantially on the held-out partition and its large structure is difficult
+to interpret. The first improvement therefore asks whether most of that
+structure can be removed without sacrificing predictive performance. M1
+combines two complementary forms of regularization:
+
+\begin{enumerate}
+  \item \textbf{Cost-complexity post-pruning} removes branches whose reduction
+    in impurity is too small to justify their additional leaves. For a subtree
+    $T$, the regularized objective is
+    \begin{equation}
+      R_{\alpha}(T) = R(T) + \alpha\lvert\widetilde{T}\rvert,
+      \label{eq:f1-cost-complexity}
+    \end{equation}
+    where $R(T)$ is the total leaf impurity and
+    $\lvert\widetilde{T}\rvert$ is the number of terminal nodes. Increasing
+    $\alpha$ places a larger penalty on complex trees and therefore prunes
+    more of the weakest branches
+    \citep{breiman1984classification,sklearn_pruning_example}.
+  \item \textbf{Pre-pruning constraints} limit tree depth and require each
+    leaf to contain a minimum number of training samples. These constraints
+    prevent deep branches from forming around very small, potentially
+    high-variance subsets of the training data.
+\end{enumerate}
+
+All hyperparameter selection was performed only on the training partition.
+The held-out test partition was not consulted while generating the pruning
+path, selecting $\alpha$, or searching the structural grid; it was used only
+after the complete M1 configuration had been finalized. Both exhaustive
+searches used \texttt{GridSearchCV}, and class proportions were preserved
+across folds with \texttt{StratifiedKFold}
+\citep{sklearn_gridsearchcv,sklearn_stratifiedkfold}. The complete protocol is
+summarized in Table~\ref{tab:f1-protocol}.
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Training-only model-selection protocol for M1}
+  \label{tab:f1-protocol}
+  \begin{tabular}{@{}p{3.7cm}p{10.1cm}@{}}
+    \toprule
+    Stage & Procedure and outcome \\
+    \midrule
+    Candidate generation & The cost-complexity path contained 334 points.
+      Removing the final one-node-tree endpoint and duplicate values left 236
+      unique candidate values of \texttt{ccp\_alpha}. \\
+    Alpha selection & Five-fold stratified cross-validation with shuffling
+      and random seed 42; mean validation accuracy was the prespecified
+      selection metric and macro-F1 was retained as a diagnostic metric. \\
+    Alpha tie-break & Two candidates tied on mean validation accuracy within
+      a tolerance of $10^{-12}$. The larger value was selected to prefer the
+      simpler tree: $\alpha=0.00148746$, with mean CV accuracy 0.747669 and mean
+      CV macro-F1 0.672329. \\
+    Structural search & With $\alpha$ fixed, all 16 pairs formed by depth
+      limits 5, 8, 10, and 15 and minimum leaf sizes 1, 5, 10, and 20 were
+      evaluated by the same five-fold protocol. \\
+    Held-out evaluation & The selected model was refitted on the complete
+      training partition, then evaluated on the untouched test partition. No
+      test-set metric was used to select a hyperparameter. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \subsubsection{Modified tree / model setting}
 
-\todo{Report the selected alpha, depth cap, minimum leaf size, random seed, and the cross-validation accuracy that selected the configuration.}
+Table~\ref{tab:f1-grid} reports mean validation accuracy for every structural
+configuration. The values are cross-validation scores computed from training
+folds, not held-out test scores. Several configurations perform similarly;
+the selected configuration should therefore be interpreted as the
+best-performing candidate in this prespecified grid, not as a universally
+optimal setting.
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Mean cross-validation accuracy for the structural grid}
+  \label{tab:f1-grid}
+  \begin{tabular}{@{}rcccc@{}}
+    \toprule
+    & \multicolumn{4}{c}{\texttt{min\_samples\_leaf}} \\
+    \cmidrule(l){2-5}
+    \texttt{max\_depth} & 1 & 5 & 10 & 20 \\
+    \midrule
+     5 & 0.741167 & 0.740885 & 0.740603 & \textbf{0.748235} \\
+     8 & 0.747103 & 0.747386 & 0.747104 & 0.745689 \\
+    10 & 0.747951 & 0.747669 & 0.747387 & 0.746536 \\
+    15 & 0.747669 & 0.747669 & 0.747387 & 0.746536 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The structural grid increases mean CV accuracy from 0.747669 for the
+alpha-only model to 0.748235, but mean CV macro-F1 decreases from 0.672329 to
+0.654465. This divergence follows directly from optimizing overall accuracy
+rather than a class-balanced metric and foreshadows the Enrolled-recall
+trade-off observed on the held-out partition. The resulting M1 setting and
+its cross-validation scores are collected in Table~\ref{tab:f1-setting}.
+The fold-to-fold standard deviations caution against treating the small score
+differences in Table~\ref{tab:f1-grid} as evidence that nearby configurations
+are meaningfully inferior.
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Selected hyperparameters and fitted complexity of M1}
+  \label{tab:f1-setting}
+  \begin{tabular}{@{}lr@{}}
+    \toprule
+    Quantity & Selected or observed value \\
+    \midrule
+    \texttt{ccp\_alpha} & 0.00148746 \\
+    \texttt{max\_depth} & 5 \\
+    \texttt{min\_samples\_leaf} & 20 \\
+    Random seed & 42 \\
+    Mean CV accuracy & $0.748235 \pm 0.015124$ \\
+    Mean CV macro-F1 & $0.654465 \pm 0.031242$ \\
+    Fitted tree depth & 5 \\
+    Fitted number of leaves & 17 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{C_ccp_alpha_curve.png}
-  \caption{\todo{Caption: left panel = leaf impurity vs.\ alpha; right panel = train/CV accuracy with the selected alpha marked. No test curve, by design.}}
+  \includegraphics[width=0.95\textwidth]{C_ccp_alpha_curve.png}
+  \caption{Cost-complexity path and cross-validation accuracy computed on the
+    training partition.}
   \label{fig:f1a}
 \end{figure}
 
+In Figure~\ref{fig:f1a}, the left panel shows that total leaf impurity rises as
+the effective $\alpha$ removes progressively more structure. The right panel
+shows the corresponding fall in training accuracy and the validation-accuracy
+peak used to select $\alpha$. The shaded bands show the mean score plus or
+minus one standard deviation across folds. No test curve is shown because the
+test partition was deliberately excluded from model selection.
+
+\clearpage
+\begin{landscape}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.75\textwidth]{C_tree_M1.png}
-  \caption{\todo{Caption: the pruned M1 tree (depth 5, 17 leaves) -- small enough to read and use for rule extraction, unlike M0.}}
+  \includegraphics[width=\linewidth]{C_tree_M1.png}
+  \caption{Complete pruned M1 tree with shortened semester-feature labels for
+    legibility.}
   \label{fig:f1b}
 \end{figure}
+\end{landscape}
+\clearpage
+
+Unlike the unconstrained baseline, Figure~\ref{fig:f1b} presents the complete
+M1 tree at a scale that permits direct examination of its nodes and branches.
+Its fitted depth and leaf count are reported in Table~\ref{tab:f1-setting}.
 
 \subsubsection{Accuracy and error rate}
 
-\todo{Report M1's test\_acc / error\_rate from \texttt{outputs/results.csv} and compare against M0 (test\_acc 0.6689, error\_rate 0.3311). Include the confusion matrix.}
+Table~\ref{tab:f1-results} compares M1 with the baseline on the same held-out
+partition. Because error rate is defined as one minus accuracy, the
+8.70-percentage-point increase in test accuracy produces an equal decrease in
+error rate, from 0.331073 to 0.244068. M1 also improves every aggregate metric
+reported here, including macro precision, macro recall, macro-F1, and macro
+ROC-AUC.
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Baseline and pruned-model results on the shared held-out partition}
+  \label{tab:f1-results}
+  \begin{tabular}{@{}lrrr@{}}
+    \toprule
+    Metric & M0 baseline & M1 pruning & M1 $-$ M0 \\
+    \midrule
+    Train accuracy & 1.000000 & 0.768014 & $-0.231986$ \\
+    Test accuracy & 0.668927 & \textbf{0.755932} &
+      $+0.087006$ ($+8.70$ pp) \\
+    Error rate & 0.331073 & \textbf{0.244068} &
+      $-0.087006$ ($-8.70$ pp) \\
+    Generalization gap (train $-$ test) & 0.331073 & \textbf{0.012081} &
+      $-0.318992$ \\
+    Macro precision & 0.607642 & \textbf{0.710494} & $+0.102852$ \\
+    Macro recall & 0.609310 & \textbf{0.660165} & $+0.050855$ \\
+    Macro-F1 & 0.608271 & \textbf{0.672925} & $+0.064654$ \\
+    Macro ROC-AUC (OvR) & 0.719456 & \textbf{0.847692} & $+0.128237$ \\
+    Recall: Dropout & 0.679577 & \textbf{0.686620} & $+0.007042$ \\
+    Recall: Enrolled & \textbf{0.383648} & 0.345912 & $-0.037736$ \\
+    Recall: Graduate & 0.764706 & \textbf{0.947964} & $+0.183258$ \\
+    Tree depth & 27 & \textbf{5} & $-22$ ($-81.48\%$) \\
+    Number of leaves & 634 & \textbf{17} & $-617$ ($-97.32\%$) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.6\textwidth]{C_cm_M1.png}
-  \caption{\todo{Caption: confusion matrix on the same 885-sample held-out test set as M0.}}
+  \includegraphics[width=0.62\textwidth]{C_cm_M1.png}
+  \caption{Confusion matrix of M1 on the held-out test partition.}
   \label{fig:f1c}
 \end{figure}
 
+Figure~\ref{fig:f1c} provides the class-level counts behind the aggregate
+scores. M1 correctly classifies 195 of 284 Dropout students, 55 of 159
+Enrolled students, and 419 of 442 Graduate students. For the Enrolled class,
+29 cases are predicted as Dropout and 75 as Graduate. These counts agree with
+the class recalls reported in Table~\ref{tab:f1-results}.
+
 \subsubsection{Why this improves the result}
 
-\todo{Explain why accuracy went up while the tree got dramatically smaller (fewer leaves = less noise memorized, not less signal). Also discuss the one trade-off: which per-class recall got worse, and why (accuracy was the pre-declared CV selection criterion, so the config was free to favor the majority class if that raised the total correct count).}
+The observed pattern is consistent with the bias-variance effect expected
+from pruning. M0 attains perfect training accuracy by continuing to partition
+increasingly specific subsets of the training data. In contrast, M1 accepts
+higher training error in exchange for stronger regularization and a much
+smaller tree, which is expected to reduce variance. On the held-out split,
+test accuracy increases while the train--test accuracy gap decreases from
+0.331073 to 0.012081; depth and leaf count also fall by 81.48\% and 97.32\%,
+respectively. Taken together, these results suggest that much of the removed
+structure captured sample-specific variation rather than stable predictive
+signal. This interpretation is supported by the current experiment but
+should not be generalized to every future sample without repeated evaluation.
+
+Performance gains are not uniform across classes. Graduate recall increases
+from 0.764706 to 0.947964, and Dropout recall increases slightly from 0.679577
+to 0.686620, whereas Enrolled recall decreases from 0.383648 to 0.345912.
+Because hyperparameter selection optimized overall accuracy rather than a
+class-balanced metric, the procedure did not explicitly protect Enrolled
+recall and could therefore favor the majority Graduate class. The confusion
+matrix supports this interpretation: 75 of the 104 misclassified Enrolled
+cases are assigned to Graduate. This class-specific degradation is an
+important trade-off and motivates the class-imbalance experiments in the next
+improvement method.
+
+Finally, the observed improvement is based on one fixed held-out split and
+does not imply that M1 will gain exactly 8.70 percentage points on every future
+sample. The fold-to-fold variation in Table~\ref{tab:f1-setting} and the close
+scores in Table~\ref{tab:f1-grid} further caution against overinterpreting the
+exact hyperparameter choice. For this fitted experiment, however, two
+conclusions are directly supported: all hyperparameters were selected without
+consulting the held-out test partition, and M1 improved held-out aggregate
+performance while substantially reducing structural complexity, with a clear
+Enrolled-recall trade-off. Repeated evaluation would be needed to assess the
+stability of the exact performance gain.

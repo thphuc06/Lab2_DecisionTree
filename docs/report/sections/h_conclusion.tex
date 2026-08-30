@@ -6,7 +6,7 @@
 % e_analysis.tex rule wording changes, update the quoted rule below to
 % match.
 
-\section{h. Conclusion}
+\section{Conclusion}
 \label{sec:h}
 
 \subsection{What the group learned}
@@ -19,14 +19,13 @@ accuracy (1.000) while test accuracy is only 0.6689 -- a generalization
 gap of 0.3311 that is direct, not inferred, evidence of the overfitting
 phenomenon described in the theory \citep{breiman1984classification, mitchell1997machine}.
 
-The three improvement directions teach three distinct lessons, with no
-overlap between them:
+The three improvement directions highlight distinct lessons:
 
 \begin{enumerate}
-  \item \textbf{Controlling complexity (pruning) is almost always
-    beneficial} when the original model is badly overfit -- not a
-    trade-off, but a simultaneous improvement in both accuracy and
-    interpretability.
+  \item \textbf{For the severely overfit baseline in this project,
+    controlling complexity is highly effective.} Pruning improves aggregate
+    held-out performance and structural simplicity, although its effect is
+    not uniform across classes because Enrolled recall decreases slightly.
   \item \textbf{Class-imbalance techniques do not automatically help} --
     effectiveness depends on the specific mechanism (M2a reweights the
     Gini computation without adding data, while M2b adds synthetic
@@ -47,9 +46,9 @@ overlap between them:
     test 0.6689), depth 27, 634 leaves -- the tree ``memorizes'' rather
     than generalizes.
   \item Pruning shrinks the leaf count by \textbf{$\sim$37$\times$}
-    (634$\to$17) while still raising test accuracy by 8.70 percentage
-    points -- evidence that most of M0's 634 leaves described noise, not
-    signal.
+    (634$\to$17) while raising test accuracy by 8.70 percentage points,
+    consistent with much of the removed structure capturing sample-specific
+    variation rather than stable predictive signal.
   \item \texttt{class\_weight='balanced'} (M2a) does not improve
     minority-class recall on this data; SMOTE-on-train (M2b) raises
     Enrolled recall by 8.18 points and Dropout recall by 2.82 points,
@@ -58,10 +57,10 @@ overlap between them:
   \item Dropping the 12 semester-outcome columns (M3) costs 12.77
     accuracy points -- a direct measurement of the ``price'' of wanting
     an early warning instead of a later but more accurate one.
-  \item All 5 models share one fixed train/test split
-    (\texttt{random\_state=42}, stratified), so every difference reported
-    above reflects a genuine difference between methods, not noise from
-    different data splits.
+  \item All 5 models share one fixed, stratified train/test split
+    (\texttt{random\_state=42}). This makes the comparisons directly
+    comparable and prevents different partitions from confounding the
+    reported differences, but it does not eliminate sampling uncertainty.
 \end{itemize}
 
 \subsection{Effectiveness of decision trees for this problem}

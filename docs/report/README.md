@@ -21,7 +21,7 @@ docs/report/
     ├── c_dataset.tex         Role A      -- FILLED IN, translated + fact-checked
     ├── d_baseline.tex        Role B      -- skeleton only, needs translation
     ├── e_analysis.tex        Role B      -- skeleton only, needs translation
-    ├── f1_pruning.tex        Role C      -- skeleton only, needs translation
+    ├── f1_pruning.tex        Role C      -- FILLED IN, translated + fact-checked
     ├── f2_imbalance.tex      Role D      -- skeleton only, needs translation
     ├── f3_features.tex       Role E      -- skeleton only, needs translation
     ├── g_comparison.tex      Role A      -- FILLED IN, translated + fact-checked
@@ -52,7 +52,10 @@ correlation values, incomplete tree rules, and model-comparison mix-ups --
 see `progress/A.md` for the full audit trail). Nothing in those four files
 was invented for this skeleton.
 
-The other six sections (a, d, e, f1, f2, f3) are **structural skeletons
+Role C's `f1_pruning.tex` has since been completed from its independently
+verified source draft and rerun notebook; it contains no `\todo` placeholder.
+
+The remaining five sections (a, d, e, f2, f3) are **structural skeletons
 only**: correct `\section`/`\subsection` headers matching the assignment's
 exact wording, `\includegraphics` calls already pointing at the right,
 already-committed figure files, and `\todo{...}` placeholders (rendered
@@ -62,10 +65,10 @@ draft was independently audited on 2026-08-30 (see `progress/A.md`):
 B (`docs/report_draft_d_e.md`), C (`docs/report_draft_f1_pruning.md`), and
 E (`notebooks/05_improve_features.ipynb`) came back with **zero errors**;
 D (`docs/report_draft_f2_imbalance.md`) had 2 small wording errors, already
-fixed. Translate from those files rather than re-deriving numbers from
-scratch -- they were already re-verified against the primary result
-files (`outputs/results.csv`, classification reports, etc.), re-deriving
-independently risks reintroducing an error that was already caught.
+fixed. Owners of unfinished sections should adapt the corresponding verified
+source rather than re-derive numbers from scratch -- the values were already
+checked against primary result files (`outputs/results.csv`, classification
+reports, etc.), and re-deriving them risks reintroducing a caught error.
 
 Search for `\todo` in a section file (or look for red text in the
 compiled PDF) to find everything still missing in that file.
@@ -79,22 +82,22 @@ interpretation, numbers, or "why this matters" reasoning inside a
 after the `\begin{figure}...\end{figure}` block instead. This was fixed
 across `c_dataset.tex` and `g_comparison.tex` on 2026-08-30 after
 captions had grown into multi-sentence analysis paragraphs -- follow the
-pattern already in those two files (short caption, then a paragraph of
-real prose right after the figure) when filling in `d_baseline.tex`,
-`e_analysis.tex`, `f1_pruning.tex`, `f2_imbalance.tex`, and
+pattern already used in those files and in `f1_pruning.tex` (short caption,
+then a paragraph of real prose right after the figure) when filling in
+`d_baseline.tex`, `e_analysis.tex`, `f2_imbalance.tex`, and
 `f3_features.tex`.
 
 ## How to compile
 
 You need a LaTeX distribution (TeX Live, MiKTeX, or Overleaf).
-`report.pdf` is the current 22-page A4 preview tracked with this source. It
+`report.pdf` is the current 27-page A4 preview tracked with this source. It
 was compiled with MiKTeX 26.5 and rendered page by page during the final
 2026-08-30 integration audit: the LaTeX log has no errors, undefined
 citations/references, rerun requests, or overfull boxes. This establishes
 that the report framework and every referenced figure are technically
 healthy; it is still a **skeleton preview, not a submission-ready report**,
-because the six owner sections listed above intentionally retain red
-`\todo{...}` placeholders. Recompile whenever any `.tex`, `.bib`, or
+because the five remaining owner sections listed above intentionally retain
+red `\todo{...}` placeholders. Recompile whenever any `.tex`, `.bib`, or
 referenced figure changes; do not treat an older PDF timestamp as evidence
 that the source still compiles.
 

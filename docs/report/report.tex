@@ -44,12 +44,23 @@
 \usepackage{booktabs}
 \usepackage{amsmath}
 \usepackage{float}
+\usepackage{pdflscape}
 \usepackage{caption}
+\usepackage{titlesec}
 \usepackage{xcolor}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue}
 \usepackage[round]{natbib}
 \setlength{\emergencystretch}{2em}
+
+% The assignment specifies lettered sections a--i. Let LaTeX generate those
+% letters so headings do not show redundant combinations such as "6 f.".
+% The dot is a heading decoration only, so \ref returns "f" rather than "f.".
+\renewcommand{\thesection}{\alph{section}}
+\renewcommand{\thesubsection}{\alph{section}.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\alph{section}.\arabic{subsection}.\arabic{subsubsection}}
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection.}{1em}{}
+\renewcommand{\refname}{i. References}
 
 % Visible TODO marker -- every section file that is not yet filled in uses
 % this so it is obvious in the compiled PDF (and in a find-in-file search
@@ -71,7 +82,7 @@
 \input{sections/d_baseline}
 \input{sections/e_analysis}
 
-\section{f. Improvement Methods}
+\section{Improvement Methods}
 \label{sec:f}
 % The brief requires 2-3 improvement methods, each presented separately
 % with: description, modified tree/model setting, accuracy + error rate,

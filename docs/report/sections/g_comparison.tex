@@ -5,7 +5,7 @@
 % project's own Gini importance -- see progress/A.md log). All numbers
 % below trace to outputs/results.csv / outputs/comparison_table.csv.
 
-\section{g. Comparison of Results}
+\section{Comparison of Results}
 \label{sec:g}
 
 \subsection{Overall comparison table}
@@ -51,14 +51,13 @@ accuracy rises from 0.6689 to 0.7559 (\textbf{+8.70 percentage points}),
 error rate drops from 33.11\% to 24.41\%, F1 macro rises 6.47 points, and
 ROC-AUC macro rises 12.82 points. At the same time, complexity drops
 sharply: depth 27$\to$5, leaves 634$\to$17 (\textbf{about 37$\times$
-fewer}). This is a rare outcome in practice: the improvement increases
-both generalization performance and interpretability at once, with no
-trade-off. The one cost is a slight drop in Enrolled recall
-(0.3836$\to$0.3459, $-3.77$ points), because accuracy on CV was the
-pre-declared criterion for selecting \texttt{ccp\_alpha}/\texttt{max\_depth}/
-\texttt{min\_samples\_leaf}, so the winning configuration was free to
-favor the majority class (Graduate) whenever that raised the total
-correct-prediction count.
+fewer}). This is a favorable result: aggregate performance and structural
+simplicity both improve, although Enrolled recall decreases slightly
+(0.3836$\to$0.3459, $-3.77$ points). Accuracy was the prespecified CV
+criterion for selecting \texttt{ccp\_alpha}/\texttt{max\_depth}/
+\texttt{min\_samples\_leaf}; because that criterion does not explicitly
+protect minority-class recall, it can favor the majority Graduate class
+whenever doing so raises the total number of correct predictions.
 
 \textbf{M2 (Class Imbalance) gives two opposite results}, consistent with
 the experimental nature of this improvement. M2a
