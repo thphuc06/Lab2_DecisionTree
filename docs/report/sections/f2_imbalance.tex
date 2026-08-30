@@ -1,0 +1,78 @@
+% Owner: Role D. NOT translated yet -- structural skeleton only.
+%
+% Source material (Vietnamese, already fact-checked -- progress/A.md
+% 2026-08-30 audit found and fixed 2 small wording errors, since corrected
+% directly in docs/report_draft_f2_imbalance.md; everything else verified
+% clean): docs/report_draft_f2_imbalance.md.
+%
+% Brief requires, for EACH improvement method (Section 3.4.f):
+%   - Description of the method
+%   - Modified tree or model setting
+%   - Accuracy and error rate
+%   - Explanation of why the method improves (or does not improve) the result
+%
+% Figures already committed and ready to reference (do not rename):
+%   figures/D_cm_M2a.png       figures/D_cm_M2b.png
+%   figures/D_tree_M2a.png     figures/D_tree_M2a_full.png
+%   figures/D_tree_M2b.png     figures/D_tree_M2b_full.png
+%
+% Reminder: SMOTE must only ever be described as fit on the TRAIN split,
+% never before the split -- this is the single most severe possible bug
+% in this whole project (AGENT.md Section 2), so state clearly in prose
+% that this was verified (the source draft documents a SHA-256 hash check
+% proving X_test/y_test were untouched by fit_resample()).
+
+\subsection{f.2 Improvement Method 2: Class Imbalance}
+\label{sec:f2}
+
+\subsubsection{Method description}
+
+\todo{Describe both configurations: M2a = \texttt{class\_weight='balanced'}; M2b = SMOTE \citep{chawla2002smote, imblearn_smote_api}, fit \emph{only} on the training split obtained from \texttt{src.data.get\_train\_test()}, never before the split.}
+
+\subsubsection{Modified tree / model setting}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{D_cm_M2a.png}
+  \caption{\todo{Caption: M2a confusion matrix.}}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{D_cm_M2b.png}
+  \caption{\todo{Caption: M2b confusion matrix.}}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\textwidth]{D_tree_M2a.png}
+  \caption{\todo{Caption: M2a tree, truncated view (state real depth/leaves and note this view's depth limit).}}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{D_tree_M2a_full.png}
+  \caption{\todo{Caption: full M2a tree -- state it is roughly as complex as M0, since class\_weight changes split priorities, not tree size.}}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\textwidth]{D_tree_M2b.png}
+  \caption{\todo{Caption: M2b tree, truncated view -- note it was trained on the SMOTE-resampled train set but evaluated on the original test set.}}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{D_tree_M2b_full.png}
+  \caption{\todo{Caption: full M2b tree -- larger than M0/M2a because SMOTE grows the training set (3,539 $\to$ 5,301 rows), giving the tree more rows to split on.}}
+\end{figure}
+
+\subsubsection{Accuracy and error rate}
+
+\todo{Report M2a and M2b test accuracy and error rate against M0. Add the per-class recall table for Dropout, Enrolled, and Graduate across M0/M2a/M2b; that table is the point of this experiment, not overall accuracy alone.}
+
+\subsubsection{Why this does (or does not) improve the result}
+
+\todo{State plainly that M2a does \emph{not} help on this split (both accuracy and Enrolled recall drop) -- do not hide this. Explain M2b's improvement mechanism (synthetic minority-class samples give the tree more opportunities to find a separating split), and be explicit that recall Enrolled/Dropout going up while overall accuracy is a secondary concern is the correct way to judge success here, per AGENT.md's own guidance that overall accuracy is not the target metric for this improvement.}
+
+\todo{Optional verified limitation: vanilla SMOTE interpolates one-hot dummy vectors. Integer restoration truncates fractional values and can create invalid all-zero groups; Course was worst at 83.0\%. Explain that this limitation does not invalidate metrics measured on the real held-out test set.}

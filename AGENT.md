@@ -9,7 +9,7 @@
 
 1. Đọc hết file này.
 2. Đọc `docs/00-DE-BAI-GOC.pdf` — **đề gốc của thầy, nguồn xác thực cao nhất.** Các file bên dưới (`02-...`, `03-...`) là bản diễn giải lại từ đề này để tiện dùng, **có thể còn sai sót**. Nếu phát hiện điều gì trong `02-...`/`03-...` mâu thuẫn hoặc không khớp với đề gốc, **đề gốc luôn thắng** — báo lại cho người dùng, không tự ý chọn theo bản tóm tắt.
-3. Đọc hết `docs/02-DATASET-VA-CONG-VIEC.md` — đặc tả dataset, feature, 4 model, metrics.
+3. Đọc hết `docs/02-DATASET-VA-CONG-VIEC.md` — đặc tả dataset, feature, 5 cấu hình mô hình, metrics.
 4. Đọc hết `docs/03-GIT-WORKFLOW-VA-CAU-TRUC-CODE.md` — cấu trúc repo, quyền sở hữu file, quy trình git.
 5. **Hỏi người dùng: "Bạn là role nào — A, B, C, D, hay E?"** nếu họ chưa nói. Không tự đoán, không tự chọn role "hợp lý nhất".
 6. **Đọc `progress/<role>.md`** (đúng file của role vừa xác nhận, VD role C đọc `progress/C.md`) — đây là nhật ký của chính role này qua các phiên làm việc trước, cho biết đã làm tới đâu, quyết định gì đã chốt, đang vướng gì. Không đọc file `progress/` của role khác.
@@ -25,8 +25,8 @@ Nếu người dùng không cung cấp role và từ chối cung cấp, agent d�
 ## 1. Dự án này là gì
 
 Đồ án môn AI, **Lab 2: Decision Tree Modeling and Improvement**. Nhóm 5 sinh viên xây dựng:
-- 1 mô hình **baseline** (`DecisionTreeClassifier` không giới hạn)
-- 3 mô hình **cải tiến**, mỗi cái trả lời một câu hỏi khác nhau: pruning, xử lý mất cân bằng lớp, feature selection cho dự báo sớm
+- 1 cấu hình **baseline** (`DecisionTreeClassifier` không giới hạn)
+- 3 **phương pháp cải tiến**: pruning, xử lý mất cân bằng lớp, feature selection cho dự báo sớm. Phương pháp imbalance có hai biến thể M2a/M2b, nên tổng cộng là **5 cấu hình** M0/M1/M2a/M2b/M3
 
 trên dataset **UCI Predict Students' Dropout and Academic Success** (id=697): 4.424 sinh viên, 36 feature, 3 lớp (Dropout/Enrolled/Graduate).
 
@@ -59,6 +59,9 @@ Bất kể role nào, agent phải tuân thủ tuyệt đối:
 | `git pull` | **Bắt buộc trước khi bắt đầu code trong mỗi phiên** — lệnh chỉ đọc/đồng bộ, được dùng tự do. Không liên quan đến commit/push (xem hàng dưới) |
 | **Commit & Push** | ⛔ **Agent KHÔNG BAO GIỜ tự chạy `git add`/`git commit`/`git push`, kể cả khi được yêu cầu trực tiếp** ("commit giúp tôi", "push lên đi"). Chỉ người dùng tự thao tác. Agent dừng lại, tóm tắt thay đổi + đề xuất commit message, để người dùng tự review diff và tự commit/push — xem Mục 7 |
 | `outputs/results.csv` | File **duy nhất nhiều role cùng ghi vào**. Agent chỉ sửa nội dung file (append dòng mới, không xóa/sửa dòng người khác); nếu thấy conflict marker `<<<<<<<`/`=======`/`>>>>>>>` trong file, có thể sửa giúp bằng cách giữ lại **cả hai** dòng dữ liệu — nhưng **người dùng vẫn là người commit** sau khi xem lại (chi tiết: `docs/03` Mục 5) |
+| Chữ trong hình (matplotlib) | Toàn bộ `title`/`xlabel`/`ylabel`/`suptitle`/legend phải là **tiếng Anh** — báo cáo nộp là tiếng Anh, hình ảnh xuất ra (PNG) không tự dịch lại được nếu code để tiếng Việt. Markdown giải thích trong notebook có thể vẫn tiếng Việt (không phải deliverable chấm điểm trực tiếp), nhưng chữ **bên trong hình** thì không |
+| Viết văn bản báo cáo (`docs/report/sections/*.tex`) | **Không được nhắc tên file, đường dẫn, hay tên hàm nội bộ của repo** trong văn bản báo cáo thật (VD: không viết `src/data.py`, `get_train_test()`, `outputs/results.csv`, `docs/02-...md`) — báo cáo cho thầy đọc như một bài luận học thuật, không phải nhật ký kỹ thuật. Trích dẫn nguồn ngoài (bài báo, thư viện như `scikit-learn`, `DecisionTreeClassifier`, `SMOTE`) vẫn được, đó là thuật ngữ chuẩn chứ không phải chi tiết nội bộ repo. Ngoại lệ: khối `\todo{}` (màu đỏ, sẽ bị xoá trước khi nộp) và comment `%` đầu file — đây là ghi chú nội bộ giữa các phiên/role, không phải nội dung cuối cùng, được phép nhắc tên file thoải mái. Xem `docs/report/README.md` để biết cấu trúc, ai sở hữu file nào, và quy tắc caption/nhận xét (caption ngắn mô tả hình, phân tích viết thành đoạn văn riêng, không nhét vào caption) |
+| **Mọi số liệu trong báo cáo phải truy được nguồn** | Mỗi con số trong văn bản báo cáo (accuracy, error rate, feature importance, hệ số tương quan, rank, purity, n mẫu...) phải **verify được trực tiếp** từ (a) output code thật (`outputs/results.csv`, `classification_report_*.txt`, hoặc tự chạy lại để đối chiếu), hoặc (b) một bảng/hình/diagram artifact **đã có mặt trong chính báo cáo** mà người đọc tra được ngay tại chỗ (không phải hình sẽ xuất hiện ở mục sau, không phải "tự tin là đúng"). **Tuyệt đối không suy diễn số liệu "nghe có vẻ hợp lý"** (VD: bịa điều kiện luật quyết định vì nghe giống mẫu hình thường gặp) và **không copy số từ tài liệu kế hoạch** (`docs/02-...md`) mà không re-verify trên dữ liệu/artifact thật — tài liệu kế hoạch có thể sai (đã từng xảy ra 2 lần: bảng đa cộng tuyến A6 và bảng feature importance A5 khác thuật toán). Nếu một đoạn phân tích trích số nhưng không hình/bảng nào trong báo cáo thể hiện được số đó, phải **thêm bảng nhỏ ngay tại chỗ** (kèm `\ref{}` trỏ tới), không được để số liệu "không biết từ đâu ra". Trước khi coi văn bản báo cáo là xong, đọc lại và tự hỏi: mỗi con số này có bảng/hình nào ngay trong báo cáo chứng minh được không? |
 
 ---
 
@@ -77,12 +80,13 @@ Curricular units 2nd sem (credited/enrolled/evaluations/approved/grade/without e
 ```
 Giữ lại 3 biến vĩ mô (`Unemployment rate`, `Inflation rate`, `GDP`) vì đã biết tại thời điểm nhập học.
 
-**Cấu hình 4 model:**
+**Cấu hình 5 model:**
 | Model | Owner | Cấu hình |
 |---|---|---|
 | M0 Baseline | B | `DecisionTreeClassifier(random_state=42)` |
 | M1 Pruning | C | `cost_complexity_pruning_path` + CV để chọn `ccp_alpha`, thêm grid `max_depth`/`min_samples_leaf` |
-| M2 Class balance | D | `class_weight='balanced'` và/hoặc SMOTE-trên-train |
+| M2a Class balance | D | `class_weight='balanced'` |
+| M2b SMOTE | D | SMOTE chỉ trên train, sau đó fit `DecisionTreeClassifier(random_state=42)` |
 | M3 Dự báo sớm | E | Loại 12 cột trên, giữ 24 feature còn lại |
 
 **Kỳ vọng kết quả (để agent nhận biết nếu ra số bất thường, khả năng có bug):**
@@ -108,7 +112,7 @@ Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (v
 
 ### Role A — Data Lead & Integrator
 
-**File được sửa:** `src/data.py`, `docs/feature_types.md`, `notebooks/01_eda.ipynb`, `notebooks/06_comparison.ipynb`, `progress/A.md`, mục Introduction/Dataset Description/Comparison/Conclusion trong báo cáo.
+**File được sửa:** `src/data.py`, `docs/feature_types.md`, `notebooks/01_eda.ipynb`, `notebooks/06_comparison.ipynb`, `progress/A.md`, `requirements.txt`, `requirements-lock.txt`, mục Introduction/Dataset Description/Comparison/Conclusion trong báo cáo.
 
 **Mục tiêu:** Đây là nút thắt của cả nhóm — 4 người còn lại phụ thuộc vào `src/data.py`. Ưu tiên tuyệt đối: có `get_train_test()` chạy được **càng sớm càng tốt**, kể cả trước khi EDA xong.
 
@@ -119,6 +123,7 @@ Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (v
 4. Viết `src/data.py` với tối thiểu 2 hàm public: `load_and_preprocess()` và `get_train_test()` — có docstring, có type hint
 5. EDA: phân bố target, thống kê mô tả, heatmap tương quan (4–5 hình, lưu `figures/A_*.png`)
 6. Cuối dự án: kiểm tra file chung `outputs/results.csv` có đúng các model ID và vẽ biểu đồ so sánh
+7. Quản lý dependency: `requirements.txt` liệt kê dependency trực tiếp; chỉ A/Integrator cập nhật `requirements-lock.txt` sau khi cài sạch, chạy `pip check` và tái lập thành công toàn bộ artifact liên quan
 
 **Không được làm:** sửa `src/evaluate.py`, `src/visualize.py`, hay bất kỳ notebook nào có tên khác `01_` hoặc `06_`.
 
@@ -169,7 +174,7 @@ Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (v
 
 ### Role D — Improvement 2: Class Imbalance
 
-**File được sửa:** `notebooks/04_improve_imbalance.ipynb`, `progress/D.md`, mục Improvement Method 2 trong báo cáo.
+**File được sửa:** `notebooks/04_improve_imbalance.ipynb`, `progress/D.md`, `docs/report_draft_f2_imbalance.md`, `outputs/classification_report_M2a.txt`, `outputs/classification_report_M2b.txt`. Ngoại lệ: được cập nhật thông tin cài đặt/M2a/M2b trong `README.md`, `docs/02-DATASET-VA-CONG-VIEC.md`, `docs/03-GIT-WORKFLOW-VA-CAU-TRUC-CODE.md` và `AGENT.md`.
 
 **Mục tiêu:** Trả lời câu hỏi "lớp thiểu số (Enrolled 18%, Dropout 32%) có được phát hiện tốt hơn không?"
 
@@ -178,13 +183,13 @@ Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (v
 2. M2b: SMOTE — **`from imblearn.over_sampling import SMOTE`, chỉ `fit_resample` trên `X_train, y_train`**, không bao giờ trên toàn bộ dataset trước khi split
 3. Gọi `evaluate_model()` từ `src/evaluate.py`, không tự viết lại
 4. So sánh **recall từng lớp** (Dropout, Enrolled, Graduate) giữa M0/M2a/M2b — đây là điểm chính của phân tích, không phải accuracy tổng
-5. Xuất: `figures/D_cm_M2a.png`, `figures/D_cm_M2b.png`, bảng recall so sánh
+5. Xuất: `figures/D_cm_M2a.png`, `figures/D_cm_M2b.png`, `figures/D_tree_M2a.png`, `figures/D_tree_M2a_full.png`, `figures/D_tree_M2b.png`, `figures/D_tree_M2b_full.png` và 2 bảng classification report.
 
 **Nếu accuracy tổng giảm sau khi cân bằng lớp:** đây là kết quả **đúng và mong đợi** (xem Mục 3). Không cần "tối ưu lại" cho tới khi accuracy quay lại bằng M0 — mục tiêu của cải tiến này là recall lớp thiểu số, không phải accuracy tổng.
 
 **Không được làm:** sửa `src/data.py`, `src/evaluate.py`, `src/visualize.py`. Không áp dụng SMOTE trước khi gọi `get_train_test()`.
 
-**Definition of Done:** `results.csv` có 2 dòng (M2a, M2b); bảng recall 3 lớp × 3 model; mục báo cáo phân tích rõ đánh đổi accuracy vs recall, không né tránh việc accuracy có thể giảm.
+**Definition of Done:** `results.csv` có 2 dòng (M2a, M2b); báo cáo `report_draft_f2_imbalance.md` có bảng recall 3 lớp × 3 model, giải thích ép kiểu categorical và 2 hình cây; đủ 6 hình D; file dùng chung (`README.md`, docs) đã cập nhật xong theo ngoại lệ; validator PASS; có hash thật trên manifest `progress/D.md`.
 
 ---
 

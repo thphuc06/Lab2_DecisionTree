@@ -24,7 +24,7 @@
 | `Father's qualification` | 34 | Giữ nguyên mã số | Nhiều giá trị |
 | `Mother's occupation` | 32 | Giữ nguyên mã số | Nhiều giá trị |
 | `Father's occupation` | 46 | Giữ nguyên mã số | Nhiều giá trị nhất trong dataset |
-| `Nacionality` | 21 | Giữ nguyên mã số | Nhiều giá trị; ngoài ra tương quan 0.91 với `International` (Phần A6) nên tầm quan trọng thực tế thấp |
+| `Nacionality` | 21 | Giữ nguyên mã số | Nhiều giá trị; tương quan Pearson với `International` là 0.791. Correlation không tự nó quyết định feature importance |
 | `Application order` | 8 | Giữ nguyên (ordinal) | Có thứ tự tự nhiên (nguyện vọng 1, 2, 3...) |
 
 Sau one-hot: **90 cột feature** (từ 36 gốc, trừ `Target`, cộng thêm các cột dummy).

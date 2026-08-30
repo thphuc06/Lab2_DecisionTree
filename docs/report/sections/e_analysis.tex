@@ -1,0 +1,58 @@
+% Owner: Role B. NOT translated yet -- structural skeleton only.
+%
+% Source material (Vietnamese, already fact-checked -- see progress/A.md
+% 2026-08-30 audit: 0 errors out of ~40 checked, including every IF-THEN
+% rule condition traced against outputs/rules_M0.txt and every node stat
+% re-derived from a fresh retrain): docs/report_draft_d_e.md, bottom part
+% (headed "# e. Analysis of the Tree", from "## 1. Root split" onward).
+% This is called out in AGENT.md as the single highest-value section of
+% the whole report -- do not shorten it when translating.
+%
+% Brief requires (Section 3.4.e):
+%   - Present the generated decision tree.
+%   - Comment on its structure and key decision nodes.
+%   - Discuss strengths and weaknesses of the baseline tree.
+%
+% The 5 questions AGENT.md assigns to this section (answer all 5):
+%   1. What is the root split, and why did the algorithm pick it?
+%   2. What do the first 3 levels of splits mean, in plain language?
+%   3. How deep is the tree, how many leaves, any 1-2 sample leaves?
+%   4. Train vs test gap -- overfitting evidence?
+%   5. 2-3 full IF-THEN rules with sample count and purity.
+
+\section{e. Analysis of the Tree}
+\label{sec:e}
+
+\subsection{Root split}
+
+\todo{Which feature/threshold is the root split, its Gini before/after, and why the algorithm picked it over alternatives.}
+
+\subsection{Root and the next three levels}
+
+\todo{Table or description of the first 3-4 levels: split feature, threshold, sample counts, class distribution, predicted class at each node -- translate the verified node table from the source draft.}
+
+\subsection{Tree complexity}
+
+\todo{Total node/leaf count, \% of leaves with 1-2 samples, average leaf depth -- and what that says about overfitting risk.}
+
+\subsection{Overfitting evidence}
+
+\todo{Train vs.\ test accuracy gap (generalization gap), and whether it falls in the expected 0.65--0.72 test-accuracy band from AGENT.md (a red flag if not).}
+
+\subsection{Representative IF-THEN rules}
+
+\todo{Translate the 3 rules from the source draft verbatim (Dropout, Graduate, Enrolled), each with the full condition chain, leaf sample count $n$, and purity. Do not paraphrase the conditions loosely -- copy the exact feature/threshold values, they were independently re-verified against \texttt{outputs/rules\_M0.txt}.}
+
+\begin{quote}
+\emph{Example rule format (replace with the real translated rules):} \\
+IF \texttt{Curricular units 2nd sem (approved)} $\le$ 1.5 AND \ldots \\
+THEN \textbf{Dropout} ($n = 189$, purity 100\%).
+\end{quote}
+
+\subsection{Strengths and weaknesses of the baseline tree}
+
+\todo{Summarize: strengths (readable top splits, handles nonlinearity, no scaling needed) vs.\ weaknesses (hard to present as a whole, unstable predictions, especially weak on Enrolled, uses semester-outcome features so not usable for early warning).}
+
+\begin{quote}
+\todo{Ethical/limitations note (see source draft's own closing section): sensitive features (gender, \texttt{Nacionality}, marital status, parents' occupation/education) appear in some rule conditions -- these must be flagged as correlational, not causal, and not used as grounds for discrimination.}
+\end{quote}

@@ -1,0 +1,57 @@
+% Owner: Role C. NOT translated yet -- structural skeleton only.
+%
+% Source material (Vietnamese, already fact-checked -- progress/A.md
+% 2026-08-30 audit: 0 errors out of ~40 checked, including the full 16-cell
+% grid search table and independent re-run of cost_complexity_pruning_path):
+% docs/report_draft_f1_pruning.md.
+%
+% Brief requires, for EACH improvement method (Section 3.4.f):
+%   - Description of the method
+%   - Modified tree or model setting
+%   - Accuracy and error rate
+%   - Explanation of why the method improves (or does not improve) the result
+%
+% Figures already committed and ready to reference (do not rename):
+%   figures/C_ccp_alpha_curve.png  -- pruning path + CV-accuracy-vs-alpha
+%   figures/C_tree_M1.png          -- pruned tree (depth 5, 17 leaves)
+%   figures/C_cm_M1.png            -- confusion matrix
+
+\subsection{f.1 Improvement Method 1: Cost-Complexity Pruning}
+\label{sec:f1}
+
+\subsubsection{Method description}
+
+\todo{Describe cost-complexity pruning, candidate alpha generation, and alpha selection by cross-validation on training data only. Include the required depth grid $\{5,8,10,15\}$ and minimum-leaf-size grid $\{1,5,10,20\}$. State explicitly that test accuracy never selected hyperparameters.}
+
+\subsubsection{Modified tree / model setting}
+
+\todo{Report the selected alpha, depth cap, minimum leaf size, random seed, and the cross-validation accuracy that selected the configuration.}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{C_ccp_alpha_curve.png}
+  \caption{\todo{Caption: left panel = leaf impurity vs.\ alpha; right panel = train/CV accuracy with the selected alpha marked. No test curve, by design.}}
+  \label{fig:f1a}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\textwidth]{C_tree_M1.png}
+  \caption{\todo{Caption: the pruned M1 tree (depth 5, 17 leaves) -- small enough to read and use for rule extraction, unlike M0.}}
+  \label{fig:f1b}
+\end{figure}
+
+\subsubsection{Accuracy and error rate}
+
+\todo{Report M1's test\_acc / error\_rate from \texttt{outputs/results.csv} and compare against M0 (test\_acc 0.6689, error\_rate 0.3311). Include the confusion matrix.}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{C_cm_M1.png}
+  \caption{\todo{Caption: confusion matrix on the same 885-sample held-out test set as M0.}}
+  \label{fig:f1c}
+\end{figure}
+
+\subsubsection{Why this improves the result}
+
+\todo{Explain why accuracy went up while the tree got dramatically smaller (fewer leaves = less noise memorized, not less signal). Also discuss the one trade-off: which per-class recall got worse, and why (accuracy was the pre-declared CV selection criterion, so the config was free to favor the majority class if that raised the total correct count).}

@@ -10,7 +10,8 @@
 [GroupID]-decision-tree/
 ├── AGENT.md                         ← đọc trước tiên khi mở agent, đừng để lệch chỗ
 ├── README.md                       ← Trưởng nhóm
-├── requirements.txt                ← A tạo, ai cần thêm lib thì tự thêm dòng
+├── requirements.txt                ← dependency trực tiếp; role đề xuất lib mới cho A
+├── requirements-lock.txt           ← lock canonical; CHỈ A/Integrator refresh sau full rerun
 ├── .gitignore                      ← A tạo lúc khởi tạo repo
 │
 ├── data/
@@ -38,16 +39,20 @@
 │   ├── D.md                        ← CHỈ D
 │   └── E.md                        ← CHỈ E
 │
-├── figures/                         ← mỗi người tự lưu hình của mình vào đây, tên file có prefix (xem mục 4)
+├── figures/                         ← 22 PNG canonical, tên file có prefix (xem mục 4)
 │
 ├── outputs/
-│   └── results.csv                 ⭐ file dùng chung, xem mục 5 — điểm conflict thật sự duy nhất
+│   ├── results.csv                 ⭐ 5 cấu hình, schema 16 cột
+│   ├── comparison_table.csv
+│   ├── classification_report_M*.txt
+│   └── rules_M0.txt
 │
 └── docs/
     ├── 00-DE-BAI-GOC.pdf           ← đề gốc của thầy, nguồn xác thực cao nhất
     ├── 02-DATASET-VA-CONG-VIEC.md
     ├── 03-GIT-WORKFLOW-VA-CAU-TRUC-CODE.md   ← chính là file này
-    └── feature_types.md            ← A
+    ├── feature_types.md            ← A
+    └── report/                     ← LaTeX source, sections, references và report.pdf
 ```
 
 **`.gitignore` cần có:**
@@ -80,6 +85,8 @@ __pycache__/
 
 ## 3. Chiến lược nhánh (branch)
 
+> Bảng tên nhánh ban đầu bên dưới là **quy ước lập kế hoạch**, không phải danh sách ref hiện có. Tại vòng tích hợp 2026-08-30, các ref đã fetch là `main`, `feature/pruning` và `role-e-final-thuy`; nhánh đang làm là `role-e-final-thuy` và đang merge `origin/main` mới nhất.
+
 Với nhóm 5 người mới dùng git, **branch theo người** là đơn giản và đủ an toàn — không cần quy trình PR phức tạp.
 
 ```bash
@@ -89,7 +96,7 @@ git pull
 git checkout -b feature/pruning        # ví dụ của C
 ```
 
-| Người | Tên nhánh |
+| Role | Tên nhánh khuyến nghị cho công việc mới |
 |---|---|
 | A | `feature/data-pipeline` |
 | B | `feature/baseline` |
@@ -98,6 +105,8 @@ git checkout -b feature/pruning        # ví dụ của C
 | E | `feature/early-warning` |
 
 **Quy trình làm việc mỗi ngày:**
+
+> Các lệnh `git add`/`commit`/`push` trong ví dụ này chỉ dành cho **thành viên thao tác Git**. Theo `AGENT.md`, coding agent phải dừng trước ba lệnh này và bàn giao thay đổi để con người duyệt.
 ```bash
 git checkout feature/pruning
 git pull origin main          # LUÔN kéo main mới nhất trước khi làm tiếp
@@ -122,6 +131,8 @@ git push origin main
 
 **A là nút thắt.** Không ai code được phần đánh giá thật sự cho tới khi có `src/data.py`. Xử lý bằng 2 cách song song:
 
+**Lưu ý cho D và E:** Vì Role D được phép cập nhật tài liệu chung (`README.md`), Role E bắt buộc phải pull code (hoặc làm) **sau** khi Role D đã hoàn thành để tránh conflict file `README.md`.
+
 **Cách 1 — A chạy đua xong sớm:** A dồn toàn lực trong 1–2 ngày đầu để push `src/data.py` với hàm `get_train_test()` chạy được, dù EDA chưa xong.
 
 **Cách 2 — 4 người kia không ngồi chờ:** trong lúc chờ A, C/D/E viết sẵn khung notebook của mình dùng **dữ liệu giả** (`sklearn.datasets.load_iris()` hoặc tự tạo `X, y` ngẫu nhiên), code toàn bộ logic train/tune/evaluate. Khi A push `src/data.py` xong, chỉ cần đổi 1 dòng:
@@ -140,10 +151,10 @@ Cách này giúp cả nhóm không có ai rảnh tay quá lâu.
 
 **Đặt tên hình theo prefix** để tránh trùng tên khi 5 người cùng lưu vào `figures/`:
 ```
-figures/A_eda_target_distribution.png
+figures/A_target_distribution.png
 figures/B_tree_M0_full.png
 figures/C_ccp_alpha_curve.png
-figures/D_cm_M2_smote.png
+figures/D_cm_M2b.png
 figures/E_feature_importance.png
 figures/E_feature_importance_permutation.png
 ```
@@ -199,7 +210,7 @@ Prefix bằng ký hiệu tên để dễ tra `git log` và dễ dùng cho bảng
 - [ ] Notebook đã `Restart & Run All` — số thứ tự cell chạy liền mạch từ 1
 - [ ] Đã xóa cell rác, cell lỗi, cell thử nghiệm
 - [ ] Không sửa file không thuộc quyền của mình (đối chiếu bảng mục 2)
-- [ ] `results.csv` (hoặc `results_X.csv`) đã có dòng của mình, đúng schema chung
+- [ ] `outputs/results.csv` đã có đúng dòng model thuộc role của mình, đúng schema chung và không thay đổi row của role khác
 
 ---
 

@@ -17,17 +17,24 @@ progress/       Nhật ký theo role
 ## Cài đặt
 
 ```powershell
-# Dùng đúng CPython 3.14.0; không thay bằng patch/version khác khi regenerate artifact canonical
+# Cách 1: Python Launcher đã nhận CPython 3.14
+py -3.14 -m venv .venv
+
+# Cách 2: nếu `py -3.14 --version` báo không tìm thấy Python
 & "C:\duong-dan-den-python-3.14.0\python.exe" -m venv .venv
 
-# Dùng trực tiếp interpreter trong venv để tránh nhầm Python trên PATH
-.\.venv\Scripts\python.exe -m pip install numpy==2.3.4 pandas==2.3.3 scipy==1.17.1 scikit-learn==1.9.0 matplotlib==3.11.1 seaborn==0.13.2 imbalanced-learn==0.14.2 ucimlrepo==0.0.7 joblib==1.5.3 threadpoolctl==3.6.0 nbformat==5.11.1 nbconvert==7.17.1 ipython==9.17.0 ipykernel==7.3.0 narwhals==2.25.0 sklearn-compat==0.1.6
+# Dùng đúng lock canonical để regenerate artifact M0/D/E
+.\.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
 .\.venv\Scripts\python.exe -m pip check
+
+# Đăng ký kernel trỏ tuyệt đối vào .venv; PYTHONUTF8 tránh lỗi console khi đường dẫn có tiếng Việt
+$env:PYTHONUTF8 = "1"
+.\.venv\Scripts\python.exe -m ipykernel install --prefix .venv --name lab2-canonical --display-name "Lab 2 canonical"
 ```
 
 Kiểm tra `.\.venv\Scripts\python.exe --version` phải trả về đúng `3.14.0` và `pip check` phải PASS trước khi tiếp tục. Trên macOS/Linux, thay `Scripts\python.exe` bằng `.venv/bin/python`.
 
-Artifact canonical D/E dùng Python 3.14.0 và scikit-learn 1.9.0. `requirements.txt` hiện vẫn là danh sách dependency mở, chưa phải lock file; cho đến khi integration owner commit lock chung, phải dùng đúng lệnh pin ở trên khi regenerate artifact D/E.
+Toàn bộ artifact M0/M1/M2a/M2b/M3 hiện tại được tái lập với môi trường canonical: Python 3.14.0, `scikit-learn==1.9.0`, `imbalanced-learn==0.14.2`, `pandas==2.3.3`, `numpy==2.3.4` và `matplotlib==3.11.1`. `requirements.txt` mô tả dependency trực tiếp ở mức mở; `requirements-lock.txt` khóa đầy đủ môi trường dùng để regenerate artifact.
 
 ## Pipeline dữ liệu dùng chung
 
@@ -41,12 +48,43 @@ X_train, X_test, y_train, y_test = get_train_test()
 
 Không tự load/split lại trong notebook và không dùng `StandardScaler` hoặc `MinMaxScaler`; decision tree không cần scale. Quy ước toàn dự án là `random_state=42` ở mọi bước có ngẫu nhiên.
 
+## Chạy toàn bộ pipeline canonical
+
+Chạy từ repo root theo đúng thứ tự `01 → 06`. Lệnh dưới đây dùng kernel canonical, tắt timestamp timing trong notebook và dừng nếu bất kỳ notebook nào lỗi:
+
+```powershell
+$env:PYTHONUTF8 = "1"
+$notebooks = @(
+    "notebooks/01_eda.ipynb",
+    "notebooks/02_baseline.ipynb",
+    "notebooks/03_improve_pruning.ipynb",
+    "notebooks/04_improve_imbalance.ipynb",
+    "notebooks/05_improve_features.ipynb",
+    "notebooks/06_comparison.ipynb"
+)
+
+foreach ($notebook in $notebooks) {
+    .\.venv\Scripts\python.exe -m nbconvert `
+        --to notebook --execute --inplace `
+        --ExecutePreprocessor.timeout=900 `
+        --ExecutePreprocessor.kernel_name=lab2-canonical `
+        --ExecutePreprocessor.record_timing=False `
+        --NotebookClient.record_timing=False `
+        $notebook
+    if ($LASTEXITCODE -ne 0) {
+        throw "Notebook failed: $notebook"
+    }
+}
+```
+
+Sau khi chạy xong, `outputs/results.csv` phải có đúng năm model ID `M0`, `M1`, `M2a`, `M2b`, `M3`; `outputs/comparison_table.csv` và `figures/comparison.png` được notebook 06 tái tạo từ chính bảng kết quả này. Dữ liệu gốc `data/raw/data.csv` được version-control và không được sửa tay.
+
 ## Chạy baseline M0
 
 Mở `notebooks/02_baseline.ipynb` và chọn **Restart & Run All**, hoặc chạy từ repo root:
 
 ```powershell
-.\.venv\Scripts\python.exe -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=900 notebooks/02_baseline.ipynb
+.\.venv\Scripts\python.exe -m nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=900 --ExecutePreprocessor.kernel_name=lab2-canonical --ExecutePreprocessor.record_timing=False --NotebookClient.record_timing=False notebooks/02_baseline.ipynb
 ```
 
 M0 dùng đúng `DecisionTreeClassifier(random_state=42)` với Gini mặc định, không giới hạn độ sâu/split/leaf và không pruning.
@@ -59,6 +97,37 @@ Artifact M0:
 - `outputs/rules_M0.txt`
 - `outputs/classification_report_M0.txt`
 - Dòng `M0` trong `outputs/results.csv`
+
+## Chạy Role D — M2a/M2b (Class Imbalance)
+
+Role D thực hiện cải tiến Class Imbalance bằng hai cấu hình.
+Mở `notebooks/04_improve_imbalance.ipynb` và chọn **Restart & Run All**, hoặc chạy:
+
+```powershell
+.\.venv\Scripts\python.exe -m nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=900 --ExecutePreprocessor.kernel_name=lab2-canonical --ExecutePreprocessor.record_timing=False --NotebookClient.record_timing=False notebooks/04_improve_imbalance.ipynb
+```
+
+Cấu hình của Role D:
+- **M2a**: `DecisionTreeClassifier(class_weight="balanced", random_state=42)`
+- **M2b**: Dùng SMOTE với `sampling_strategy="auto", random_state=42, k_neighbors=5`, và chỉ resample trên tập train.
+
+Artifact Role D:
+- Báo cáo: [docs/report_draft_f2_imbalance.md](docs/report_draft_f2_imbalance.md)
+- Progress: [progress/D.md](progress/D.md)
+- `figures/D_cm_M2a.png`, `figures/D_cm_M2b.png`
+- `figures/D_tree_M2a.png`, `figures/D_tree_M2a_full.png`
+- `figures/D_tree_M2b.png`, `figures/D_tree_M2b_full.png`
+- `outputs/classification_report_M2a.txt`, `outputs/classification_report_M2b.txt`
+- Dòng `M2a` và `M2b` trong `outputs/results.csv`
+
+### Checklist bàn giao cho Role D
+- Chỉ gọi `get_train_test()` một lần; không tự split/scale lại dữ liệu.
+- SMOTE chỉ resample tập train sau khi split, chứng minh không leakage.
+- Các row D đúng author="D" và đúng params.
+- Run A/Run B độc lập cho kết quả khớp tuyệt đối.
+- Validator pass (đủ 6 hình, 2 báo cáo, audit).
+- Đồng nhất cross-file.
+- Không thay đổi M0/M1/M3 và dữ liệu chung.
 
 ## Tái sử dụng helper cho M1/M2/M3
 
@@ -131,7 +200,7 @@ Nếu `model_id` đã tồn tại với nội dung khác, helper dừng trước
 Mở `notebooks/05_improve_features.ipynb` và chọn **Restart & Run All**, hoặc chạy từ repo root trong môi trường canonical Python 3.14.0, NumPy 2.3.4, pandas 2.3.3, SciPy 1.17.1 và scikit-learn 1.9.0:
 
 ```powershell
-.\.venv\Scripts\python.exe -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=900 notebooks/05_improve_features.ipynb
+.\.venv\Scripts\python.exe -m nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=900 --ExecutePreprocessor.kernel_name=lab2-canonical --ExecutePreprocessor.record_timing=False --NotebookClient.record_timing=False notebooks/05_improve_features.ipynb
 ```
 
 Notebook tự dừng trước khi train nếu phiên bản môi trường không khớp. M3 loại đúng 12 feature kết quả HK1/HK2, giữ 24 feature gốc/78 cột encoded, gồm `International`, `Unemployment rate`, `Inflation rate` và `GDP`, rồi fit `DecisionTreeClassifier(random_state=42)` trên split chung.

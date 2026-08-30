@@ -1,0 +1,319 @@
+% Owner: Role A. Translated and adapted from the verified Vietnamese draft
+% docs/report_draft_b_c.md (section "c. Dataset Description"), AFTER the
+% 2026-08-30 fact-check pass that fixed 5 real errors (see progress/A.md).
+% Numbers below (course Graduate rates, correlation values, feature
+% importance ranks) are the CORRECTED values verified directly against
+% data/raw/data.csv and outputs/E_feature_importance_comparison.csv --
+% do not "fix" them back to the values in docs/02-DATASET-VA-CONG-VIEC.md
+% Phan A5/A6, those were the ones found to be wrong.
+
+\section{c. Dataset Description}
+\label{sec:c}
+
+\subsection{Data source}
+
+The group uses the \textbf{``Predict Students' Dropout and Academic
+Success''} dataset from the UCI Machine Learning Repository (ID~=~697),
+published by Realinho, Vieira Martins, Machado, and Baptista
+\citep{realinho2021dataset}, licensed CC~BY~4.0. The dataset is described
+in detail in the accompanying paper \citep{realinho2022predicting}.
+
+The data was collected at \textbf{Instituto Polit\'ecnico de Portalegre},
+Portugal, spanning \textbf{17 undergraduate degree programs} (Agronomy,
+Design, Nursing, Journalism and Communication, Management, Social
+Service, Biofuel Production Technologies, Informatics Engineering, etc.),
+academic years \textbf{2008/09 to 2018/19}. It combines information from
+several administrative sources at enrollment time (admission records,
+socio-economic data) with academic outcomes at the end of each of the
+first two semesters.
+
+\subsection{Dataset description --- numbers confirmed from actual data}
+
+The group did not copy figures from the UCI metadata page; instead it
+directly inspected the raw dataset to confirm:
+
+\begin{itemize}
+  \item The raw file contains \textbf{4,424 rows and 37 columns}
+    $\rightarrow$ 4{,}424 samples (students), 36 features + 1 label
+    column \texttt{Target}.
+  \item There are \textbf{zero} missing values across the whole dataset
+    (the authors pre-cleaned the data).
+  \item \textbf{Notable finding:} the UCI page lists 36 features, but
+    Table~1 of the original paper lists only 34. Cross-checking the
+    actual column list against that table, the discrepancy is exactly
+    two columns: \texttt{Previous qualification (grade)} and
+    \texttt{Admission grade} --- present in the released CSV but absent
+    from the paper's table. This is direct evidence the group inspected
+    the real data rather than copying the metadata.
+\end{itemize}
+
+The 36 features fall into six groups by nature: demographics (6 columns,
+e.g.\ Gender, Age at enrollment), socio-economic status (8 columns, e.g.\
+Tuition fees up to date, Scholarship holder), macroeconomics (3 columns:
+Unemployment rate, Inflation rate, GDP), academic background at
+enrollment (7 columns, e.g.\ Course, Admission grade), first-semester
+outcomes (6 columns), and second-semester outcomes (6 columns).
+
+\textbf{Target variable} has 3 classes, moderately imbalanced:
+
+\begin{table}[H]
+  \centering
+  \caption{Target class distribution (n = 4{,}424)}
+  \begin{tabular}{@{}lrrp{6cm}@{}}
+    \toprule
+    Class & Count & \% & Meaning \\
+    \midrule
+    Graduate & 2{,}209 & 49.9\% & Graduated on the standard timeline (3 years; 4 for Nursing) \\
+    Dropout  & 1{,}421 & 32.1\% & Dropped out \\
+    Enrolled & 794     & 17.9\% & Still enrolled past the standard timeline \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\textbf{Enrolled} is the minority class and the hardest to classify, as it
+sits ``between'' the other two classes in feature space -- this is the
+reason the class-imbalance improvement (Section~\ref{sec:f}, f.2) exists.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{A_target_distribution.png}
+  \caption{Target class distribution (n = 4{,}424).}
+  \label{fig:c1}
+\end{figure}
+
+Several of the observations below refer to how strongly a feature drives
+the baseline decision tree's actual splits, measured by Gini importance
+(the total reduction in class impurity attributed to that feature across
+the whole tree, described further in Section~\ref{sec:d}). Table~\ref{tab:c-importance}
+lists the top 10 features by this measure, plus one lower-ranked feature
+included for contrast with the discussion below.
+
+\begin{table}[H]
+  \centering
+  \caption{Top-10 features by Gini importance in the baseline tree (M0), plus one feature shown for contrast}
+  \label{tab:c-importance}
+  \begin{tabular}{@{}rlr@{}}
+    \toprule
+    Rank & Feature & Gini importance \\
+    \midrule
+    1  & Curricular units 2nd sem (approved)    & 0.340 \\
+    2  & Curricular units 2nd sem (grade)       & 0.045 \\
+    3  & Tuition fees up to date                & 0.045 \\
+    4  & Curricular units 2nd sem (enrolled)    & 0.045 \\
+    5  & Admission grade                        & 0.044 \\
+    6  & Course                                 & 0.044 \\
+    7  & Curricular units 1st sem (evaluations) & 0.034 \\
+    8  & Previous qualification (grade)         & 0.031 \\
+    9  & Curricular units 1st sem (approved)    & 0.029 \\
+    10 & Mother's occupation                    & 0.028 \\
+    \multicolumn{3}{c}{\ldots} \\
+    24 & Scholarship holder                     & 0.010 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Descriptive statistics from exploratory data analysis illustrate how
+strongly some features relate to the target: among
+students who had \textbf{not paid tuition on time}, 86\% ended up in the
+Dropout class, versus 25\% Dropout / 56\% Graduate among students who had
+paid on time. Students with a \textbf{scholarship} have a 3$\times$ lower
+Dropout rate than those without (12\% vs.\ 39\%).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{A_tuition_scholarship_vs_target.png}
+  \caption{Target distribution split by \texttt{Tuition fees up to date}
+    (left) and \texttt{Scholarship holder} (right).}
+  \label{fig:c2}
+\end{figure}
+
+\texttt{Tuition fees up to date} is among the top-5 features by
+permutation importance in the original paper \citep{realinho2022predicting},
+and is also rank~3 in Table~\ref{tab:c-importance} -- the two ways of
+measuring importance agree here. \texttt{Scholarship holder} is a more
+subtle case: it is \textbf{not} in the top-5 of either the paper or
+Table~\ref{tab:c-importance} (rank~24), even though its
+percentage-of-target chart above looks just as striking as tuition's. A
+large gap in a simple percentage-of-target chart does not automatically
+mean a feature is an important tree split once it is placed alongside
+stronger, possibly overlapping features such as \texttt{Tuition fees up
+to date} -- the tree may be extracting the same signal from a stronger
+correlate instead.
+
+By program of study, the two lowest-graduation programs are course code
+33 (Biofuel Production Technologies, 66.7\% Dropout) and course code 9119
+(Informatics Engineering, 54.1\% Dropout) -- only \textbf{8.3\% and 8.2\%}
+of their students graduate respectively, versus the dataset average of
+49.9\%. The two
+highest-graduation programs are course code 9238 (Social Service, 69.9\%
+Graduate) and course code 9500 (Nursing, 71.5\% Graduate), with the
+lowest Dropout rates (18.3\% and 15.4\%).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\textwidth]{A_target_by_course.png}
+  \caption{17 programs sorted by increasing Graduate rate.}
+  \label{fig:c3}
+\end{figure}
+
+The original paper ranks \texttt{Course} in its top-5 features by
+permutation importance \citep{realinho2022predicting}; in
+Table~\ref{tab:c-importance}, \texttt{Course} ranks 6th -- close to
+top-5 either way, and importantly, available at enrollment time, which
+is why it underpins the early-warning model M3 (Section~\ref{sec:f},
+f.3).
+
+The strongest single predictor in the whole dataset, by contrast, is
+only known once a semester has actually happened:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{A_curricular_units_2nd_sem_by_target.png}
+  \caption{\texttt{Curricular units 2nd sem (approved)} by Target class.}
+  \label{fig:c4}
+\end{figure}
+
+Median values are 0 for Dropout, 4 for Enrolled, and 6 for Graduate. This
+is the single most important feature in Table~\ref{tab:c-importance}
+(rank~1, importance 0.340 -- more than the sum of ranks 2--5 combined),
+but it is only known \emph{after} the second semester ends, so it cannot
+be used by the early-warning model M3.
+
+\subsection{Preprocessing performed}
+
+All preprocessing logic is implemented in a single shared pipeline, used
+by the whole team so every model is evaluated on the exact same
+train/test split.
+
+\begin{enumerate}
+  \item \textbf{No missing-value handling needed} -- the dataset is
+    already clean at the source (0 missing values).
+  \item \textbf{Re-encoding categorical columns stored as integers.} Many
+    columns are integer codes for unordered categories (e.g.\
+    \texttt{Course} code 33 = Biofuel Production Technologies, code 9500
+    = Nursing -- these codes carry no ordinal relationship). Left as-is,
+    scikit-learn would treat them as continuous and produce meaningless
+    splits like \texttt{Course} $\le$ 8.5. The group used a mixed
+    strategy:
+  \begin{itemize}
+    \item \textbf{One-hot encode} the 4 low-cardinality columns:
+      \texttt{Marital Status} (6), \texttt{Application mode} (18),
+      \texttt{Course} (17), \texttt{Previous qualification} (17) -- so
+      each split reads as a clear yes/no question (e.g.\ ``is this the
+      Nursing program?'').
+    \item \textbf{Keep the raw integer code} for high-cardinality
+      columns: the mother's and father's occupations (32/46 values),
+      the mother's and father's qualifications (29/34 values), and
+      \texttt{Nacionality} (21 values) -- one-hot encoding these would create
+      dozens of sparse columns, destabilizing the tree more than it
+      would help. This trade-off is noted explicitly as a limitation.
+    \item After this step the feature count grows from 36 to
+      \textbf{90} columns.
+  \end{itemize}
+  \item \textbf{No feature scaling.} A decision tree splits on a
+    threshold of one feature at a time, not on distances between data
+    points as KNN or linear regression do, so it is invariant to any
+    monotonic per-column transform such as scaling. Adding
+    \texttt{StandardScaler}/\texttt{MinMaxScaler} here would be
+    redundant and would not change the learned tree structure at all.
+  \item \textbf{Stratified train/test split}: 80\%/20\%, stratified by
+    class to preserve the $\approx$50/32/18 class ratio in both sets --
+    required because the data is imbalanced, to avoid a random split
+    accidentally starving the test set of the minority class. A fixed
+    random seed is used so all 5 models in the project are evaluated on
+    the exact same split.
+\end{enumerate}
+
+After preprocessing: \textbf{3{,}539 training samples / 885 test
+samples}, each with 90 numeric features, ready to feed directly into a
+decision tree classifier.
+
+\subsection{Multicollinearity among features}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{A_correlation_heatmap.png}
+  \caption{Pearson correlation heatmap across all numeric features.}
+  \label{fig:c5}
+\end{figure}
+
+The heatmap's colors show the overall pattern, but individual cell
+values are not printed on a 36$\times$36 grid; Table~\ref{tab:c-corr}
+lists the exact values for the pairs discussed here so they can be
+checked directly.
+
+\begin{table}[H]
+  \centering
+  \caption{Highest Pearson correlations in the dataset}
+  \label{tab:c-corr}
+  \begin{tabular}{@{}llr@{}}
+    \toprule
+    Feature & Correlated with & $r$ \\
+    \midrule
+    Curricular units 1st sem (credited) & Curricular units 2nd sem (credited) & 0.945 \\
+    Curricular units 1st sem (enrolled) & Curricular units 2nd sem (enrolled) & 0.943 \\
+    Mother's occupation                 & Father's occupation                 & 0.910 \\
+    Curricular units 1st sem (approved) & Curricular units 2nd sem (approved) & 0.904 \\
+    Nacionality                         & International                       & 0.791 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The three highest-correlation pairs in the whole dataset are
+\texttt{1st sem credited} $\leftrightarrow$ \texttt{2nd sem credited},
+\texttt{1st sem enrolled} $\leftrightarrow$ \texttt{2nd sem enrolled},
+and \textbf{\texttt{Mother's occupation} $\leftrightarrow$
+\texttt{Father's occupation}} -- this last pair is \emph{higher} than
+the semester-approved pair (\texttt{1st/2nd sem approved}). The pair
+\texttt{Nacionality} $\leftrightarrow$ \texttt{International} is still a
+high correlation (international students almost always have a
+non-Portuguese \texttt{Nacionality} code), but lower than the four
+pairs above.
+
+A decision tree is not as sensitive to multicollinearity as linear
+regression (it does not need redundant features removed to converge),
+but multicollinearity still splits feature importance across correlated
+columns and can make the tree structure less stable across samples. These
+correlations therefore provide diagnostic context, but they are not the
+selection rule for M3. The canonical early-warning experiment removes
+exactly the 12 semester-outcome columns based on availability at
+enrollment, while retaining both \texttt{Nacionality} and
+\texttt{International} so that feature timing is the only intentional
+difference from M0.
+
+\subsection{Why this dataset is appropriate for decision tree modeling}
+
+\begin{enumerate}
+  \item \textbf{Features have clear, real-world semantics} (tuition,
+    scholarship, semester outcomes, program of study, \ldots), so every
+    split translates into an ordinary sentence -- this plays directly to
+    a decision tree's interpretability strength, unlike image or text
+    data where that advantage is less exploitable.
+  \item \textbf{A mix of categorical and numerical features} -- after
+    nominal categories are encoded, the tree handles the resulting
+    numerical and indicator columns without scaling. This is unlike KNN
+    and many linear-model workflows, where feature scale directly affects
+    distances or optimization.
+  \item \textbf{A genuine class imbalance} (50\%/32\%/18\%) -- creates a
+    realistic scenario to apply and compare imbalance-handling
+    techniques, one of the improvement directions the brief itself
+    suggests (Section 3.2.d, ``Handling class imbalance'').
+  \item \textbf{Features split cleanly by collection time} (known at
+    enrollment vs.\ known only at end of semester) -- enables a
+    feature-selection experiment with real application meaning (early
+    warning), not just a statistics-driven selection.
+  \item \textbf{No missing values} -- lets the group spend its time on
+    analysis and interpretation instead of data cleaning, matching the
+    brief's own emphasis: not just running a ready-made model, but
+    clearly explaining how the tree is built and why the improvements
+    help.
+\end{enumerate}
+
+\subsection{Ethical note}
+
+The dataset contains sensitive variables: gender, nationality, marital
+status, and parents' education/occupation. Any tree splits on these
+variables only reflect \textbf{correlations observed in one Portuguese
+university's sample from 2008--2019}, not causal relationships, and
+should not be used as grounds for any discriminatory policy toward
+students in practice.

@@ -1,7 +1,7 @@
 # DATASET & CÔNG VIỆC CHI TIẾT
 
-> File kỹ thuật. Ai làm phần nào đọc kỹ mục của mình.
-> Tổng quan xem `01-TOM-TAT-HUONG-DI.md`.
+> Tài liệu kỹ thuật đã được đồng bộ với pipeline canonical ngày 2026-08-30.
+> Xem cách cài đặt/chạy ở `README.md`; yêu cầu gốc ở `docs/00-DE-BAI-GOC.pdf`.
 
 ---
 
@@ -32,7 +32,7 @@ print(ds.metadata)
 print(ds.variables)
 ```
 
-## A2. ⚠️ Cảnh báo về số feature — phải xử lý
+## A2. Đối chiếu số feature — đã xác nhận
 
 Trang UCI ghi **36 features**. Nhưng Table 1 của bài báo gốc chỉ liệt kê **34 features**.
 
@@ -40,7 +40,7 @@ Chênh lệch nằm ở 2 cột có trong file CSV phát hành nhưng không có
 - `Previous qualification (grade)`
 - `Admission grade`
 
-**→ Việc phải làm (A):** chạy `df.shape` và `df.columns.tolist()`, báo cáo **con số đếm thực tế**, kèm 1 câu ghi chú về chênh lệch này. Đây là điểm cộng — chứng minh nhóm đọc dữ liệu thật chứ không chép lại metadata.
+Pipeline đã kiểm tra trực tiếp `df.shape == (4424, 37)`: **36 feature + 1 target**. Hai cột chênh lệch được giữ lại và được mô tả trong báo cáo.
 
 ## A3. Phân bố lớp (target)
 
@@ -58,8 +58,8 @@ Chênh lệch nằm ở 2 cột có trong file CSV phát hành nhưng không có
 ### Nhóm 1 — Nhân khẩu học (6 cột)
 | Cột | Kiểu thực chất | Ghi chú |
 |---|---|---|
-| Marital status | **Category** (1–6) | 1=Độc thân, 2=Kết hôn, 3=Góa, 4=Ly hôn, 5=Sống chung, 6=Ly thân |
-| Nationality | **Category** (1–21) | 1=Bồ Đào Nha (chiếm áp đảo) |
+| `Marital Status` | **Category** | 6 giá trị quan sát, mã 1–6; tên cột có chữ `S` viết hoa trong CSV |
+| `Nacionality` | **Category** | 21 giá trị quan sát, mã 1–109; giữ nguyên chính tả từ bộ dữ liệu |
 | Displaced | Binary | 1=sống xa nhà |
 | Gender | Binary | 1=nam, 0=nữ |
 | Age at enrollment | **Numeric** | 17–70, trung bình 23.1, median 20 |
@@ -68,10 +68,10 @@ Chênh lệch nằm ở 2 cột có trong file CSV phát hành nhưng không có
 ### Nhóm 2 — Kinh tế xã hội (8 cột)
 | Cột | Kiểu thực chất | Ghi chú |
 |---|---|---|
-| Mother's qualification | **Category** (1–34) | Trình độ học vấn mẹ |
-| Father's qualification | **Category** (1–34) | Trình độ học vấn cha |
-| Mother's occupation | **Category** (1–32) | Nghề nghiệp mẹ |
-| Father's occupation | **Category** (1–46) | Nghề nghiệp cha |
+| Mother's qualification | **Category** | 29 giá trị quan sát |
+| Father's qualification | **Category** | 34 giá trị quan sát |
+| Mother's occupation | **Category** | 32 giá trị quan sát |
+| Father's occupation | **Category** | 46 giá trị quan sát |
 | Educational special needs | Binary | Chỉ 1.2% = 1 |
 | Debtor | Binary | 1=đang nợ, 11.4% |
 | **Tuition fees up to date** | Binary | ⭐ **Feature quan trọng**, 88.1% = 1 |
@@ -89,11 +89,11 @@ Chênh lệch nằm ở 2 cột có trong file CSV phát hành nhưng không có
 ### Nhóm 4 — Học vấn lúc nhập học (7 cột)
 | Cột | Kiểu thực chất | Ghi chú |
 |---|---|---|
-| Application mode | **Category** (1–18) | Hình thức xét tuyển |
-| Application order | Ordinal (1–9) | Nguyện vọng thứ mấy |
-| **Course** | **Category** (1–17) | ⭐ **Feature quan trọng**. VD: 12=Điều dưỡng, 7=CNTT, 1=Công nghệ nhiên liệu sinh học |
+| Application mode | **Category** | 18 giá trị quan sát, mã 1–57 |
+| Application order | Ordinal | 8 giá trị quan sát trong khoảng 0–9 |
+| **Course** | **Category** | 17 giá trị quan sát, mã 33–9991; ⭐ feature quan trọng |
 | Daytime/evening attendance | Binary | 1=ban ngày (89.1%) |
-| Previous qualification | **Category** (1–17) | Bằng cấp trước đó |
+| Previous qualification | **Category** | 17 giá trị quan sát, mã 1–43 |
 | Previous qualification (grade) | Numeric | Điểm bằng cấp trước |
 | Admission grade | Numeric | Điểm xét tuyển |
 
@@ -141,17 +141,16 @@ Quan trọng ở 3/4 thuật toán: `1st sem (enrolled)`, `1st sem (evaluations)
 |---|---|
 | 1st sem (credited) ↔ 2nd sem (credited) | **0.945** |
 | 1st sem (enrolled) ↔ 2nd sem (enrolled) | **0.943** |
-| Nationality ↔ International | **0.912** |
+| `Nacionality` ↔ International | **0.791** |
 | 1st sem (approved) ↔ 2nd sem (approved) | **0.904** |
 | 1st sem (grade) ↔ 2nd sem (grade) | 0.837 |
 | 1st sem (evaluations) ↔ 2nd sem (evaluations) | 0.779 |
 | 1st sem (credited) ↔ 1st sem (enrolled) | 0.774 |
 | 2nd sem (approved) ↔ 2nd sem (grade) | 0.761 |
-| Mother's occupation ↔ Father's occupation | 0.724 |
+| Mother's occupation ↔ Father's occupation | **0.910** |
 | 2nd sem (enrolled) ↔ 2nd sem (approved) | 0.703 |
 
-> Cây quyết định không bị ảnh hưởng nặng bởi đa cộng tuyến như hồi quy tuyến tính, **nhưng** nó làm feature importance bị chia nhỏ và khiến cây kém ổn định. Đây là căn cứ để E loại bớt cột trùng lặp.
-> `Nationality ↔ International` r=0.91 là cặp rõ ràng nhất nên bỏ một trong hai.
+> Cây quyết định không bị ảnh hưởng nặng bởi đa cộng tuyến như hồi quy tuyến tính, **nhưng** các feature tương quan có thể chia nhỏ importance và làm cấu trúc cây kém ổn định. M3 canonical không loại cột chỉ dựa trên correlation: nó loại **đúng 12 cột kết quả học kỳ** theo mục tiêu dự báo sớm và giữ cả `Nacionality` lẫn `International`.
 
 ## A7. Quan sát từ EDA của bài báo (dùng cho phần diễn giải)
 
@@ -168,7 +167,7 @@ Quan trọng ở 3/4 thuật toán: `1st sem (enrolled)`, `1st sem (evaluations)
 Đề yêu cầu nguyên văn: *"Explain why the dataset is appropriate for decision tree modeling."* Đây là câu trả lời trực tiếp, dùng được ngay cho mục Dataset Description:
 
 1. **Feature có ngữ nghĩa rõ ràng** → mọi split đều diễn giải được thành câu bình thường (VD: `Tuition fees up to date = 0` → "chưa đóng học phí"). Decision tree là mô hình *diễn giải được* (interpretable), và dataset này tận dụng đúng thế mạnh đó — khác với dữ liệu ảnh hay văn bản, nơi cây quyết định không phát huy được lợi thế diễn giải.
-2. **Trộn cả categorical và numerical** (xem A4) → cây xử lý tự nhiên cả hai loại mà không cần chuẩn hóa (B2), khác với các mô hình như KNN hay hồi quy tuyến tính bắt buộc phải scale.
+2. **Trộn cả categorical và numerical** (xem A4) → sau khi các biến nominal được mã hóa phù hợp, cây xử lý các cột số mà không cần scale (B2). `DecisionTreeClassifier` của scikit-learn không nhận chuỗi category trực tiếp.
 3. **Có mất cân bằng lớp thật** (50%/32%/18%, xem A3) → tạo tình huống thực tế để áp dụng và so sánh kỹ thuật xử lý imbalance — đúng một trong các hướng cải tiến đề gợi ý ở mục 3.2.d.
 4. **Feature chia rõ theo thời điểm thu thập** (6 nhóm ở A4) → cho phép thí nghiệm feature selection có ý nghĩa ứng dụng thực (dự báo sớm), không chỉ chọn feature theo thống kê thuần túy.
 5. **Không có missing value** (A1) → nhóm dồn thời gian cho phân tích và diễn giải thay vì làm sạch dữ liệu — đúng tinh thần đề nhấn mạnh ở mục 3.1: *"not only to run a ready-made model, but also to explain clearly how the tree is constructed, how it behaves on the dataset, and why certain improvements help."*
@@ -181,17 +180,15 @@ Quan trọng ở 3/4 thuật toán: `1st sem (enrolled)`, `1st sem (evaluations)
 
 Scikit-learn **không hiểu categorical**. Nó sẽ tạo split kiểu `Course <= 8.5` — vô nghĩa vì mã ngành không có thứ tự.
 
-**Hai lựa chọn, chọn cái nào cũng được nhưng PHẢI giải thích trong báo cáo:**
+**Pipeline canonical đã chốt cách xử lý sau:**
 
 | Cách | Ưu | Nhược |
 |---|---|---|
-| **(a)** Giữ nguyên mã số | Đơn giản, cây gọn | Split không diễn giải được → phải ghi vào Limitations |
-| **(b)** One-hot encode | Split thành `Course_Nursing <= 0.5` = *"có phải ngành Điều dưỡng không?"* → dễ hiểu | Cây rộng ra, nhiều cột hơn |
+| **One-hot encode** | `Marital Status`, `Application mode`, `Course`, `Previous qualification` | Ít cardinality hơn; split theo dummy dễ diễn giải |
+| **Giữ mã số** | `Nacionality`, qualification/occupation của cha mẹ | Tránh tạo quá nhiều cột thưa; phải nêu hạn chế thứ tự giả trong báo cáo |
+| **Giữ ordinal** | `Application order` | Có thứ tự tự nhiên |
 
-**Khuyến nghị:** làm hỗn hợp
-- **One-hot** các cột ít giá trị: `Course` (17), `Application mode` (18), `Marital status` (6), `Previous qualification` (17)
-- **Giữ nguyên** các cột nhiều giá trị: `Mother's/Father's occupation` (32/46), `Mother's/Father's qualification` (34), `Nationality` (21)
-- Ghi rõ lý do trong báo cáo: one-hot 46 nghề nghiệp sẽ tạo 46 cột thưa, làm cây kém ổn định
+Kết quả sau tiền xử lý là **90 cột encoded**. Hợp đồng cột và split được cố định trong `src/data.py` và được tất cả notebook dùng chung.
 
 ## B2. Không cần scale
 
@@ -210,7 +207,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 ---
 
-# PHẦN C — CHI TIẾT 4 MODEL
+# PHẦN C — CHI TIẾT 5 CẤU HÌNH MÔ HÌNH
 
 ## C0. Baseline (B làm)
 
@@ -218,16 +215,16 @@ X_train, X_test, y_train, y_test = train_test_split(
 DecisionTreeClassifier(random_state=42)   # không giới hạn gì
 ```
 
-**Cần xuất ra:**
-- [ ] `results.csv` — 1 dòng đủ 8 metrics
-- [ ] `figures/tree_M0_full.png` — cây đầy đủ (sẽ rất rối, đó là điều ta muốn cho thấy)
-- [ ] `figures/tree_M0_top3.png` — `plot_tree(..., max_depth=3)` để đọc được
-- [ ] `figures/cm_M0.png` — confusion matrix
-- [ ] `outputs/rules_M0.txt` — `export_text()`
+**Artifact đã có:**
+- [x] Dòng `M0` đủ schema 16 cột trong `outputs/results.csv`
+- [x] `figures/B_tree_M0_full.png`
+- [x] `figures/B_tree_M0_top3.png` (`max_depth=3`, hiển thị từ depth 0 đến 3)
+- [x] `figures/B_cm_M0.png`
+- [x] `outputs/rules_M0.txt` và `outputs/classification_report_M0.txt`
 
 **Dự đoán kết quả:** train accuracy ≈ 1.00, test accuracy ≈ 0.65–0.72, độ sâu 25–35 tầng. Chênh lệch train/test khổng lồ này **chính là bằng chứng overfit** mà đề yêu cầu bình luận.
 
-> 💡 **Kiểm tra nhanh — không tính vào 3 cải tiến chính thức:** đề liệt kê *"Changing the splitting criterion (e.g., Gini vs. Entropy)"* làm một ví dụ hướng cải tiến (mục 3.2.d). Nhóm không chọn hướng này làm 1 trong 3 cải tiến chính (đề chỉ yêu cầu 2–3, không bắt làm hết danh sách), nhưng B nên chạy thêm 1 dòng `DecisionTreeClassifier(criterion='entropy', random_state=42)` để so nhanh với baseline (`criterion='gini'` mặc định), rồi ghi 1–2 câu trong mục d: *"đã thử criterion='entropy', chênh lệch không đáng kể (X%), nên nhóm tập trung vào 3 hướng có tác động lớn hơn."* Chỉ tốn 1 dòng code, nhưng cho thấy nhóm đã cân nhắc cả không gian giải pháp trước khi chọn.
+> 💡 **Kiểm tra phụ đã chạy, không tính là cải tiến chính:** Entropy đạt test accuracy `0.6531`, thấp hơn Gini `0.6689` **1.58 điểm phần trăm** trên cùng split. Vì vậy nhóm giữ Gini cho baseline và tập trung vào ba hướng cải tiến chính.
 
 ## C1. Pruning (C làm)
 
@@ -240,11 +237,11 @@ DecisionTreeClassifier(random_state=42)   # không giới hạn gì
 
 > ⚠️ **Bẫy:** KHÔNG chọn alpha theo test accuracy. Đó là tuning trên test set — gian lận thống kê, thầy sẽ hỏi.
 
-**Cần xuất ra:**
-- [ ] `figures/ccp_alpha_curve.png` — đồ thị alpha vs train/test accuracy
-- [ ] `figures/tree_M1.png` — cây sau pruning (sẽ đẹp, in được)
-- [ ] Bảng grid search
-- [ ] 1 dòng `results.csv`
+**Artifact đã có:**
+- [x] `figures/C_ccp_alpha_curve.png` — cost-complexity path và CV score **chỉ trên train**, không vẽ test curve trong giai đoạn tuning
+- [x] `figures/C_tree_M1.png`, `figures/C_cm_M1.png`
+- [x] Bảng 16 cấu hình grid search trong notebook
+- [x] `outputs/classification_report_M1.txt` và đúng một dòng `M1`
 
 **Dự đoán:** test accuracy tăng nhẹ hoặc giữ nguyên, nhưng **độ sâu giảm từ ~30 xuống ~5–8 tầng, số leaf giảm hàng chục lần**. Đây mới là kết quả đáng nói: *"giữ nguyên hiệu năng mà cây dễ đọc hơn 10 lần"*.
 
@@ -257,16 +254,16 @@ DecisionTreeClassifier(class_weight='balanced', random_state=42)
 
 # M2b — SMOTE
 from imblearn.over_sampling import SMOTE
-X_res, y_res = SMOTE(random_state=42).fit_resample(X_train, y_train)  # CHỈ train!
+X_res, y_res = SMOTE(sampling_strategy="auto", random_state=42, k_neighbors=5).fit_resample(X_train, y_train)  # CHỈ train!
 ```
 
 > ⚠️ **Bẫy chí mạng:** SMOTE **chỉ áp dụng trên tập train**, tuyệt đối không trước khi split. Sai chỗ này = rò rỉ dữ liệu, accuracy ảo, và là câu hỏi đầu tiên thầy sẽ hỏi.
 
-**Cần xuất ra:**
-- [ ] `figures/D_tree_M2a.png` — ⚠️ **đừng quên hình cây.** Đề yêu cầu ở mục 3.4.f: *"Modified tree **or** model setting"* cho MỖI cải tiến, không riêng M1/M3. `class_weight='balanced'` vẫn làm Gini bị tính lại theo trọng số → cấu trúc split có thể đổi so với M0, nên vẫn cần so hình cây, không chỉ nêu tham số
-- [ ] `figures/cm_M2a.png` và `figures/cm_M2b.png`
-- [ ] Bảng so sánh **recall từng lớp** M0 vs M2a vs M2b
-- [ ] 2 dòng `results.csv`
+**Artifact đã có:**
+- [x] `figures/D_tree_M2a.png`, `figures/D_tree_M2a_full.png`, `figures/D_tree_M2b.png`, `figures/D_tree_M2b_full.png`
+- [x] `figures/D_cm_M2a.png` và `figures/D_cm_M2b.png`
+- [x] Bảng so sánh recall từng lớp trong notebook/bản thảo f.2
+- [x] Hai classification report và đúng một dòng cho mỗi `M2a`, `M2b`
 
 **Dự đoán quan trọng:** accuracy tổng **có thể giảm**, trong khi recall lớp Enrolled và Dropout **tăng**. Đây không phải lỗi. Đề cho phép rõ: *"explain why the method improves **or does not improve**"*. Phân tích đánh đổi này là phần hay nhất của M2.
 
@@ -293,16 +290,16 @@ Curricular units 2nd sem (without evaluations)
 > ✅ **Giữ lại 3 biến vĩ mô** (`Unemployment rate`, `Inflation rate`, `GDP`) — chúng phụ thuộc năm nhập học, đã biết tại thời điểm dự báo, không phải thông tin tương lai.
 > M3 canonical cũng giữ `International`: thí nghiệm chỉ thay đổi đúng 12 feature học kỳ để còn 24 feature gốc và dễ đối chiếu trực tiếp với M0.
 
-**Cần xuất ra:**
-- [ ] `figures/E_tree_M3.png` và `figures/E_cm_M3.png`
-- [ ] `outputs/classification_report_M3.txt` và đúng một dòng M3 trong `outputs/results.csv`
-- [ ] `figures/E_feature_importance.png` + `outputs/E_feature_importance_comparison.csv` — Gini/MDI gộp one-hot về feature gốc
-- [ ] `figures/E_feature_importance_permutation.png` + `outputs/E_feature_importance_permutation.csv` — grouped permutation trên 885 test rows, 30 repeats, seed 42, scorer accuracy
-- [ ] Quality gate chứng minh M0/M1/M2a/M2b và artifact D bất biến trước/sau khi E chạy
+**Artifact đã có:**
+- [x] `figures/E_tree_M3.png` và `figures/E_cm_M3.png`
+- [x] `outputs/classification_report_M3.txt` và đúng một dòng M3 trong `outputs/results.csv`
+- [x] `figures/E_feature_importance.png` + `outputs/E_feature_importance_comparison.csv`
+- [x] `figures/E_feature_importance_permutation.png` + `outputs/E_feature_importance_permutation.csv`
+- [x] Quality gate bảo vệ M0/M1/M2a/M2b và artifact D
 
 **Kết quả canonical hiện tại:** accuracy giảm từ M0 `0.6689` xuống M3 `0.5412`. **Đó là kết quả mong đợi và là điểm mấu chốt:**
 
-> *"M0 chính xác hơn M3 khoảng X%, nhưng M0 cần biết kết quả 2 học kỳ — tức là chỉ cảnh báo được khi sinh viên đã trượt môn. M3 kém hơn nhưng là model duy nhất triển khai được như hệ thống can thiệp sớm. Model tốt nhất theo accuracy không phải model tốt nhất theo mục tiêu ứng dụng."*
+> *"M0 cao hơn M3 **12.77 điểm phần trăm accuracy**, nhưng M0 cần biết kết quả hai học kỳ. M3 kém chính xác hơn nhưng là cấu hình duy nhất trong năm cấu hình có thể chạy ngay lúc nhập học. Model tốt nhất theo accuracy không nhất thiết là model phù hợp nhất với mục tiêu can thiệp sớm."*
 
 ---
 
@@ -310,7 +307,7 @@ Curricular units 2nd sem (without evaluations)
 
 > ⚠️ **Đã rà soát lại và bổ sung 2 cột bị thiếu (Precision, ROC-AUC).** Đề ghi rõ ở mục 3.2.b: *"Confusion Matrix, Accuracy, Precision, Recall, F1-score, ROC-AUC, ..."* — bản trước của file này chỉ có Accuracy/Recall/F1, thiếu Precision và ROC-AUC. Bảng dưới đã đủ.
 
-Mỗi model ghi đủ **10 cột số liệu** vào `results.csv`:
+Mỗi model ghi đủ **12 cột số liệu** vào `results.csv` (tổng schema 16 cột khi tính cả 4 cột định danh/mô tả):
 
 | Cột | Công thức / Ghi chú |
 |---|---|
@@ -351,70 +348,68 @@ roc_auc = roc_auc_score(
 
 ---
 
-# PHẦN E — DANH SÁCH VIỆC PHẢI LÀM
+# PHẦN E — TRẠNG THÁI BÀN GIAO VÀ VIỆC CÒN LẠI
+
+> Trạng thái được đồng bộ ngày 2026-08-30. Pha code/thí nghiệm đã hoàn tất; các ô chưa đánh dấu là đầu vào của pha report/slide/video hoặc thông tin nhóm mà repository không thể tự suy đoán.
 
 ## E1. Việc chung (cả nhóm)
 
-- [ ] Xác nhận **GroupID** và **deadline** với thầy (`vntan.work@gmail.com`)
-- [ ] Tạo GitHub repo, ai cũng push được
-- [ ] Tạo Google Doc chung cho báo cáo
-- [ ] Thống nhất `random_state=42`
+- [ ] Xác nhận **GroupID**, danh sách thành viên và **deadline** với giảng viên
+- [x] Git repository và quy trình branch đã hoạt động
+- [x] Dự án báo cáo LaTeX trong `docs/report/` đã thay cho kế hoạch Google Doc
+- [x] Toàn bộ bước có ngẫu nhiên dùng `random_state=42`
 
 ## E2. A — Data Lead
 
-- [ ] Tải dataset, lưu `data/raw/data.csv`
-- [ ] Chạy `df.shape`, `df.info()`, `df.isnull().sum()` → xác nhận số thực tế
-- [ ] EDA: phân bố target, thống kê mô tả, heatmap tương quan (4–5 hình)
-- [ ] Viết `docs/feature_types.md` — cột nào là category dù lưu số
-- [ ] ⭐ Viết `src/data.py`: `load_and_preprocess()` + `get_train_test()` — **deliverable quan trọng nhất, phải xong sớm nhất**
-- [ ] Gộp `results.csv` thành bảng so sánh cuối
-- [ ] Vẽ `figures/comparison.png`
-- [ ] Viết mục **b** Introduction, **c** Dataset Description, **g** Comparison, **h** Conclusion
+- [x] Dataset gốc có tại `data/raw/data.csv`; notebook 01 có thể tải lại khi bootstrap
+- [x] Xác nhận shape, schema, missing value, duplicate và phân bố target
+- [x] EDA và 5 hình prefix `A_`
+- [x] `docs/feature_types.md`
+- [x] `src/data.py`: `load_and_preprocess()` + `get_train_test()`
+- [x] `outputs/comparison_table.csv` và `figures/comparison.png`
+- [x] Bản LaTeX nền cho mục **b**, **c**, **g**, **h**; cần biên tập cuối trong pha viết report
 
 ## E3. B — Baseline & Tree Analysis
 
-- [ ] Viết `src/evaluate.py` — hàm tính đủ 8 metrics, tự append `results.csv`
-- [ ] Viết `src/visualize.py` — `plot_tree_figure()`, `export_rules()`
-- [ ] Train M0, xuất đủ deliverable mục C0
-- [ ] ⭐ Viết mục **e** Analysis of the Tree — mục ăn điểm nhất, phải trả lời 5 câu:
+- [x] `src/evaluate.py` — helper ghi 12 số liệu/schema 16 cột, classification report và confusion matrix
+- [x] `src/visualize.py` — `plot_tree_figure()`, `export_rules()`
+- [x] Train M0 và xuất đủ artifact mục C0
+- [ ] Hoàn thiện mục **e** Analysis of the Tree trong report, trả lời 5 câu:
   1. Root split là feature nào? Tại sao thuật toán chọn nó?
   2. Ba tầng đầu chia theo logic gì? Diễn giải bằng tiếng Việt.
   3. Cây sâu bao nhiêu tầng, bao nhiêu leaf? Có leaf nào chỉ 1–2 mẫu?
   4. Train vs test chênh bao nhiêu → overfit?
   5. Viết 2–3 luật IF-THEN đầy đủ
-- [ ] Viết mục **d** Baseline Model
-- [ ] Dọn code, viết `README.md`
+- [ ] Chuyển bản thảo đã kiểm chứng sang mục **d** Baseline Model
+- [x] Dọn code và viết `README.md`
 
-**Mẫu viết một luật:**
-> *"IF `Tuition fees up to date` = 0 AND `Curricular units 2nd sem (approved)` ≤ 2 THEN Dropout (n=187, độ thuần khiết 91%). Luật khớp với quan sát EDA của bài báo gốc: sinh viên vừa khó khăn tài chính vừa không qua môn nào là nhóm nguy cơ cao nhất."*
+**Quy tắc viết luật:** chỉ chép IF–THEN từ `outputs/rules_M0.txt` và đối chiếu số mẫu/impurity trên cây đã fit; không dùng số minh họa chưa được xác minh.
 
 ## E4. C — Pruning
 
-- [ ] Đọc kỹ trang sklearn về cost-complexity pruning **trước khi code**
-- [ ] Chạy `cost_complexity_pruning_path`, vẽ đường cong alpha
-- [ ] Chọn alpha bằng **CV trên train**, không phải test
-- [ ] Grid nhỏ cho `max_depth`, `min_samples_leaf`
-- [ ] Xuất deliverable mục C1
-- [ ] Viết mục **f.1** Improvement Method 1
-- [ ] Kiểm tra code cả nhóm chạy được trên máy sạch
+- [x] Cost-complexity path và tài liệu API đã được đối chiếu
+- [x] Chọn alpha bằng CV chỉ trên train
+- [x] Grid 16 cấu hình cho `max_depth`, `min_samples_leaf`
+- [x] Xuất đủ artifact mục C1
+- [ ] Chuyển bản thảo đã kiểm chứng sang mục **f.1**
+- [x] Full pipeline đã được kiểm tra trong môi trường canonical
 
 ## E5. D — Class Imbalance
 
-- [ ] Đọc paper SMOTE (Chawla et al., 2002)
-- [ ] Train M2a với `class_weight='balanced'`
-- [ ] Train M2b với SMOTE **chỉ trên train**
-- [ ] Bảng so sánh recall từng lớp M0 vs M2a vs M2b
-- [ ] Xuất deliverable mục C2
-- [ ] Viết mục **f.2** Improvement Method 2 — **nhớ phân tích đánh đổi accuracy vs recall**
+- [x] Nền tảng SMOTE đã có trong references
+- [x] Train M2a với `class_weight='balanced'`
+- [x] Train M2b với SMOTE **chỉ trên train**
+- [x] Bảng so sánh recall từng lớp M0/M2a/M2b
+- [x] Xuất đủ artifact mục C2
+- [ ] Chuyển bản thảo đã kiểm chứng sang mục **f.2**, giữ phân tích trade-off accuracy/recall
 
 ## E6. E — Early-warning Feature Selection
 
-- [ ] Lọc đúng 12 cột theo mục C3, train M3
-- [ ] So sánh Gini/MDI và held-out grouped permutation importance M0 vs M3
-- [ ] Xuất deliverable mục C3
-- [ ] Chạy lặp độc lập hai lần trong môi trường canonical và bảo vệ toàn bộ kết quả D
-- [ ] Hỗ trợ B viết mục **e**
-- Report/References, slide và video không thuộc phạm vi sửa E lần này; nhóm thực hiện chung ở giai đoạn sau.
+- [x] Loại đúng 12 cột học kỳ và train M3 trên 24 feature gốc/78 cột encoded
+- [x] So sánh Gini/MDI và held-out grouped permutation importance M0/M3
+- [x] Xuất đủ artifact mục C3
+- [x] Kiểm tra tái lập và bảo vệ artifact D
+- [ ] Viết nội dung cuối cho mục **f.3** trong pha report
 
 ## E7. Trưởng nhóm — đóng gói
 
@@ -431,11 +426,13 @@ roc_auc = roc_auc_score(
 ```
 [GroupID]-decision-tree/
 ├── README.md
+├── AGENT.md
 ├── requirements.txt
+├── requirements-lock.txt       ⭐ lock canonical — chỉ A/Integrator cập nhật
 ├── data/raw/data.csv
 ├── src/
 │   ├── data.py                ⭐ A — load, preprocess, split
-│   ├── evaluate.py            B — 8 metrics + confusion matrix
+│   ├── evaluate.py            B — schema 16 cột + report/confusion matrix
 │   └── visualize.py           B — vẽ cây, export rules
 ├── notebooks/
 │   ├── 01_eda.ipynb                A
@@ -444,14 +441,19 @@ roc_auc = roc_auc_score(
 │   ├── 04_improve_imbalance.ipynb  D
 │   ├── 05_improve_features.ipynb   E
 │   └── 06_comparison.ipynb         A
-├── figures/
+├── figures/                      22 PNG canonical, prefix A/B/C/D/E + comparison
 ├── outputs/
-│   ├── results.csv            ⭐ file kết quả chung
+│   ├── results.csv            ⭐ 5 cấu hình, schema 16 cột
+│   ├── comparison_table.csv
+│   ├── classification_report_M*.txt
 │   └── rules_M0.txt
-└── docs/feature_types.md      A
+└── docs/
+    ├── 00-DE-BAI-GOC.pdf
+    ├── feature_types.md
+    └── report/                    LaTeX source + report.pdf
 ```
 
-**requirements.txt:**
+**Dependency trực tiếp trong `requirements.txt`:**
 ```
 pandas
 numpy
@@ -461,6 +463,8 @@ seaborn
 imbalanced-learn
 ucimlrepo
 ```
+
+`requirements-lock.txt` khóa cả dependency trực tiếp lẫn bắc cầu của môi trường canonical dùng để tái lập artifact. Chỉ A/Integrator refresh file này sau khi cài sạch, chạy `pip check` và chạy lại đầy đủ notebook/artifact bị ảnh hưởng.
 
 ---
 
@@ -515,11 +519,11 @@ Một đoạn ngắn thôi, nhưng nó thể hiện độ chín của nhóm và 
 |---|---|---|---|
 | **a.** Group Introduction | Tên nhóm, MSSV, **đóng góp cụ thể từng người** | Bảng J1 ngay dưới đây | Điền tên thật, MSSV, GroupID |
 | **b.** Introduction | Giới thiệu decision tree, mục tiêu đồ án | Tham khảo Phần H mục 8–9 (Quinlan, Breiman) | Viết ~1 trang dựa lý thuyết chuẩn |
-| **c.** Dataset Description | Nguồn, số mẫu/feature/target, tiền xử lý, **vì sao phù hợp** | Phần A1–A8, Phần B1–B3 | Số liệu **đếm thực tế** từ code (xem cảnh báo A2) |
-| **d.** Baseline Model | Mô tả, quy trình train/test, **hình cây**, accuracy + error rate | Phần B3, Phần C0, Phần D, Phần G | Số liệu thực chạy ra |
+| **c.** Dataset Description | Nguồn, số mẫu/feature/target, tiền xử lý, **vì sao phù hợp** | Phần A1–A8, Phần B1–B3 | Số liệu đã xác minh; biên tập văn phong cuối |
+| **d.** Baseline Model | Mô tả, quy trình train/test, **hình cây**, accuracy + error rate | Phần B3, Phần C0, Phần D, Phần G | Chuyển bản thảo đã kiểm chứng sang LaTeX |
 | **e.** Analysis of the Tree | Trình bày cây, cấu trúc, điểm mạnh/yếu | Phần C0 + 5 câu hỏi bắt buộc ở mục E3 | Phân tích cụ thể trên cây thật, không viết chung chung |
-| **f.** Improvement Methods (2–3) | Mô tả, **modified tree/setting**, accuracy + error rate, giải thích vì sao | Phần C1/C2/C3 — cả 3 đều đã có yêu cầu hình cây | Số liệu thực chạy ra |
-| **g.** Comparison of Results | So sánh, bảng/hình, chỉ ra tốt nhất | `results.csv` (Phần D, 16 cột) → A tổng hợp | Chờ cả 4 model chạy xong |
+| **f.** Improvement Methods (2–3) | Mô tả, **modified tree/setting**, accuracy + error rate, giải thích vì sao | Phần C1/C2/C3 — cả 3 đã có artifact | Chuyển ba bản thảo sang LaTeX |
+| **g.** Comparison of Results | So sánh, bảng/hình, chỉ ra tốt nhất | `results.csv` (16 cột), `comparison_table.csv`, `comparison.png` | Năm cấu hình đã hoàn tất; biên tập cuối |
 | **h.** Conclusion | Tóm tắt, phát hiện chính, đánh giá hiệu quả decision tree | — viết mới dựa trên kết quả thật | Viết ~1 trang |
 | **i.** References | Nguồn dataset, tài liệu, thư viện | Phần H — 10 mục đã soạn sẵn | Bổ sung nếu trích thêm nguồn khác |
 

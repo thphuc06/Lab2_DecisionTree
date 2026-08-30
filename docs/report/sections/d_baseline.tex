@@ -1,0 +1,56 @@
+% Owner: Role B. NOT translated yet -- this is a structural skeleton only.
+%
+% Source material (Vietnamese, already fact-checked -- see
+% progress/A.md 2026-08-30 audit: 0 errors found in this file out of
+% ~40 checked numeric claims): docs/report_draft_d_e.md, top part
+% (headed "# d. Baseline Model", down to "## Kiem tra phu Gini va Entropy").
+% Translate/adapt that verified content into English below -- do not
+% re-derive numbers from scratch, they were already independently
+% re-verified by a fresh retrain during the audit.
+%
+% Brief requires (Section 3.4.d):
+%   - Description of the initial decision tree model.
+%   - Training and testing procedure.
+%   - Resulting tree figure or visualization.
+%   - Accuracy and error rate of the baseline model.
+%
+% Figures already committed and ready to reference (do not rename):
+%   figures/B_tree_M0_full.png   -- full tree (illustrates overfitting)
+%   figures/B_tree_M0_top3.png   -- max_depth=3 view (readable)
+%   figures/B_cm_M0.png          -- confusion matrix
+
+\section{d. Baseline Model}
+\label{sec:d}
+
+\subsection{Model description and training procedure}
+
+\todo{Describe the unconstrained Gini baseline (random seed 42) and the shared fixed, stratified split: 3,539 training rows and 885 test rows.}
+
+\subsection{Resulting tree}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{B_tree_M0_full.png}
+  \caption{\todo{Caption: full M0 tree -- state node/leaf count and what it illustrates (overfitting).}}
+  \label{fig:d1}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{B_tree_M0_top3.png}
+  \caption{\todo{Caption: M0 tree truncated to max\_depth=3 for readability -- describe the root and first splits shown.}}
+  \label{fig:d2}
+\end{figure}
+
+\subsection{Accuracy and error rate}
+
+\todo{Report train\_acc, test\_acc, error\_rate from \texttt{outputs/results.csv} (M0 row) and \texttt{outputs/classification\_report\_M0.txt}. Include the confusion matrix figure below.}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{B_cm_M0.png}
+  \caption{\todo{Caption: confusion matrix on the 885-sample held-out test set.}}
+  \label{fig:d3}
+\end{figure}
+
+\todo{Optional: the Gini-vs-Entropy quick check mentioned in docs/02-DATASET-VA-CONG-VIEC.md C0 note -- one sentence is enough, this is explicitly not one of the 3 official improvements.}

@@ -1,0 +1,133 @@
+% Shared bibliography for the whole report.
+% Append-only, like outputs/results.csv: add new entries at the bottom,
+% do not delete or rewrite another role's entry. Cite with backslash-cite-key
+% from any section file. Every entry below is already used by at least one
+% section draft in docs/report_draft_*.md or notebooks/05_improve_features.ipynb
+% -- none of these were invented for this skeleton.
+%
+% NOTE: BibTeX does NOT treat percent-sign lines as real comments -- it
+% just scans the whole file for the next literal at-sign character to
+% start parsing an entry. Do not type an at-sign anywhere in this header
+% (not even inside a word, not even to talk about this rule), or BibTeX
+% will try to parse it as a new entry and fail. This file previously
+% broke "bibtex report" with "I was expecting a backtick-brace or a
+% backtick-paren" for exactly this reason -- caught by an actual compile,
+% not by manual review, and re-triggered once already while writing this
+% very warning, which is why it is now phrased with no at-sign at all.
+
+@misc{realinho2021dataset,
+  author       = {Realinho, Valentim and Vieira Martins, M{\'o}nica and Machado, Jorge and Baptista, Lu{\'i}s},
+  title        = {Predict Students' Dropout and Academic Success},
+  year         = {2021},
+  howpublished = {UCI Machine Learning Repository},
+  doi          = {10.24432/C5MC89},
+  note         = {Dataset, id=697}
+}
+
+@article{realinho2022predicting,
+  author  = {Realinho, Valentim and Machado, Jorge and Baptista, Lu{\'i}s and Martins, M{\'o}nica V.},
+  title   = {Predicting Student Dropout and Academic Success},
+  journal = {Data},
+  volume  = {7},
+  number  = {11},
+  pages   = {146},
+  year    = {2022},
+  doi     = {10.3390/data7110146}
+}
+
+@inproceedings{martins2021early,
+  author    = {Martins, M{\'o}nica V. and Tolentino, Daniel and Machado, Jorge and Baptista, Lu{\'i}s and Realinho, Valentim},
+  title     = {Early Prediction of Student's Performance in Higher Education: A Case Study},
+  booktitle = {Trends and Applications in Information Systems and Technologies (WorldCIST 2021)},
+  series    = {Advances in Intelligent Systems and Computing},
+  volume    = {1365},
+  pages     = {166--175},
+  year      = {2021}
+}
+
+@article{quinlan1986induction,
+  author  = {Quinlan, J. Ross},
+  title   = {Induction of Decision Trees},
+  journal = {Machine Learning},
+  volume  = {1},
+  number  = {1},
+  pages   = {81--106},
+  year    = {1986}
+}
+
+@book{breiman1984classification,
+  author    = {Breiman, Leo and Friedman, Jerome H. and Olshen, Richard A. and Stone, Charles J.},
+  title     = {Classification and Regression Trees},
+  publisher = {Wadsworth},
+  year      = {1984}
+}
+
+@book{mitchell1997machine,
+  author    = {Mitchell, Tom M.},
+  title     = {Machine Learning},
+  publisher = {McGraw-Hill},
+  year      = {1997}
+}
+
+@article{pedregosa2011scikit,
+  author  = {Pedregosa, Fabian and Varoquaux, Ga{\"e}l and Gramfort, Alexandre and Michel, Vincent and Thirion, Bertrand and Grisel, Olivier and Blondel, Mathieu and Prettenhofer, Peter and Weiss, Ron and Dubourg, Vincent and Vanderplas, Jake and Passos, Alexandre and Cournapeau, David and Brucher, Matthieu and Perrot, Matthieu and Duchesnay, {\'E}douard},
+  title   = {Scikit-learn: Machine Learning in {P}ython},
+  journal = {Journal of Machine Learning Research},
+  volume  = {12},
+  pages   = {2825--2830},
+  year    = {2011}
+}
+
+@article{chawla2002smote,
+  author  = {Chawla, Nitesh V. and Bowyer, Kevin W. and Hall, Lawrence O. and Kegelmeyer, W. Philip},
+  title   = {{SMOTE}: Synthetic Minority Over-sampling Technique},
+  journal = {Journal of Artificial Intelligence Research},
+  volume  = {16},
+  pages   = {321--357},
+  year    = {2002}
+}
+
+@misc{sklearn_pruning_example,
+  author       = {{scikit-learn developers}},
+  title        = {Post pruning decision trees with cost complexity pruning},
+  howpublished = {scikit-learn documentation},
+  year         = {2026},
+  url          = {https://scikit-learn.org/1.8/auto_examples/tree/plot_cost_complexity_pruning.html},
+  note         = {URL as cited in docs/report\_draft\_f1\_pruning.md; accessed 2026}
+}
+
+@misc{sklearn_gridsearchcv,
+  author       = {{scikit-learn developers}},
+  title        = {{GridSearchCV}},
+  howpublished = {scikit-learn documentation},
+  year         = {2026},
+  url          = {https://scikit-learn.org/1.8/modules/generated/sklearn.model_selection.GridSearchCV.html},
+  note         = {Accessed 2026}
+}
+
+@misc{sklearn_stratifiedkfold,
+  author       = {{scikit-learn developers}},
+  title        = {{StratifiedKFold}},
+  howpublished = {scikit-learn documentation},
+  year         = {2026},
+  url          = {https://scikit-learn.org/1.8/modules/generated/sklearn.model_selection.StratifiedKFold.html},
+  note         = {Accessed 2026}
+}
+
+@misc{imblearn_smote_api,
+  author       = {{imbalanced-learn developers}},
+  title        = {{imblearn.over\_sampling.SMOTE}},
+  howpublished = {imbalanced-learn 0.14.2 documentation},
+  year         = {2026},
+  url          = {https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.SMOTE.html},
+  note         = {Accessed 2026}
+}
+
+@misc{imblearn_oversampling_guide,
+  author       = {{imbalanced-learn developers}},
+  title        = {Over-sampling},
+  howpublished = {imbalanced-learn 0.14.2 documentation},
+  year         = {2026},
+  url          = {https://imbalanced-learn.org/stable/over_sampling.html},
+  note         = {Accessed 2026}
+}
