@@ -4,8 +4,8 @@
 > Agent: đọc file này ngay sau khi xác nhận mình đang phục vụ role B (bước 5, Mục 0 của `AGENT.md`), và **cập nhật lại trước khi bàn giao cuối mỗi phiên** (bước 8, Mục 0).
 
 ## Trạng thái hiện tại
-_(cập nhật lần cuối: 2026-08-29)_
-- Đang làm: Đã hoàn thành, chờ người dùng review diff và tự commit.
+_(cập nhật lần cuối: 2026-08-30)_
+- Đang làm: Đã hoàn tất và QA hai section LaTeX d/e; chờ người dùng review để commit/push.
 - Bị chặn bởi: —
 
 ## Đã xong
@@ -17,6 +17,8 @@ _(cập nhật lần cuối: 2026-08-29)_
 - [x] Kiểm tra nhanh Gini vs Entropy (không tính vào 3 cải tiến chính — xem `docs/02-...` Phần C0)
 - [x] Viết `docs/report_draft_d_e.md` và cập nhật `README.md`
 - [x] Hoàn thành kiểm thử cuối và QA trực quan artifact
+- [x] Hoàn thiện bản tiếng Anh `docs/report/sections/d_baseline.tex` (6 TODO)
+- [x] Hoàn thiện và QA `docs/report/sections/e_analysis.tex` (7 TODO)
 
 ## Quyết định đã chốt
 - ccp_alpha / criterion baseline dùng: `ccp_alpha=0.0`, criterion mặc định `gini`; không giới hạn depth/split/leaf.
@@ -30,6 +32,11 @@ _(cập nhật lần cuối: 2026-08-29)_
 
 ## Nhật ký phiên làm việc
 <!-- Mỗi phiên thêm 1 mục mới lên TRÊN CÙNG, không xóa mục cũ -->
+
+### 2026-08-30 — giai đoạn báo cáo
+- Đã làm gì: Đồng bộ `main`, đọc lại đề gốc/quy tắc LaTeX và chuyển toàn bộ 13 TODO của hai mục d--e sang tiếng Anh học thuật. Mục d bổ sung bảng split, metrics đầy đủ, classification report và so sánh Gini--Entropy. Mục e bổ sung phép tính root split, toàn bộ node từ depth 0 đến 3, thống kê độ phức tạp/overfitting, ba luật IF--THEN đầy đủ, cùng phân tích ưu/nhược điểm và giới hạn đạo đức.
+- Kết quả: `d_baseline.tex` và `e_analysis.tex` đều không còn TODO. Toàn báo cáo compile thành công bằng `pdflatex`--`bibtex`--`pdflatex`--`pdflatex` (thêm một lượt `pdflatex` để ổn định nhãn); log cuối không có LaTeX error, undefined citation/reference hoặc overfull box. Đã render và kiểm tra trực quan toàn bộ phần Role B trên các trang 9--19: không cắt bảng/hình, không tràn lề, caption ngắn, hình top-3/confusion matrix và các luật đều đọc được.
+- Vướng gì / để lại cho phiên sau: Không có lỗi thuộc phạm vi Role B; các TODO còn lại nằm ở section của role khác. Người dùng review diff và tự commit/push.
 
 ### 2026-08-29
 - Đã làm gì: Đồng bộ `main`; đọc đề gốc và toàn bộ quy định Role B; triển khai `evaluate_model()` với schema 16 cột, ROC-AUC từ `predict_proba`, recall theo tên lớp, artifact báo cáo/CM và ghi CSV idempotent; triển khai `plot_tree_figure()` và `export_rules()` có kiểm tra metadata, tạo thư mục cha và đóng figure. Sau audit trước push, bổ sung preflight conflict trước artifact, ghi artifact nguyên tử, retry/so sánh byte khi Windows khóa file, backend Agg không phụ thuộc GUI/Tk, bộ params M0 ổn định và hướng dẫn + checklist tái sử dụng cho M1 trong README.

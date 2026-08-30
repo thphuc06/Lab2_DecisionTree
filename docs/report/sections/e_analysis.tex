@@ -1,58 +1,346 @@
-% Owner: Role B. NOT translated yet -- structural skeleton only.
-%
-% Source material (Vietnamese, already fact-checked -- see progress/A.md
-% 2026-08-30 audit: 0 errors out of ~40 checked, including every IF-THEN
-% rule condition traced against outputs/rules_M0.txt and every node stat
-% re-derived from a fresh retrain): docs/report_draft_d_e.md, bottom part
-% (headed "# e. Analysis of the Tree", from "## 1. Root split" onward).
-% This is called out in AGENT.md as the single highest-value section of
-% the whole report -- do not shorten it when translating.
-%
-% Brief requires (Section 3.4.e):
-%   - Present the generated decision tree.
-%   - Comment on its structure and key decision nodes.
-%   - Discuss strengths and weaknesses of the baseline tree.
-%
-% The 5 questions AGENT.md assigns to this section (answer all 5):
-%   1. What is the root split, and why did the algorithm pick it?
-%   2. What do the first 3 levels of splits mean, in plain language?
-%   3. How deep is the tree, how many leaves, any 1-2 sample leaves?
-%   4. Train vs test gap -- overfitting evidence?
-%   5. 2-3 full IF-THEN rules with sample count and purity.
+% Owner: Role B. Translated and adapted from the independently verified
+% Vietnamese source draft docs/report_draft_d_e.md. The node statistics and
+% complete rule paths were cross-checked against the stored M0 artifacts.
 
 \section{Analysis of the Tree}
 \label{sec:e}
 
 \subsection{Root split}
 
-\todo{Which feature/threshold is the root split, its Gini before/after, and why the algorithm picked it over alternatives.}
+The root split is
+\texttt{Curricular units 2nd sem (approved)} $\leq 4.5$. Before the split,
+the root contains 3{,}539 training observations with class distribution
+$[1{,}137,635,1{,}767]$ in the order [Dropout, Enrolled, Graduate] and Gini
+impurity 0.615292. Table~\ref{tab:e-root} shows how the split separates a
+left branch dominated by Dropout from a right branch dominated by Graduate.
+
+\begin{table}[H]
+  \centering
+  \caption{Sample and class distributions at the root and its two children.}
+  \label{tab:e-root}
+  \begin{tabular}{@{}lrrrl@{}}
+    \toprule
+    Node/condition & $n$ & [Dropout, Enrolled, Graduate] & Gini & Prediction \\
+    \midrule
+    Root & 3{,}539 & [1{,}137, 635, 1{,}767] & 0.615292 & Graduate \\
+    Approved $\leq 4.5$ & 1{,}500 & [936, 357, 207] & 0.534936 & Dropout \\
+    Approved $> 4.5$ & 2{,}039 & [201, 278, 1{,}560] & 0.386345 & Graduate \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Weighting the two child impurities by their sample counts gives
+
+\begin{equation}
+  G_{\mathrm{after}}
+  = \frac{1{,}500}{3{,}539}(0.534936)
+  + \frac{2{,}039}{3{,}539}(0.386345)
+  = 0.449325,
+  \label{eq:e-weighted-gini}
+\end{equation}
+
+and therefore
+
+\begin{equation}
+  \Delta G = 0.615292 - 0.449325 = 0.165967.
+  \label{eq:e-gini-reduction}
+\end{equation}
+
+CART evaluates candidate feature-threshold pairs at a node and selects the
+pair that maximizes this weighted impurity reduction
+\citep{breiman1984classification}. Thus, the direct reason for the root choice
+is not merely that the feature is ``important'': among the candidate splits,
+the 4.5 threshold creates the strongest reduction in class mixing. In context,
+students with fewer approved second-semester units are concentrated in the
+Dropout branch, whereas those above the threshold are concentrated in the
+Graduate branch. This is an association in the observed data, not evidence
+that crossing this threshold causally determines a student's outcome.
 
 \subsection{Root and the next three levels}
 
-\todo{Table or description of the first 3-4 levels: split feature, threshold, sample counts, class distribution, predicted class at each node -- translate the verified node table from the source draft.}
+Tables~\ref{tab:e-levels-0-2} and~\ref{tab:e-level-3} trace every node from
+depth 0 through depth 3. The notation $[D,E,G]$ denotes counts for Dropout,
+Enrolled, and Graduate. The early structure repeatedly combines academic
+progress with tuition status: semester approvals establish the broad risk
+groups, while tuition, earlier evaluations, grades, and a small number of
+context variables refine those groups.
+
+\clearpage
+\begin{landscape}
+\begin{table}[H]
+  \centering
+  \scriptsize
+  \caption{Root through depth 2 of the M0 decision tree.}
+  \label{tab:e-levels-0-2}
+  \begin{tabular}{@{}p{1.6cm}p{4.2cm}p{5.3cm}p{3.4cm}p{2.0cm}p{5.2cm}@{}}
+    \toprule
+    Depth/node & Condition leading to node & Split at node & $n$; $[D,E,G]$ & Prediction & Interpretation \\
+    \midrule
+    0/0 & Root & \texttt{Curricular units 2nd sem (approved)} $\leq 4.5$
+      & 3{,}539; [1{,}137, 635, 1{,}767] & Graduate
+      & Separates lower from higher second-semester progress. \\
+    1/1 & Approved $\leq 4.5$ & \texttt{Curricular units 2nd sem (approved)} $\leq 1.5$
+      & 1{,}500; [936, 357, 207] & Dropout
+      & Isolates the group with almost no approved units. \\
+    1/552 & Approved $> 4.5$ & \texttt{Tuition fees up to date} $\leq 0.5$
+      & 2{,}039; [201, 278, 1{,}560] & Graduate
+      & Tuition status refines a high-progress branch dominated by Graduate. \\
+    2/2 & Approved $\leq 1.5$ & \texttt{Curricular units 2nd sem (enrolled)} $\leq 0.5$
+      & 792; [654, 74, 64] & Dropout
+      & Distinguishes no second-semester enrollment from enrollment with very few approvals. \\
+    2/213 & $1.5 <$ approved $\leq 4.5$ & \texttt{Tuition fees up to date} $\leq 0.5$
+      & 708; [282, 283, 143] & Enrolled
+      & Dropout and Enrolled are nearly tied in this intermediate-progress region. \\
+    2/553 & Approved $>4.5$; tuition not current & \texttt{GDP} $\leq 1.905$
+      & 84; [49, 17, 18] & Dropout
+      & A small branch is divided by the macroeconomic value associated with enrollment year. \\
+    2/588 & Approved $>4.5$; tuition current & \texttt{Curricular units 1st sem (evaluations)} $\leq 8.5$
+      & 1{,}955; [152, 261, 1{,}542] & Graduate
+      & Graduate strongly dominates; first-semester evaluation count provides further refinement. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\end{landscape}
+\clearpage
+
+\begin{landscape}
+\begin{table}[H]
+  \centering
+  \scriptsize
+  \caption{All depth-3 nodes of the M0 decision tree.}
+  \label{tab:e-level-3}
+  \begin{tabular}{@{}p{1.6cm}p{4.2cm}p{5.3cm}p{3.4cm}p{2.0cm}p{5.2cm}@{}}
+    \toprule
+    Depth/node & Condition leading to node & Split at node & $n$; $[D,E,G]$ & Prediction & Interpretation \\
+    \midrule
+    3/3 & Enrolled units $\leq 0.5$ & \texttt{Admission grade} $\leq 136.050$
+      & 148; [63, 21, 64] & Graduate
+      & This small mixed node is almost tied between Dropout and Graduate. \\
+    3/98 & Enrolled units $>0.5$ & \texttt{Mother's occupation} $\leq 116.500$
+      & 644; [591, 53, 0] & Dropout
+      & Dropout is overwhelming; the occupation code is sensitive and only correlational. \\
+    3/214 & Intermediate progress; tuition not current & \texttt{GDP} $\leq 1.765$
+      & 111; [98, 12, 1] & Dropout
+      & Non-current tuition is associated with a high Dropout share in this region. \\
+    3/235 & Intermediate progress; tuition current & \texttt{Curricular units 2nd sem (approved)} $\leq 3.5$
+      & 597; [184, 271, 142] & Enrolled
+      & Enrolled is largest, but substantial class mixing remains. \\
+    3/554 & \texttt{GDP} $\leq 1.905$ & \texttt{Previous qualification (grade)} $\leq 143.500$
+      & 49; [38, 0, 11] & Dropout
+      & Prior grade further separates a small tuition-risk subgroup. \\
+    3/571 & \texttt{GDP} $>1.905$ & \texttt{Age at enrollment} $\leq 18.500$
+      & 35; [11, 17, 7] & Enrolled
+      & This very small node remains highly mixed despite an Enrolled plurality. \\
+    3/589 & First-semester evaluations $\leq 8.5$ & \texttt{Curricular units 2nd sem (approved)} $\leq 5.5$
+      & 1{,}285; [77, 100, 1{,}108] & Graduate
+      & Graduate dominates; the tree refines the number of second-semester approvals. \\
+    3/996 & First-semester evaluations $>8.5$ & \texttt{Curricular units 1st sem (approved)} $\leq 5.5$
+      & 670; [75, 161, 434] & Graduate
+      & First-semester approvals help distinguish Graduate from Enrolled. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\end{landscape}
+\clearpage
+
+The node paths also expose an encoding limitation. A threshold of 0.5 on a
+one-hot indicator means absence versus presence of that category, but a
+threshold on a retained high-cardinality category code, such as a parental
+occupation, imposes an artificial numerical ordering. Such branches are valid
+for the fitted representation but require more caution than genuinely ordinal
+academic variables.
 
 \subsection{Tree complexity}
 
-\todo{Total node/leaf count, \% of leaves with 1-2 samples, average leaf depth -- and what that says about overfitting risk.}
+Table~\ref{tab:e-complexity} quantifies the structure visible in
+Figure~\ref{fig:d1}. The unconstrained tree contains 1{,}267 nodes and 634
+leaves, reaches depth 27, and makes every training leaf pure. Of those leaves,
+279 contain exactly one training observation and 399 contain no more than two.
+Consequently, 44.01\% of leaves memorize a single observation and 62.93\%
+represent at most two observations.
+
+\begin{table}[H]
+  \centering
+  \caption{Structural complexity of the unconstrained M0 tree.}
+  \label{tab:e-complexity}
+  \begin{tabular}{@{}lr@{}}
+    \toprule
+    Quantity & Value \\
+    \midrule
+    Maximum depth & 27 \\
+    Total nodes & 1{,}267 \\
+    Total leaves & 634 \\
+    Single-sample leaves & 279 (44.01\%) \\
+    Leaves with at most two samples & 399 (62.93\%) \\
+    Pure leaves & 634/634 (100\%) \\
+    Average leaf depth & 13.323 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The average terminal node occurs at depth 13.323, so the issue is not only a
+few isolated deep branches. A substantial portion of the tree repeatedly
+partitions already small subsets until class impurity reaches zero. The full
+tree is therefore useful as a visual demonstration of complexity, while the
+depth-limited view is more appropriate for interpretation.
 
 \subsection{Overfitting evidence}
 
-\todo{Train vs.\ test accuracy gap (generalization gap), and whether it falls in the expected 0.65--0.72 test-accuracy band from AGENT.md (a red flag if not).}
+Table~\ref{tab:e-overfit} brings the generalization evidence together. The
+tree attains 1.000000 training accuracy but only 0.668927 test accuracy, a gap
+of 0.331073, or 33.11 percentage points. The test score lies within the
+predefined 0.65--0.72 diagnostic range and is far below the 0.90 leakage warning
+threshold; the score itself therefore does not suggest leakage. Instead, the
+combination of perfect training fit, a large held-out gap, depth 27, and hundreds
+of one- or two-sample pure leaves is direct evidence of high variance and
+substantial overfitting.
+
+\begin{table}[H]
+  \centering
+  \caption{Generalization and complexity indicators for M0.}
+  \label{tab:e-overfit}
+  \begin{tabular}{@{}lr@{}}
+    \toprule
+    Indicator & Value \\
+    \midrule
+    Train accuracy & 1.000000 \\
+    Test accuracy & 0.668927 \\
+    Generalization gap & 0.331073 (33.11 pp) \\
+    Maximum depth & 27 \\
+    Pure leaves & 634/634 \\
+    Leaves with at most two samples & 399 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \subsection{Representative IF-THEN rules}
 
-\todo{Translate the 3 rules from the source draft verbatim (Dropout, Graduate, Enrolled), each with the full condition chain, leaf sample count $n$, and purity. Do not paraphrase the conditions loosely -- copy the exact feature/threshold values, they were independently re-verified against \texttt{outputs/rules\_M0.txt}.}
+The following rules were selected systematically rather than anecdotally. For
+each predicted class, the largest training leaf with purity of at least 90\%
+was chosen, and every condition from the root to that leaf is retained. Their
+length and perfect training purity further illustrate how finely M0 partitions
+the training sample. Table~\ref{tab:e-rules} summarizes the terminal nodes;
+the full paths follow.
 
-\begin{quote}
-\emph{Example rule format (replace with the real translated rules):} \\
-IF \texttt{Curricular units 2nd sem (approved)} $\le$ 1.5 AND \ldots \\
-THEN \textbf{Dropout} ($n = 189$, purity 100\%).
-\end{quote}
+\begin{table}[H]
+  \centering
+  \caption{Terminal statistics for the three representative M0 rules.}
+  \label{tab:e-rules}
+  \begin{tabular}{@{}lrrrl@{}}
+    \toprule
+    Predicted class & Conditions & $n$ & [Dropout, Enrolled, Graduate] & Purity \\
+    \midrule
+    Dropout & 9 & 189 & [189, 0, 0] & 100\% \\
+    Graduate & 16 & 176 & [0, 0, 176] & 100\% \\
+    Enrolled & 16 & 29 & [0, 29, 0] & 100\% \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Dropout rule.}
+IF all of the following conditions hold:
+\begin{enumerate}
+  \small
+  \setlength{\itemsep}{0.1em}
+  \item \texttt{Curricular units 2nd sem (approved)} $\leq 4.500$;
+  \item \texttt{Curricular units 2nd sem (approved)} $\leq 1.500$;
+  \item \texttt{Curricular units 2nd sem (enrolled)} $> 0.500$;
+  \item \texttt{Mother's occupation} $\leq 116.500$;
+  \item \texttt{Curricular units 2nd sem (grade)} $\leq 13.585$;
+  \item \texttt{Curricular units 2nd sem (evaluations)} $\leq 7.500$;
+  \item \texttt{Marital Status\_3} $\leq 0.500$;
+  \item \texttt{Previous qualification (grade)} $> 99.500$;
+  \item \texttt{Curricular units 2nd sem (evaluations)} $\leq 4.500$.
+\end{enumerate}
+THEN predict \textbf{Dropout} ($n=189$, distribution $[189,0,0]$, purity
+100\%). The academically meaningful part of this path is the combination of
+very few approved second-semester units and few evaluations, which describes
+low observed academic progress. Parental occupation and marital status are
+sensitive correlates in the fitted sample and must not be interpreted as causes
+of dropout.
+
+\paragraph{Graduate rule.}
+IF all of the following conditions hold:
+\begin{enumerate}
+  \small
+  \setlength{\itemsep}{0.1em}
+  \item \texttt{Curricular units 2nd sem (approved)} $> 4.500$;
+  \item \texttt{Tuition fees up to date} $> 0.500$;
+  \item \texttt{Curricular units 1st sem (evaluations)} $\leq 8.500$;
+  \item \texttt{Curricular units 2nd sem (approved)} $> 5.500$;
+  \item \texttt{Curricular units 2nd sem (without evaluations)} $\leq 0.500$;
+  \item \texttt{Course\_9119} $\leq 0.500$;
+  \item \texttt{Curricular units 1st sem (credited)} $\leq 4.500$;
+  \item \texttt{Scholarship holder} $> 0.500$;
+  \item \texttt{Admission grade} $> 98.500$;
+  \item \texttt{Course\_9773} $\leq 0.500$;
+  \item \texttt{Curricular units 1st sem (without evaluations)} $\leq 0.500$;
+  \item \texttt{Course\_9070} $\leq 0.500$;
+  \item \texttt{Application mode\_43} $\leq 0.500$;
+  \item \texttt{Curricular units 2nd sem (evaluations)} $\leq 10.500$;
+  \item \texttt{Father's occupation} $\leq 8.500$;
+  \item \texttt{Curricular units 2nd sem (grade)} $> 12.264$.
+\end{enumerate}
+THEN predict \textbf{Graduate} ($n=176$, distribution $[0,0,176]$, purity
+100\%). The clearest academic signals are more than 5.5 approved
+second-semester units, no second-semester units without evaluation, current
+tuition, and a second-semester grade above 12.264. Course, scholarship, and
+parental-occupation conditions are additional sample-specific correlates, not
+causal requirements for graduation.
+
+\paragraph{Enrolled rule.}
+IF all of the following conditions hold:
+\begin{enumerate}
+  \small
+  \setlength{\itemsep}{0.1em}
+  \item \texttt{Curricular units 2nd sem (approved)} $\leq 4.500$;
+  \item \texttt{Curricular units 2nd sem (approved)} $> 1.500$;
+  \item \texttt{Tuition fees up to date} $> 0.500$;
+  \item \texttt{Curricular units 2nd sem (approved)} $\leq 3.500$;
+  \item \texttt{Age at enrollment} $\leq 26.500$;
+  \item \texttt{Curricular units 1st sem (approved)} $\leq 5.500$;
+  \item \texttt{Course\_9853} $\leq 0.500$;
+  \item \texttt{Mother's occupation} $> 0.500$;
+  \item \texttt{Inflation rate} $> 1.000$;
+  \item \texttt{Curricular units 1st sem (evaluations)} $\leq 19.000$;
+  \item \texttt{Curricular units 1st sem (grade)} $> 10.100$;
+  \item \texttt{Admission grade} $\leq 123.050$;
+  \item \texttt{Application order} $\leq 5.500$;
+  \item \texttt{Course\_9254} $\leq 0.500$;
+  \item \texttt{Curricular units 2nd sem (without evaluations)} $\leq 2.500$;
+  \item \texttt{Admission grade} $> 113.500$.
+\end{enumerate}
+THEN predict \textbf{Enrolled} ($n=29$, distribution $[0,29,0]$, purity
+100\%). This path describes an intermediate state: some, but not many,
+second-semester units are approved; first-semester grade exceeds 10.100; and
+tuition is current. Its small sample and 16-condition path make it less stable
+than the other two representative rules. It should be read as a description of
+one training segment, not as a universal intervention rule.
 
 \subsection{Strengths and weaknesses of the baseline tree}
 
-\todo{Summarize: strengths (readable top splits, handles nonlinearity, no scaling needed) vs.\ weaknesses (hard to present as a whole, unstable predictions, especially weak on Enrolled, uses semester-outcome features so not usable for early warning).}
+M0 has several genuine strengths. Its early splits translate into ordinary
+domain statements, it captures nonlinear relationships and interactions
+without specifying them in advance, and it requires no feature scaling. The
+root and first few levels therefore provide an interpretable overview of how
+academic progress and tuition status separate the classes.
+
+Those benefits deteriorate as the tree grows. The complete structure is too
+large for practical presentation, many leaves describe only one or two
+training observations, and the large train--test gap indicates unstable
+generalization. Performance is particularly weak for Enrolled. Moreover, the
+strongest splits rely on first- and second-semester outcomes, so M0 cannot be
+used for intervention at enrollment time, before those outcomes exist. These
+limitations directly motivate pruning, imbalance handling, and the
+early-warning feature set evaluated in the following sections.
 
 \begin{quote}
-\todo{Ethical/limitations note (see source draft's own closing section): sensitive features (gender, \texttt{Nacionality}, marital status, parents' occupation/education) appear in some rule conditions -- these must be flagged as correlational, not causal, and not used as grounds for discrimination.}
+\small
+\textbf{Ethical limitation.} The data includes sensitive attributes such as
+gender, \texttt{Nacionality}, marital status, parents' education and occupation,
+and financial circumstances. Splits involving these variables reflect
+correlations in one Portuguese institution over the observed period; they do
+not establish causal effects and must not be used as grounds for discriminatory
+decisions. Any real deployment would require fairness auditing, group-specific
+error monitoring, and human oversight.
 \end{quote}

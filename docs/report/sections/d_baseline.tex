@@ -1,56 +1,171 @@
-% Owner: Role B. NOT translated yet -- this is a structural skeleton only.
-%
-% Source material (Vietnamese, already fact-checked -- see
-% progress/A.md 2026-08-30 audit: 0 errors found in this file out of
-% ~40 checked numeric claims): docs/report_draft_d_e.md, top part
-% (headed "# d. Baseline Model", down to "## Kiem tra phu Gini va Entropy").
-% Translate/adapt that verified content into English below -- do not
-% re-derive numbers from scratch, they were already independently
-% re-verified by a fresh retrain during the audit.
-%
-% Brief requires (Section 3.4.d):
-%   - Description of the initial decision tree model.
-%   - Training and testing procedure.
-%   - Resulting tree figure or visualization.
-%   - Accuracy and error rate of the baseline model.
-%
-% Figures already committed and ready to reference (do not rename):
-%   figures/B_tree_M0_full.png   -- full tree (illustrates overfitting)
-%   figures/B_tree_M0_top3.png   -- max_depth=3 view (readable)
-%   figures/B_cm_M0.png          -- confusion matrix
+% Owner: Role B. Translated and adapted from the independently verified
+% Vietnamese source draft docs/report_draft_d_e.md. Every reported value
+% below traces to the canonical M0 result row, classification report, or
+% stored notebook output.
 
 \section{Baseline Model}
 \label{sec:d}
 
 \subsection{Model description and training procedure}
 
-\todo{Describe the unconstrained Gini baseline (random seed 42) and the shared fixed, stratified split: 3,539 training rows and 885 test rows.}
+The baseline configuration, denoted M0, is an unconstrained CART
+classification tree implemented with scikit-learn's
+\texttt{DecisionTreeClassifier} \citep{breiman1984classification,pedregosa2011scikit}.
+It uses the default Gini splitting criterion and a fixed random seed of 42.
+No maximum depth, maximum leaf count, pruning penalty, or class weighting is
+imposed: \texttt{max\_depth=None}, \texttt{min\_samples\_split=2},
+\texttt{min\_samples\_leaf=1}, and \texttt{ccp\_alpha=0.0}. This deliberately
+high-capacity configuration provides a transparent reference against which the
+three improvement methods can be evaluated.
+
+The shared preprocessing procedure described in Section~\ref{sec:c} expands
+four lower-cardinality nominal attributes by one-hot encoding and retains the
+remaining numerical or encoded attributes, producing 90 model inputs. The data
+is divided once using a fixed, stratified 80/20 split. Table~\ref{tab:d-split}
+shows that the class proportions are preserved across the 3{,}539-sample
+training partition and the 885-sample held-out test partition.
+
+\begin{table}[H]
+  \centering
+  \caption{Class distribution in the fixed stratified train/test split.}
+  \label{tab:d-split}
+  \begin{tabular}{@{}lrrrr@{}}
+    \toprule
+    Class & Train count & Train share & Test count & Test share \\
+    \midrule
+    Dropout  & 1{,}137 & 32.13\% & 284 & 32.09\% \\
+    Enrolled & 635     & 17.94\% & 159 & 17.97\% \\
+    Graduate & 1{,}767 & 49.93\% & 442 & 49.94\% \\
+    \midrule
+    Total    & 3{,}539 & 100.00\% & 885 & 100.00\% \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+No feature scaling is applied. A decision tree compares values within one
+feature at a time, so a monotonic rescaling changes the numerical threshold but
+not the ordering of samples or the resulting partition. The fitted model is
+evaluated on the training partition to expose memorization and once on the
+held-out partition to estimate generalization.
 
 \subsection{Resulting tree}
+
+Figure~\ref{fig:d1} presents the complete fitted structure. Its density is
+useful evidence that the unconstrained model partitions the training data very
+finely, although individual nodes are necessarily difficult to inspect at page
+scale. The quantitative complexity of this tree is reported in
+Table~\ref{tab:e-complexity}.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{B_tree_M0_full.png}
-  \caption{\todo{Caption: full M0 tree -- state node/leaf count and what it illustrates (overfitting).}}
+  \caption{Full structure of the unconstrained M0 decision tree.}
   \label{fig:d1}
 \end{figure}
+
+Figure~\ref{fig:d2} limits only the visualization to the first three levels;
+the fitted estimator itself is unchanged. This view makes the root and early
+branches legible, including their split conditions, Gini impurity, sample
+counts, class distributions, and predicted classes. These nodes are interpreted
+in detail in Section~\ref{sec:e}.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{B_tree_M0_top3.png}
-  \caption{\todo{Caption: M0 tree truncated to max\_depth=3 for readability -- describe the root and first splits shown.}}
+  \caption{First three levels of the M0 decision tree.}
   \label{fig:d2}
 \end{figure}
 
 \subsection{Accuracy and error rate}
 
-\todo{Report train\_acc, test\_acc, error\_rate from \texttt{outputs/results.csv} (M0 row) and \texttt{outputs/classification\_report\_M0.txt}. Include the confusion matrix figure below.}
+Table~\ref{tab:d-metrics} reports the complete baseline evaluation. M0 fits
+every training observation but correctly classifies only 66.89\% of the held-out
+observations, yielding an error rate of 33.11\%. Macro-averaged precision,
+recall, and F1 are all close to 0.61, below overall accuracy because each class
+receives equal weight and the minority Enrolled class is substantially harder
+to recognize. The macro one-vs-rest ROC-AUC of 0.719456 indicates moderate
+ranking ability across the three classes, above chance but far from strong
+separation.
+
+\begin{table}[H]
+  \centering
+  \caption{Performance and structural metrics of the M0 baseline.}
+  \label{tab:d-metrics}
+  \begin{tabular}{@{}lr@{}}
+    \toprule
+    Metric & M0 \\
+    \midrule
+    Train accuracy & 1.000000 \\
+    Test accuracy & 0.668927 \\
+    Error rate & 0.331073 \\
+    Macro precision & 0.607642 \\
+    Macro recall & 0.609310 \\
+    Macro-F1 & 0.608271 \\
+    Macro ROC-AUC (OvR) & 0.719456 \\
+    Recall: Dropout & 0.679577 \\
+    Recall: Enrolled & 0.383648 \\
+    Recall: Graduate & 0.764706 \\
+    Tree depth & 27 \\
+    Number of leaves & 634 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The class-level results in Table~\ref{tab:d-classification} make the source of
+the macro-score reduction explicit. Graduate is the strongest class, with
+precision 0.7842 and recall 0.7647. Dropout has balanced precision and recall
+near 0.68. Enrolled is much weaker: only 61 of its 159 test observations are
+correctly identified, producing precision 0.3567, recall 0.3836, and F1 0.3697.
+
+\begin{table}[H]
+  \centering
+  \caption{Class-level performance of M0 on the held-out test partition.}
+  \label{tab:d-classification}
+  \begin{tabular}{@{}lrrrr@{}}
+    \toprule
+    Class & Precision & Recall & F1-score & Support \\
+    \midrule
+    Dropout  & 0.6820 & 0.6796 & 0.6808 & 284 \\
+    Enrolled & 0.3567 & 0.3836 & 0.3697 & 159 \\
+    Graduate & 0.7842 & 0.7647 & 0.7743 & 442 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{B_cm_M0.png}
-  \caption{\todo{Caption: confusion matrix on the 885-sample held-out test set.}}
+  \caption{Confusion matrix of M0 on the 885-sample held-out test set.}
   \label{fig:d3}
 \end{figure}
 
-\todo{Optional: the Gini-vs-Entropy quick check mentioned in docs/02-DATASET-VA-CONG-VIEC.md C0 note -- one sentence is enough, this is explicitly not one of the 3 official improvements.}
+Figure~\ref{fig:d3} provides the underlying counts. M0 correctly classifies
+193 of 284 Dropout observations and 338 of 442 Graduate observations. Among
+the 159 Enrolled observations, 61 are correct, while 45 are assigned to
+Dropout and 53 to Graduate. The errors in both directions are consistent with
+Enrolled representing an intermediate academic state rather than a sharply
+separated class.
+
+\subsection{Gini-versus-Entropy diagnostic}
+
+Changing only the splitting criterion does not resolve the baseline's
+overfitting. As shown in Table~\ref{tab:d-criterion}, both configurations fit
+the training partition perfectly and reach depth 27. Entropy produces 50 fewer
+leaves, but its test accuracy is 0.015819 lower (1.58 percentage points) and its
+error rate is correspondingly higher. Gini is therefore retained for M0; the
+Entropy run is a diagnostic comparison rather than one of the three official
+improvement methods.
+
+\begin{table}[H]
+  \centering
+  \caption{Diagnostic comparison of Gini and Entropy on the fixed split.}
+  \label{tab:d-criterion}
+  \begin{tabular}{@{}lrrrrr@{}}
+    \toprule
+    Criterion & Train acc. & Test acc. & Error rate & Depth & Leaves \\
+    \midrule
+    Gini (official M0) & 1.000000 & 0.668927 & 0.331073 & 27 & 634 \\
+    Entropy (diagnostic) & 1.000000 & 0.653107 & 0.346893 & 27 & 584 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
