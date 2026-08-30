@@ -5,8 +5,8 @@
 
 ## Trạng thái hiện tại
 _(cập nhật lần cuối: 2026-08-30)_
-- Đang làm: Phạm vi code/notebook/artifact M3 và audit tích hợp cuối đã hoàn tất dưới môi trường canonical.
-- Bị chặn bởi: —. Role A/Integrator đã tích hợp `main` mới, khóa môi trường và xác minh lại toàn repository trước pha report/media.
+- Đang làm: Phạm vi code/notebook/artifact M3 và phần report f.3 của Role E đã hoàn tất; PDF đã được biên dịch và kiểm tra trực quan bằng MiKTeX 25.12.
+- Bị chặn bởi: —. Role E không còn blocker; các placeholder còn lại thuộc section của role khác.
 
 ## Đã xong
 - [x] Loại đúng 12 cột HK1+HK2 (xem `AGENT.md` Mục 3), giữ 24 feature còn lại
@@ -19,8 +19,10 @@ _(cập nhật lần cuối: 2026-08-30)_
 - [x] Tích hợp `main` tại `a29d356`, bảo vệ handoff D `6d558b1` và resolve tài liệu dùng chung
 - [x] Tạo `requirements-lock.txt`, kernel `lab2-canonical` và lệnh chạy không ghi timing metadata
 - [x] Bàn giao số liệu/artifact canonical để B và các role dùng trong pha viết report
+- [x] Hoàn thiện mục f.3 bằng tiếng Anh: mô tả phương pháp, model setting/cây M3, accuracy/error rate, confusion matrix, Gini/MDI, grouped permutation importance, giải thích trade-off và lưu ý đạo đức; không còn `\todo` trong section Role E
+- [x] Cài MiKTeX 25.12, biên dịch `docs/report/report.pdf` thành công và kiểm tra trực quan toàn bộ trang f.3
 
-**Pha tiếp theo (chưa bắt đầu):** hoàn thiện report/References, slide và video từ các artifact canonical; không cần thay đổi thí nghiệm M3.
+**Pha tiếp theo:** Các owner còn lại hoàn tất section a/d/e/f.2; Role A/Integrator biên dịch bản tổng cuối. Slide và video dùng lại số liệu canonical, không cần thay đổi thí nghiệm M3.
 
 ## Quyết định đã chốt
 - Accuracy M3 so với M0: 0,5412 so với 0,6689; giảm 0,1277 (12,77 điểm phần trăm) do loại thông tin kết quả hai học kỳ.
@@ -28,7 +30,8 @@ _(cập nhật lần cuối: 2026-08-30)_
 - Gini/MDI là train-derived; grouped permutation là kiểm tra bổ sung trên held-out test. Không dùng importance để tune M3 và không diễn giải causal.
 
 ## Việc tiếp theo
-- Khi nhóm bước sang giai đoạn báo cáo/media, dùng các artifact canonical này làm nguồn số liệu; không chạy lại bằng môi trường khác.
+- Sau khi các section còn lại hết `\todo`, chạy lại MiKTeX để tạo bản PDF tổng cuối.
+- Khi làm slide/video, dùng các artifact canonical này làm nguồn số liệu; không chạy lại bằng môi trường khác.
 - Sau khi người dùng review, tự hoàn tất merge commit và push branch theo quy ước repo.
 
 ## Manifest bàn giao code E
@@ -57,6 +60,11 @@ Trong audit cuối, notebook D chỉ được chuẩn hóa output Styler để t
 
 ## Nhật ký phiên làm việc
 <!-- Mỗi phiên thêm 1 mục mới lên TRÊN CÙNG, không xóa mục cũ -->
+
+### 2026-08-30 — hoàn thiện report f.3 của Role E
+- Đã làm gì: Đọc lại toàn bộ đề gốc 6 trang, hướng dẫn/phân quyền, source dùng chung, notebook M3, kết quả CSV/classification report và bốn hình E; chuyển nội dung đã kiểm chứng thành section LaTeX hoàn chỉnh. Cài MiKTeX 25.12 theo chế độ user, cài các package cần thiết và chạy chuỗi biên dịch LaTeX/BibTeX.
+- Kết quả: Mục f.3 có đủ bốn thành phần đề yêu cầu, thêm bảng exclusion/model setting, bảng metric M0–M3, bảng class-level, cây M3, confusion matrix, Gini/MDI và grouped permutation importance. `report.pdf` biên dịch thành công 30 trang; cross-reference/citation ổn định, không có LaTeX error, undefined reference/citation hoặc overfull box. Đã render và kiểm tra trực quan các trang 21–25; xác nhận 0 `\todo` trong f.3.
+- Vướng gì / để lại cho phiên sau: Role E không còn blocker. Toàn report vẫn còn placeholder thuộc Role lead/B/D trong a/d/e/f.2; Role E không sửa các file ngoài quyền sở hữu.
 
 ### 2026-08-30 — audit tích hợp cuối trước pha report/media
 - Đã làm gì: Chạy lại pipeline canonical 01→06, kiểm tra độc lập schema/metrics/hash/artifact, chuẩn hóa metadata notebook và đối chiếu toàn bộ tài liệu chung với kết quả thật.
