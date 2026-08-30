@@ -50,6 +50,16 @@ _(Ghi các lựa chọn kỹ thuật đã quyết — để agent phiên sau kh�
 - Đã dọn: xoá hết ảnh preview tạm, thêm `.gitignore` cho `*.aux/*.bbl/*.blg/*.out/*.toc/*.synctex.gz` (giữ lại `report.pdf` — đây là deliverable thật, không ignore).
 - Vướng gì / để lại cho phiên sau: Không còn vướng kỹ thuật. `report.pdf` hiện tại còn nhiều `\todo{}` (mục a, d, e, f1, f2, f3) — cần B/C/D/E dịch nội dung của họ rồi compile lại. Bài học rút ra (đáng nhớ cho cả nhóm): **kiểm tra tay kỹ tới đâu cũng không thay được compile thật** — cả 2 bug trên đều là loại lỗi mà review tay không phát hiện ra, chỉ lộ ra khi chạy pdflatex/bibtex thật.
 
+### 2026-08-30 (phiên 16) — cập nhật Phancong.md: Trưởng nhóm chốt quyết định giữ điều khoản AGENT.md
+- Đã làm gì: Người dùng (xác nhận là Trưởng nhóm) quyết định **giữ nguyên** điều khoản "ngoại lệ" D tự thêm vào `AGENT.md` Mục 5 (không revert). Cập nhật `Phancong.md`: tick `[x]` 2 mục "Quyết định cùng..." ở phần Role D và Trưởng nhóm, ghi rõ đã chốt giữ nguyên. Không sửa `AGENT.md` (giữ nguyên là quyết định của Trưởng nhóm, không cần thao tác gì thêm).
+- Kết quả: `Phancong.md` giờ chỉ còn đúng các việc thật sự cần làm (dịch report B/C/D/E, slide/video E, sửa README của D, điền mục a + đóng gói của Trưởng nhóm) — không còn mục "chờ quyết định" nào.
+- Vướng gì / để lại cho phiên sau: Không có.
+
+### 2026-08-30 (phiên 15) — tạo Phancong.md tổng hợp việc còn lại cho cả nhóm
+- Đã làm gì: Theo yêu cầu người dùng, tạo `Phancong.md` ở root repo — gộp toàn bộ việc còn lại đã liệt kê rải rác trong phiên (bảng cuối cùng, các lưu ý về docs/02, README, AGENT.md) thành 1 file duy nhất, chia rõ theo từng role (B/C/D/E/Trưởng nhóm), có checkbox để tick tiến độ, và mục "Quy tắc chung" tóm tắt 6 quy tắc mới đã thêm vào AGENT.md/docs/report/README.md trong phiên này.
+- Đã đối chiếu lại số `\todo` còn lại từng file trước khi ghi vào Phancong.md (không dùng số nhớ từ trước, tránh sai lệch nếu có gì đổi): a=7, d=6, e=7, f1=7, f2=10, f3=6; b/c/g/h=0.
+- Vướng gì / để lại cho phiên sau: Không có. File `Phancong.md` không thuộc quyền sở hữu role nào cụ thể (là tài liệu điều phối chung), mọi role đều có thể tick checkbox khi xong việc của mình.
+
 ### 2026-08-30 (phiên 14) — sửa bảng đa cộng tuyến sai trong docs/02 (đã xin xác nhận người dùng)
 - Đã làm gì: Người dùng xác nhận muốn sửa lỗi #10 (bảng A6 sai) trong danh sách việc tồn đọng. Sửa `docs/02-DATASET-VA-CONG-VIEC.md` Phần A6: đổi `Nationality↔International` từ 0,912 → **0,791**, đổi `Mother's/Father's occupation` từ 0,724 (hạng 9) → **0,910** (hạng 3 thật), sắp lại đúng thứ tự giảm dần trong bảng (giữ nguyên 10 cặp gốc, không thêm cặp mới ngoài phạm vi yêu cầu). Sửa thêm 1 chỗ trích số cũ (r=0,91 → r=0,79) ở đoạn "Mở rộng" gợi ý bỏ cột `International`. Thêm ghi chú đầu bảng giải thích đã rà soát lại 2026-08-30.
 - Xoá khối `\todo{Data-integrity note...}` trong `docs/report/sections/c_dataset.tex` (đúng theo chỉ dẫn "delete once acted on" đã ghi sẵn trong chính khối đó) — giờ `c_dataset.tex` không còn `\todo` nào, hoàn toàn xong.
