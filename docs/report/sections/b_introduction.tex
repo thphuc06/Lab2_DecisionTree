@@ -1,0 +1,91 @@
+% Owner: Role A. Translated and adapted from the verified Vietnamese draft
+% docs/report_draft_b_c.md (section "b. Introduction"). Every claim in that
+% source file was fact-checked against src/data.py, data/raw/data.csv, and
+% outputs/results.csv before translation -- see progress/A.md 2026-08-30
+% logs for the audit trail. If you edit this file, keep it consistent with
+% the source draft or update both.
+
+\section{b. Introduction}
+\label{sec:b}
+
+\subsection{Brief introduction to decision trees}
+
+A decision tree is a supervised learning model used for both classification
+and regression tasks. It represents the decision process as a tree
+structure: each \emph{internal node} tests one feature (e.g.\ ``Tuition
+fees up to date $\le 0.5$?''), each \emph{branch} corresponds to the
+outcome of that test, and each \emph{leaf node} assigns a predicted class.
+
+Training a decision tree follows a \textbf{greedy, top-down,
+recursive-partitioning} strategy: at each node, the algorithm evaluates
+every feature and every possible split threshold, and picks the split that
+reduces class \emph{impurity} the most, then repeats recursively on each
+resulting subset. Two impurity measures are standard:
+
+\begin{itemize}
+  \item \textbf{Entropy / Information Gain} -- used by the ID3 algorithm
+    \citep{quinlan1986induction}, measuring the information gained by a
+    split.
+  \item \textbf{Gini impurity} -- used by CART \citep{breiman1984classification},
+    measuring the probability of misclassification if a label were drawn
+    at random from the node's class distribution.
+\end{itemize}
+
+The scikit-learn library used in this project implements an optimized
+variant of CART \citep{pedregosa2011scikit}; it defaults to Gini but
+supports switching to entropy via the \texttt{criterion} parameter.
+
+The \textbf{main strength} of a decision tree compared to ``black-box''
+models (neural networks, complex ensembles) is \textbf{interpretability}:
+every path from the root to a leaf can be read directly as an
+\texttt{IF (condition 1) AND (condition 2) ... THEN (label)} rule, with no
+separate explanation technique (SHAP, LIME) required. Trees also handle
+both numerical and categorical features natively and require no feature
+scaling -- both properties are exploited directly in Section~\ref{sec:c}
+below.
+
+The \textbf{main weakness} is a tendency to \textbf{overfit}: an
+unconstrained tree keeps splitting until almost every leaf is pure on the
+training set, effectively memorizing training noise, which yields very
+high training accuracy but a much lower test accuracy
+\citep{mitchell1997machine, breiman1984classification}. This is exactly
+what is observed for the baseline model in Section~\ref{sec:d}, and is the
+motivation for the pruning improvement in Section~\ref{sec:f}.
+
+\subsection{Objective of the project}
+
+The project applies this theory to a real, socially meaningful problem:
+\textbf{predicting whether a student drops out, remains enrolled longer
+than expected, or graduates on time}, using real data from 4{,}424
+university students in Portugal. Concretely, the group:
+
+\begin{enumerate}
+  \item Builds and evaluates an unconstrained baseline decision tree,
+    measuring performance with the full set of metrics appropriate for a
+    3-class classification problem (Accuracy, Precision, Recall,
+    F1-score, ROC-AUC, Confusion Matrix).
+  \item Analyzes the baseline tree's structure: what the root split is
+    and why the algorithm chose it, whether the tree shows signs of
+    overfitting, and extracts concrete decision rules.
+  \item Proposes and tests three improvement methods, each targeting a
+    different weakness of the baseline:
+  \begin{itemize}
+    \item \textbf{Pruning} (cost-complexity pruning) -- addresses
+      overfitting, trading tree complexity for generalization.
+    \item \textbf{Class-imbalance handling}
+      (\texttt{class\_weight='balanced'}, SMOTE) -- addresses the model's
+      default bias toward the majority class (Graduate), which causes it
+      to miss the minority classes that matter most for the application
+      (Enrolled, Dropout).
+    \item \textbf{Feature selection for early warning} -- addresses a
+      practical limitation: the baseline's strongest features are only
+      known \emph{after} a semester ends, so the most accurate model is
+      not necessarily the model that is actually deployable for early
+      intervention.
+  \end{itemize}
+  \item Quantitatively compares all four models and draws conclusions
+    not only about the numbers, but about \textbf{which model suits
+    which application goal} -- in the spirit the assignment brief
+    emphasizes: not just running a model, but explaining how the tree is
+    built, how it behaves, and why each improvement helps (or does not).
+\end{enumerate}

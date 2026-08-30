@@ -157,16 +157,18 @@ Hai nhóm kết quả cần đọc khác nhau:
 
 - **Với 6 cột giữ mã số**, phép đo không phát hiện giá trị thập phân nào trong dữ liệu
   synthetic. Kết quả này không được diễn giải là "SMOTE không ảnh hưởng các cột này" một
-  cách chắc chắn: nhiều khả năng giá trị nội suy đã bị làm tròn/ép kiểu về số nguyên trong
-  quá trình `fit_resample()` xử lý dtype của cột, nên phép đo ở mức giá trị số không phát
-  hiện được. Ngay cả khi giá trị luôn là số nguyên, mã số đó vẫn có thể không tương ứng với
-  category thật nào nếu quá trình nội suy/làm tròn không bảo toàn danh tính category — đây
-  là giới hạn của phép đo, không phải bằng chứng loại trừ vấn đề.
+  cách chắc chắn: nhiều khả năng giá trị nội suy đã bị **cắt cụt (truncate)**/ép kiểu về số
+  nguyên trong quá trình `fit_resample()` xử lý dtype của cột, nên phép đo ở mức giá trị số
+  không phát hiện được. Ngay cả khi giá trị luôn là số nguyên, mã số đó vẫn có thể không
+  tương ứng với category thật nào nếu quá trình nội suy/cắt cụt không bảo toàn danh tính
+  category — đây là giới hạn của phép đo, không phải bằng chứng loại trừ vấn đề.
 - **Với 4 nhóm one-hot**, phép đo cho kết quả rõ ràng và định lượng được: `imbalanced-learn`
   0.14.2 khôi phục dtype DataFrame đầu ra về đúng dtype cột đầu vào (`ArraysTransformer.astype`).
   Vì các cột dummy do `src/data.py` tạo ra có dtype là `int`, các giá trị nội suy phân số của
-  vanilla SMOTE bị ép về integer. Với phép nội suy giữa hai vector one-hot khác category, các
-  thành phần phân số thường bị làm tròn về 0. Khi đó, vector vi phạm chủ yếu là all-zero (không
+  vanilla SMOTE bị **cắt cụt (truncate, không phải làm tròn)** về integer — `.astype(int)`
+  luôn cắt phần thập phân về phía 0, không làm tròn tới số gần nhất. Với phép nội suy giữa hai
+  vector one-hot khác category, các thành phần phân số gần như luôn bị cắt về 0. Khi đó, vector
+  vi phạm chủ yếu là all-zero (không
   có category nào hoạt động), chứ không phải là "pha trộn nhiều category". Điều này giải thích
   vì sao `Course` có tới 83,0% hàng synthetic vi phạm tổng bằng 1. Đây là bằng chứng cụ thể
   rằng vanilla SMOTE tạo ra các representation categorical không hợp lệ.
@@ -190,7 +192,7 @@ M2a là ví dụ rằng đánh đổi này không tự động có lợi: accura
 giảm, nên kết quả cần được báo cáo thẳng thay vì chọn lọc chỉ các con số thuận lợi. Ngược
 lại, M2b không phải đánh đổi accuracy lấy recall trong held-out split hiện tại: nó tăng
 đồng thời test accuracy, recall Dropout và recall Enrolled; chi phí là recall Graduate
-giảm nhẹ 0,91 điểm phần trăm. Vì vậy, nếu ưu tiên phát hiện sinh viên Dropout/Enrolled,
+giảm nhẹ 0,90 điểm phần trăm. Vì vậy, nếu ưu tiên phát hiện sinh viên Dropout/Enrolled,
 M2b là lựa chọn tốt hơn M0 và M2a trên held-out split hiện tại.
 
 Các kết quả chỉ được đo trên một held-out split cố định, và phần dữ liệu train synthetic

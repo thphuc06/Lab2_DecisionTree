@@ -1,0 +1,97 @@
+% ============================================================================
+% Lab 2: Decision Tree Modeling and Improvement -- Written Report
+%
+% Master document. Follows the exact section structure required by the
+% assignment brief (docs/00-DE-BAI-GOC.pdf, Section 3.4, sections a-i).
+%
+% OWNERSHIP -- one file per section, same convention as the rest of the repo
+% (see docs/03-GIT-WORKFLOW-VA-CAU-TRUC-CODE.md): edit only the section
+% file(s) assigned to your role. Do not edit another role's section file
+% without asking them, for the same reason the code repo enforces this.
+%
+%   sections/a_group_intro.tex   -- Team lead
+%   sections/b_introduction.tex  -- Role A
+%   sections/c_dataset.tex       -- Role A
+%   sections/d_baseline.tex      -- Role B
+%   sections/e_analysis.tex      -- Role B
+%   sections/f1_pruning.tex      -- Role C
+%   sections/f2_imbalance.tex    -- Role D
+%   sections/f3_features.tex     -- Role E
+%   sections/g_comparison.tex    -- Role A
+%   sections/h_conclusion.tex    -- Role A
+%   references.bib               -- shared, append-only (like outputs/results.csv)
+%
+% This file (report.tex) itself is Role A / team-lead territory: it only
+% \input's the section files and should rarely need editing once section
+% files exist.
+%
+% HOW TO COMPILE (see README.md in this folder for details):
+%   pdflatex report.tex && bibtex report && pdflatex report.tex && pdflatex report.tex
+% or open this folder in Overleaf.
+% ============================================================================
+
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+% All figures live in the shared figures/ folder at the repo root, two
+% levels up from docs/report/ (where this file lives). Section files can
+% therefore just write \includegraphics{A_target_distribution.png} etc.
+% without repeating the relative path everywhere.
+\graphicspath{{../../figures/}}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue}
+\usepackage[round]{natbib}
+
+% Visible TODO marker -- every section file that is not yet filled in uses
+% this so it is obvious in the compiled PDF (and in a find-in-file search
+% for "\todo") what is still missing. Delete a \todo call once that piece
+% is actually written; do not leave stale TODOs in a submitted report.
+\newcommand{\todo}[1]{{\color{red}\textbf{[TODO --- #1]}}}
+
+\title{Lab 2: Decision Tree Modeling and Improvement \\ \large Predicting Student Dropout and Academic Success}
+\author{Group \todo{fill in GroupID} \\ \todo{Course name / instructor, if required by the submission template}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\input{sections/a_group_intro}
+\input{sections/b_introduction}
+\input{sections/c_dataset}
+\input{sections/d_baseline}
+\input{sections/e_analysis}
+
+\section{f. Improvement Methods}
+\label{sec:f}
+% The brief requires 2-3 improvement methods, each presented separately
+% with: description, modified tree/model setting, accuracy + error rate,
+% and an explanation of why it does (or does not) improve the result.
+% This project implements exactly 3: pruning (C), class imbalance (D),
+% feature selection for early warning (E). Each is its own \subsection
+% in its own file below -- do not merge them into one file.
+\input{sections/f1_pruning}
+\input{sections/f2_imbalance}
+\input{sections/f3_features}
+
+\input{sections/g_comparison}
+\input{sections/h_conclusion}
+
+% i. References -- handled by BibTeX/natbib, not a separate section file.
+% Every \cite{...} used in any section file above must have a matching
+% entry in references.bib. Role E owns curating/finishing this list
+% per docs/02-DATASET-VA-CONG-VIEC.md Phan H, but anyone may append a
+% new @entry to references.bib when they cite something new -- see the
+% header comment in that file.
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

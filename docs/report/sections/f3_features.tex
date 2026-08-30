@@ -1,0 +1,66 @@
+% Owner: Role E. NOT translated yet -- structural skeleton only.
+%
+% Source material: notebooks/05_improve_features.ipynb markdown cells
+% (already fact-checked -- progress/A.md 2026-08-30 audit: 0 errors out
+% of ~12 checked numeric claims; the notebook even self-verifies its own
+% numbers against outputs/results.csv before printing "PASS"). There is
+% no separate docs/report_draft_f3_*.md file -- render the notebook to
+% read it comfortably if needed:
+%   jupyter nbconvert --to markdown notebooks/05_improve_features.ipynb
+%
+% Brief requires, for EACH improvement method (Section 3.4.f):
+%   - Description of the method
+%   - Modified tree or model setting
+%   - Accuracy and error rate
+%   - Explanation of why the method improves (or does not improve) the result
+%
+% Figures already committed and ready to reference (do not rename):
+%   figures/E_feature_importance.png  -- M0 vs M3 top-10 Gini importance
+%   figures/E_tree_M3.png             -- M3 tree
+%   figures/E_cm_M3.png               -- M3 confusion matrix
+%
+% IMPORTANT: when citing "most important features," always source the
+% number from outputs/E_feature_importance_comparison.csv (this project's
+% own M0/M3 Gini importance), NOT from docs/02-DATASET-VA-CONG-VIEC.md
+% Section A5 (the original paper's Random Forest/XGBoost/LightGBM/CatBoost
+% permutation importance -- a different algorithm on a different model).
+% Conflating the two was exactly the error Role A found and fixed in its
+% own g_comparison.tex source draft -- e.g. "Curricular units 1st sem
+% (approved)" is in the paper's top-5 but ranks 9th in this project's own
+% M0 tree. Section c_dataset.tex above already states the corrected M0
+% top-5 explicitly if you need to cross-check.
+
+\subsection{f.3 Improvement Method 3: Feature Selection for Early Warning}
+\label{sec:f3}
+
+\subsubsection{Method description}
+
+\todo{Describe the method: drop exactly the 12 semester-outcome columns (all six \texttt{Curricular units 1st sem (\ldots)} and six \texttt{Curricular units 2nd sem (\ldots)} columns), keep the remaining 24 original features including the 3 macroeconomic variables (known at enrollment time), and train an unconstrained \texttt{DecisionTreeClassifier(random\_state=42)} exactly like M0 so the only experimental difference is feature availability.}
+
+\subsubsection{Modified tree / model setting}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\textwidth]{E_tree_M3.png}
+  \caption{\todo{Caption: M3 tree (state depth/leaves from \texttt{outputs/results.csv}).}}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{E_feature_importance.png}
+  \caption{\todo{Caption: top-10 Gini feature importance, M0 (all 36 original features) vs.\ M3 (24 retained features) side by side, one-hot dummy importances summed back to their original UCI feature name for a fair comparison.}}
+\end{figure}
+
+\subsubsection{Accuracy and error rate}
+
+\todo{Report M3's test\_acc / error\_rate / F1 macro against M0 from \texttt{outputs/results.csv}, and the confusion matrix below.}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{E_cm_M3.png}
+  \caption{\todo{Caption: M3 confusion matrix on the same 885-sample held-out test set as every other model.}}
+\end{figure}
+
+\subsubsection{Why this does not improve accuracy --- and why that is expected}
+
+\todo{Explain plainly that accuracy drops substantially (this is the intended finding, not a failure): the 12 dropped columns include several of M0's strongest actual Gini-importance features (see \texttt{outputs/E\_feature\_importance\_comparison.csv} -- \texttt{2nd sem approved} is M0's single most important feature by a wide margin), all of which are only known after a semester ends. State the trade-off explicitly: M0 is more accurate but only actionable after the fact; M3 is less accurate but is the only model of the four that is actually usable at enrollment time for early, preventive intervention. Cite \citep{martins2021early} here if used as background for the early-prediction framing.}

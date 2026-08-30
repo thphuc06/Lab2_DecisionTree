@@ -119,14 +119,53 @@ sau ghi nhận số môn đăng ký/qua môn/điểm trung bình mỗi học k�
 Lớp **Enrolled** là lớp thiểu số và khó phân loại nhất vì nằm "ở giữa" hai lớp còn lại về
 đặc trưng — đây là lý do tồn tại của cải tiến xử lý mất cân bằng lớp (mục f.2).
 
-Một số quan sát thống kê mô tả từ EDA (`notebooks/01_eda.ipynb`, xem `figures/A_*.png`)
-minh hoạ rõ mức độ liên quan của một số feature tới Target: trong nhóm sinh viên **chưa
-đóng học phí đúng hạn**, tới 86% thuộc lớp Dropout, trong khi nhóm đã đóng đúng hạn chỉ có
-25% Dropout và tới 56% Graduate. Tương tự, sinh viên **có học bổng** chỉ 12% Dropout so với
-39% ở nhóm không có học bổng. Xét theo ngành học, hai ngành có tỉ lệ tốt nghiệp thấp nhất là
-Công nghệ nhiên liệu sinh học và Kỹ thuật CNTT (phần lớn sinh viên bỏ học), trong khi Điều
-dưỡng và Công tác xã hội có tỉ lệ tốt nghiệp cao nhất — khớp với quan sát đã công bố trong
-bài báo gốc.
+![Phân bố 3 lớp Target trên 4.424 sinh viên](../figures/A_target_distribution.png)
+
+*Hình c.1. Phân bố lớp Target: Graduate 49,9%, Dropout 32,1%, Enrolled 17,9%. Enrolled là
+lớp thiểu số rõ rệt, tạo tình huống mất cân bằng lớp thật để thử nghiệm ở mục f.2.*
+
+Một số quan sát thống kê mô tả từ EDA (`notebooks/01_eda.ipynb`) minh hoạ rõ mức độ liên
+quan của một số feature tới Target: trong nhóm sinh viên **chưa đóng học phí đúng hạn**, tới
+86% thuộc lớp Dropout, trong khi nhóm đã đóng đúng hạn chỉ có 25% Dropout và tới 56%
+Graduate. Tương tự, sinh viên **có học bổng** chỉ 12% Dropout so với 39% ở nhóm không có học
+bổng.
+
+![Tỉ lệ Target theo Tuition fees up to date và Scholarship holder](../figures/A_tuition_scholarship_vs_target.png)
+
+*Hình c.2. Trái: sinh viên chưa đóng học phí đúng hạn có tỉ lệ Dropout áp đảo (86%).
+`Tuition fees up to date` nằm trong 5 feature quan trọng nhất theo permutation importance
+của bài báo gốc (Phần A5), và cũng là hạng 3 theo Gini importance thực tế của M0 (0,045) —
+khác biệt tỉ lệ Dropout rất lớn giữa hai nhóm khớp với việc feature này quan trọng ở cả hai
+cách đo. Phải: sinh viên có học bổng có tỉ lệ Dropout thấp hơn ba lần so với nhóm không có
+học bổng (12% vs 39%) — tương quan quan sát được rõ, nhưng `Scholarship holder` **không**
+nằm trong top-5 của bài báo gốc lẫn của M0 (hạng 24, importance chỉ 0,0097): tỉ lệ chênh lệch
+lớn trong biểu đồ phần trăm không đồng nghĩa cây coi đây là feature phân tách quan trọng khi
+đặt cạnh các feature khác — có thể vì thông tin của nó phần lớn trùng lặp với các feature
+mạnh hơn như `Tuition fees up to date`.*
+
+Xét theo ngành học, hai ngành có tỉ lệ tốt nghiệp thấp nhất là Công nghệ nhiên liệu sinh học
+(mã 33) và Kỹ thuật CNTT (mã 9119) — phần lớn sinh viên bỏ học, trong khi Điều dưỡng (mã
+9500) và Công tác xã hội (mã 9238) có tỉ lệ tốt nghiệp cao nhất — khớp với quan sát đã công
+bố trong bài báo gốc.
+
+![Tỉ lệ Target theo mã ngành (Course), sắp xếp theo %Graduate](../figures/A_target_by_course.png)
+
+*Hình c.3. 17 ngành sắp xếp theo tỉ lệ tốt nghiệp tăng dần. Hai ngành thấp nhất — mã 9119
+(54,1% Dropout) và mã 33 (66,7% Dropout) — chỉ có **8,2% và 8,3%** sinh viên Graduate, thấp
+hơn nhiều so với trung bình 49,9% của toàn dataset. Hai ngành cao nhất — mã 9238 (69,9%
+Graduate) và mã 9500 (71,5% Graduate) — có Dropout thấp nhất, lần lượt 18,3% và 15,4%.
+`Course` được bài báo gốc xếp trong 5 feature quan trọng nhất theo permutation importance
+(Phần A5); theo Gini importance thực tế của cây M0 nhóm tự train, `Course` xếp hạng **6**
+(importance 0,044, xem `outputs/E_feature_importance_comparison.csv`) — vẫn rất gần top-5,
+và quan trọng hơn cả: có sẵn ngay lúc nhập học, nên là nền tảng cho model dự báo sớm M3 (mục
+f.3), bất kể xếp hạng chính xác là 4 hay 6 tùy thuật toán đo importance.*
+
+![Số môn qua học kỳ 2 theo từng lớp Target](../figures/A_curricular_units_2nd_sem_by_target.png)
+
+*Hình c.4. Boxplot `Curricular units 2nd sem (approved)` theo Target: median Dropout = 0,
+Enrolled = 4, Graduate = 6. Đây là feature quan trọng nhất theo permutation importance của
+bài báo gốc (Phần A5), nhưng chỉ có giá trị sau khi học kỳ 2 kết thúc — không dùng được cho
+model dự báo sớm M3.*
 
 ### Tiền xử lý dữ liệu đã thực hiện
 
@@ -164,6 +203,33 @@ tập train/test.
 
 Sau tiền xử lý: **3.539 mẫu train / 885 mẫu test**, mỗi mẫu có 90 feature numeric, sẵn sàng
 đưa thẳng vào `sklearn.tree.DecisionTreeClassifier`.
+
+### Đa cộng tuyến giữa các feature
+
+![Ma trận tương quan Pearson giữa các feature numeric](../figures/A_correlation_heatmap.png)
+
+*Hình c.5. Heatmap tương quan Pearson, **tự tính lại trực tiếp trên `data/raw/data.csv`**
+(không copy số từ tài liệu kế hoạch). Ba cặp tương quan cao nhất toàn dataset: `1st sem
+credited` ↔ `2nd sem credited` (r=0,945), `1st sem enrolled` ↔ `2nd sem enrolled` (r=0,943),
+và **`Mother's occupation` ↔ `Father's occupation` (r=0,911)** — cặp này cao hơn cả nhóm
+feature học kỳ 1 quan hệ với học kỳ 2 (`1st/2nd sem approved`, r=0,904). Cặp `Nacionality` ↔
+`International` có r=0,791 — vẫn là tương quan cao (sinh viên quốc tế gần như luôn có
+`Nacionality` khác Bồ Đào Nha) nhưng thấp hơn 3 cặp trên.*
+
+> ⚠️ Bảng đa cộng tuyến ở `docs/02-DATASET-VA-CONG-VIEC.md` Phần A6 có 2 số liệu không khớp
+> khi đối chiếu lại với `data/raw/data.csv` thật: cặp `Nacionality`↔`International` bảng đó
+> ghi r=0,912 (thực tế r=0,791), và cặp `Mother's/Father's occupation` bảng đó ghi r=0,724
+> (thực tế r=0,911 — **cao hơn nhiều** so với số đã ghi, đây là cặp tương quan cao thứ 3 toàn
+> dataset chứ không phải hạng 9 như bảng cũ xếp). Số liệu trong báo cáo dùng giá trị tự tính
+> lại ở trên; nên cập nhật lại bảng A6 để tránh lệch khi role E dùng bảng đó làm căn cứ chọn
+> cột trong mục f.3.
+
+Decision tree không bị ảnh hưởng nặng bởi đa cộng tuyến như hồi quy tuyến tính (không cần
+loại bỏ feature trùng lặp để mô hình hội tụ), nhưng đa cộng tuyến vẫn làm feature importance
+bị chia sẻ giữa các cột tương quan cao và có thể khiến cấu trúc cây kém ổn định giữa các lần
+chạy khác nhau của cùng thuật toán. Đây là căn cứ định lượng cho việc E cân nhắc loại bớt cột
+trùng lặp (VD `International`, hoặc một trong hai cột nghề nghiệp cha/mẹ) khi mở rộng thí
+nghiệm feature selection ở mục f.3.
 
 ### Vì sao dataset này phù hợp cho decision tree modeling
 
