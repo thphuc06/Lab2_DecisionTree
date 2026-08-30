@@ -137,6 +137,8 @@ Quan trọng ở 3/4 thuật toán: `1st sem (enrolled)`, `1st sem (evaluations)
 
 ## A6. Đa cộng tuyến (Pearson > 0.7) — dùng cho feature selection
 
+> ⚠️ **Đã rà soát lại 2026-08-30**: bảng bên dưới từng ghi sai 2 giá trị (`Nationality`↔`International` = 0.912 và `Mother's/Father's occupation` = 0.724). Tính lại trực tiếp trên `data/raw/data.csv` cho kết quả khác hẳn — hai role (A và E) độc lập tính ra cùng số đúng. Bảng dưới đây đã là số đúng, giữ nguyên vị trí hàng gốc.
+
 | Cặp feature | r |
 |---|---|
 | 1st sem (credited) ↔ 2nd sem (credited) | **0.945** |

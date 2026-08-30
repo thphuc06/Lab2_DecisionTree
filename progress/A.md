@@ -5,7 +5,7 @@
 
 ## Trạng thái hiện tại
 _(cập nhật lần cuối: 2026-08-30)_
-- Đang làm: Audit release-readiness toàn repository đã hoàn tất; chờ người dùng đánh dấu hai conflict đã resolve, tạo merge commit và push branch Role E.
+- Đang làm: Merge `origin/main` (nhánh Role E) vào local đã xong — 2 conflict thật (`docs/02-DATASET-VA-CONG-VIEC.md`, `docs/report/report.pdf`) đã resolve tay, report compile sạch (22 trang, 0 lỗi). Chờ người dùng review diff rồi tự `git add`/`commit`/`push` để hoàn tất merge.
 - Bị chặn bởi: —
 
 ## Đã xong
@@ -29,14 +29,21 @@ _(Ghi các lựa chọn kỹ thuật đã quyết — để agent phiên sau kh�
 - Smoke test: `DecisionTreeClassifier(random_state=42)` trên output của `get_train_test()` cho test acc = 0.6689 — khớp khoảng kỳ vọng 0.65–0.72 ở `AGENT.md` §3, không có dấu hiệu rò rỉ dữ liệu.
 
 ## Việc tiếp theo
+- Người dùng review diff cuối (đặc biệt 2 file vừa resolve tay: `docs/02-DATASET-VA-CONG-VIEC.md`, `docs/report/report.pdf`), rồi `git add -A && git commit` để hoàn tất merge commit, sau đó `git push`.
 - Bắt đầu pha viết report trên khung LaTeX hiện có: B điền d/e, C điền f.1, D điền f.2, E điền f.3; xóa từng `\todo{}` sau khi nội dung đã được đối chiếu với artifact canonical.
 - Trưởng nhóm điền mục a (tên nhóm/MSSV/GroupID/course/instructor) và đối chiếu bảng đóng góp — LƯU Ý: commit `0969118` gắn tag `[C]` trong git log thực chất là việc của E (cùng git author với commit `[E]` thật `04ee0bd`), đừng tính nhầm công cho C khi điền bảng đóng góp.
 - Sau khi report hết TODO và compile sạch, mới dùng chính số liệu/hình canonical đó để làm slide và video.
-- Người dùng kiểm tra diff, đánh dấu hai conflict đã resolve bằng `git add`, rồi tự commit/push theo quy ước repo.
 - Nền tảng code, dữ liệu, artifact, tài liệu kỹ thuật và khung report đã sẵn sàng. Nội dung của sáu section report có chủ sở hữu vẫn là pha tiếp theo theo đúng kế hoạch, không được hiểu nhầm là bản báo cáo cuối đã hoàn tất.
 
 ## Nhật ký phiên làm việc
 <!-- Mỗi phiên thêm 1 mục mới lên TRÊN CÙNG, không xóa mục cũ -->
+
+### 2026-08-30 (phiên 17) — resolve merge conflict giữa local (A) và origin/main (nhánh Role E)
+- Đã làm gì: Người dùng `git pull` sau khi commit 2 việc trước đó (fix bảng A6 lần 1, tạo Phancong.md) thì gặp `git pull` báo local changes ở `progress/A.md` sẽ bị ghi đè — hướng dẫn người dùng commit trước rồi pull lại. Sau khi pull, git tự merge sạch hầu hết file (kể cả `progress/A.md`, `c_dataset.tex`, `AGENT.md` — không conflict vì 2 bên sửa khác vùng/khác nội dung tương thích), chỉ còn đúng 2 file conflict thật: `docs/02-DATASET-VA-CONG-VIEC.md` và `docs/report/report.pdf` (binary).
+  - `docs/02`: phát hiện bên `origin/main` (nhánh Role E, có vẻ do 1 agent khác chạy audit "release-readiness" độc lập) đã **tự tìm ra và sửa đúng y hệt 2 giá trị sai** ở bảng A6 mà tôi đã sửa trước đó (0,791 và 0,910) — khớp 100%, cross-verify tốt. Khác nhau ở cách trình bày: tôi sắp lại thứ tự bảng giảm dần, họ giữ nguyên vị trí gốc chỉ sửa số. Vì 2 cách khác nhau, git để sót 1 dòng trùng lặp ("Nationality↔International") ngoài vùng conflict marker — không chỉ chọn 1 bên mà phải dựng lại tay: giữ cấu trúc gốc (theo họ, đơn giản hơn) + xoá dòng trùng + dùng ghi chú giải thích của họ (chính xác hơn, khớp đúng code M3 thật — không loại cột theo correlation).
+  - `report.pdf`: không merge tay file nhị phân, mà **compile lại từ đầu** từ `.tex` đã merge — cách chắc chắn đúng nhất.
+- Kết quả: Compile lại sạch hoàn toàn — 3 pass exit 0, 0 lỗi, 0 undefined ref/citation, **0 overfull hbox** (tốt hơn cả trước, nhờ merge mang theo `\emergencystretch` từ nhánh kia). `report.pdf` 22 trang. Đã xem lại trang bảng A6/Table 4 (mục c) — số liệu khớp nhau hoàn toàn giữa `docs/02` và `c_dataset.tex`.
+- Vướng gì / để lại cho phiên sau: Không có blocker kỹ thuật. Ghi chú: nhánh Role E (tag `[E]`, git author `Arthern-30062006ww`) tự sửa `AGENT.md`/`README.md`/`docs/03` — cùng kiểu tự cấp quyền như D từng làm trước đây; nội dung hợp lý (mở rộng đúng phạm vi file Role A để cover `requirements-lock.txt`, làm rõ 5 cấu hình model) nên không revert, chỉ ghi nhận lại đây để minh bạch.
 
 ### 2026-08-30 — audit release-readiness cuối trước pha report/slide/video
 - Đã làm gì: Fetch lại remote và xác nhận `origin/main` vẫn ở `a29d356`; rà toàn bộ diff merge; chạy pipeline notebook 01→06 hai vòng trong môi trường lock; sửa portability, số liệu/tài liệu stale và nguồn nondeterminism của pandas Styler; kiểm tra JSON/UTF-8, link Markdown, dependency LaTeX, inventory CSV/TXT/PNG và số liệu model; compile/render report thật.
@@ -62,6 +69,22 @@ _(Ghi các lựa chọn kỹ thuật đã quyết — để agent phiên sau kh�
 - Kết quả: **Compile sạch, 3 pass đều exit 0, không còn `!` error, không còn undefined citation/reference.** `report.pdf` 26 trang, 14.4MB (nặng vì hình cây độ phân giải cao). Đã xem trực tiếp nhiều trang (title/mục a, mục b, 2 hình EDA mục c, trang references, trang TODO heatmap mục c) qua `miktex-pdftoppm` — render đúng, citation/cross-ref/bảng/hình/TODO đỏ đều hiển thị chính xác.
 - Đã dọn: xoá hết ảnh preview tạm, thêm `.gitignore` cho `*.aux/*.bbl/*.blg/*.out/*.toc/*.synctex.gz` (giữ lại `report.pdf` — đây là deliverable thật, không ignore).
 - Vướng gì / để lại cho phiên sau: Không còn vướng kỹ thuật. `report.pdf` hiện tại còn nhiều `\todo{}` (mục a, d, e, f1, f2, f3) — cần B/C/D/E dịch nội dung của họ rồi compile lại. Bài học rút ra (đáng nhớ cho cả nhóm): **kiểm tra tay kỹ tới đâu cũng không thay được compile thật** — cả 2 bug trên đều là loại lỗi mà review tay không phát hiện ra, chỉ lộ ra khi chạy pdflatex/bibtex thật.
+
+### 2026-08-30 (phiên 16) — cập nhật Phancong.md: Trưởng nhóm chốt quyết định giữ điều khoản AGENT.md
+- Đã làm gì: Người dùng (xác nhận là Trưởng nhóm) quyết định **giữ nguyên** điều khoản "ngoại lệ" D tự thêm vào `AGENT.md` Mục 5 (không revert). Cập nhật `Phancong.md`: tick `[x]` 2 mục "Quyết định cùng..." ở phần Role D và Trưởng nhóm, ghi rõ đã chốt giữ nguyên. Không sửa `AGENT.md` (giữ nguyên là quyết định của Trưởng nhóm, không cần thao tác gì thêm).
+- Kết quả: `Phancong.md` giờ chỉ còn đúng các việc thật sự cần làm (dịch report B/C/D/E, slide/video E, sửa README của D, điền mục a + đóng gói của Trưởng nhóm) — không còn mục "chờ quyết định" nào.
+- Vướng gì / để lại cho phiên sau: Không có.
+
+### 2026-08-30 (phiên 15) — tạo Phancong.md tổng hợp việc còn lại cho cả nhóm
+- Đã làm gì: Theo yêu cầu người dùng, tạo `Phancong.md` ở root repo — gộp toàn bộ việc còn lại đã liệt kê rải rác trong phiên (bảng cuối cùng, các lưu ý về docs/02, README, AGENT.md) thành 1 file duy nhất, chia rõ theo từng role (B/C/D/E/Trưởng nhóm), có checkbox để tick tiến độ, và mục "Quy tắc chung" tóm tắt 6 quy tắc mới đã thêm vào AGENT.md/docs/report/README.md trong phiên này.
+- Đã đối chiếu lại số `\todo` còn lại từng file trước khi ghi vào Phancong.md (không dùng số nhớ từ trước, tránh sai lệch nếu có gì đổi): a=7, d=6, e=7, f1=7, f2=10, f3=6; b/c/g/h=0.
+- Vướng gì / để lại cho phiên sau: Không có. File `Phancong.md` không thuộc quyền sở hữu role nào cụ thể (là tài liệu điều phối chung), mọi role đều có thể tick checkbox khi xong việc của mình.
+
+### 2026-08-30 (phiên 14) — sửa bảng đa cộng tuyến sai trong docs/02 (đã xin xác nhận người dùng)
+- Đã làm gì: Người dùng xác nhận muốn sửa lỗi #10 (bảng A6 sai) trong danh sách việc tồn đọng. Sửa `docs/02-DATASET-VA-CONG-VIEC.md` Phần A6: đổi `Nationality↔International` từ 0,912 → **0,791**, đổi `Mother's/Father's occupation` từ 0,724 (hạng 9) → **0,910** (hạng 3 thật), sắp lại đúng thứ tự giảm dần trong bảng (giữ nguyên 10 cặp gốc, không thêm cặp mới ngoài phạm vi yêu cầu). Sửa thêm 1 chỗ trích số cũ (r=0,91 → r=0,79) ở đoạn "Mở rộng" gợi ý bỏ cột `International`. Thêm ghi chú đầu bảng giải thích đã rà soát lại 2026-08-30.
+- Xoá khối `\todo{Data-integrity note...}` trong `docs/report/sections/c_dataset.tex` (đúng theo chỉ dẫn "delete once acted on" đã ghi sẵn trong chính khối đó) — giờ `c_dataset.tex` không còn `\todo` nào, hoàn toàn xong.
+- Compile lại xác nhận sạch (3 pass exit 0, không lỗi/undefined).
+- Vướng gì / để lại cho phiên sau: Không có. Đây là thay đổi trong `docs/02` — file kế hoạch dùng chung, không thuộc riêng role nào, nên không cần xin phép role khác như trường hợp sửa file D trước đây.
 
 ### 2026-08-30 (phiên 13) — audit độc lập lần 2 (subagent) + sửa 6 lỗi mới tìm được
 - Đã làm gì: Theo yêu cầu người dùng, chạy 1 subagent audit độc lập toàn bộ 4 file đã điền của A (b/c/g/h) — kiểm tra 4 tiêu chí: khớp đề gốc, số liệu chuẩn xác (re-verify từ `outputs/*`, tự tính lại từ `data/raw/data.csv`), logic nhận xét, ý nghĩa thực tế. Tự verify lại độc lập từng finding (không tin ngay) trước khi sửa.
