@@ -137,21 +137,23 @@ Quan trọng ở 3/4 thuật toán: `1st sem (enrolled)`, `1st sem (evaluations)
 
 ## A6. Đa cộng tuyến (Pearson > 0.7) — dùng cho feature selection
 
+> ⚠️ **Đã rà soát lại 2026-08-30**: bảng bên dưới từng ghi sai 2 giá trị (`Nationality`↔`International` = 0.912 và `Mother's/Father's occupation` = 0.724, hạng 9). Tính lại trực tiếp trên `data/raw/data.csv` cho kết quả khác hẳn — bảng dưới đây đã là số đúng, sắp lại đúng thứ tự giảm dần theo số đã sửa.
+
 | Cặp feature | r |
 |---|---|
 | 1st sem (credited) ↔ 2nd sem (credited) | **0.945** |
 | 1st sem (enrolled) ↔ 2nd sem (enrolled) | **0.943** |
-| Nationality ↔ International | **0.912** |
+| Mother's occupation ↔ Father's occupation | **0.910** |
 | 1st sem (approved) ↔ 2nd sem (approved) | **0.904** |
 | 1st sem (grade) ↔ 2nd sem (grade) | 0.837 |
+| Nationality ↔ International | 0.791 |
 | 1st sem (evaluations) ↔ 2nd sem (evaluations) | 0.779 |
 | 1st sem (credited) ↔ 1st sem (enrolled) | 0.774 |
 | 2nd sem (approved) ↔ 2nd sem (grade) | 0.761 |
-| Mother's occupation ↔ Father's occupation | 0.724 |
 | 2nd sem (enrolled) ↔ 2nd sem (approved) | 0.703 |
 
 > Cây quyết định không bị ảnh hưởng nặng bởi đa cộng tuyến như hồi quy tuyến tính, **nhưng** nó làm feature importance bị chia nhỏ và khiến cây kém ổn định. Đây là căn cứ để E loại bớt cột trùng lặp.
-> `Nationality ↔ International` r=0.91 là cặp rõ ràng nhất nên bỏ một trong hai.
+> Sau khi sửa số: `Mother's occupation ↔ Father's occupation` (r=0.91) mới là cặp cao thứ 3 toàn dataset — rõ ràng hơn cả `Nationality ↔ International` (r=0.79, vẫn cao nhưng không còn là cặp nổi bật nhất). Cân nhắc bỏ một trong hai cột nghề nghiệp cha/mẹ, hoặc một trong hai cột `Nationality`/`International`, tuỳ mục tiêu.
 
 ## A7. Quan sát từ EDA của bài báo (dùng cho phần diễn giải)
 
@@ -292,7 +294,7 @@ Curricular units 2nd sem (without evaluations)
 
 > ✅ **Giữ lại 3 biến vĩ mô** (`Unemployment rate`, `Inflation rate`, `GDP`) — chúng phụ thuộc năm nhập học, đã biết tại thời điểm dự báo, không phải thông tin tương lai.
 
-**Mở rộng (nếu còn thời gian):** dựa vào bảng A6, bỏ thêm `International` (r=0.91 với `Nationality`) → còn 23 feature.
+**Mở rộng (nếu còn thời gian):** dựa vào bảng A6, bỏ thêm `International` (r=0.79 với `Nationality`) → còn 23 feature.
 
 **Cần xuất ra:**
 - [ ] `figures/tree_M3.png`

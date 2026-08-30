@@ -50,6 +50,12 @@ _(Ghi các lựa chọn kỹ thuật đã quyết — để agent phiên sau kh�
 - Đã dọn: xoá hết ảnh preview tạm, thêm `.gitignore` cho `*.aux/*.bbl/*.blg/*.out/*.toc/*.synctex.gz` (giữ lại `report.pdf` — đây là deliverable thật, không ignore).
 - Vướng gì / để lại cho phiên sau: Không còn vướng kỹ thuật. `report.pdf` hiện tại còn nhiều `\todo{}` (mục a, d, e, f1, f2, f3) — cần B/C/D/E dịch nội dung của họ rồi compile lại. Bài học rút ra (đáng nhớ cho cả nhóm): **kiểm tra tay kỹ tới đâu cũng không thay được compile thật** — cả 2 bug trên đều là loại lỗi mà review tay không phát hiện ra, chỉ lộ ra khi chạy pdflatex/bibtex thật.
 
+### 2026-08-30 (phiên 14) — sửa bảng đa cộng tuyến sai trong docs/02 (đã xin xác nhận người dùng)
+- Đã làm gì: Người dùng xác nhận muốn sửa lỗi #10 (bảng A6 sai) trong danh sách việc tồn đọng. Sửa `docs/02-DATASET-VA-CONG-VIEC.md` Phần A6: đổi `Nationality↔International` từ 0,912 → **0,791**, đổi `Mother's/Father's occupation` từ 0,724 (hạng 9) → **0,910** (hạng 3 thật), sắp lại đúng thứ tự giảm dần trong bảng (giữ nguyên 10 cặp gốc, không thêm cặp mới ngoài phạm vi yêu cầu). Sửa thêm 1 chỗ trích số cũ (r=0,91 → r=0,79) ở đoạn "Mở rộng" gợi ý bỏ cột `International`. Thêm ghi chú đầu bảng giải thích đã rà soát lại 2026-08-30.
+- Xoá khối `\todo{Data-integrity note...}` trong `docs/report/sections/c_dataset.tex` (đúng theo chỉ dẫn "delete once acted on" đã ghi sẵn trong chính khối đó) — giờ `c_dataset.tex` không còn `\todo` nào, hoàn toàn xong.
+- Compile lại xác nhận sạch (3 pass exit 0, không lỗi/undefined).
+- Vướng gì / để lại cho phiên sau: Không có. Đây là thay đổi trong `docs/02` — file kế hoạch dùng chung, không thuộc riêng role nào, nên không cần xin phép role khác như trường hợp sửa file D trước đây.
+
 ### 2026-08-30 (phiên 13) — audit độc lập lần 2 (subagent) + sửa 6 lỗi mới tìm được
 - Đã làm gì: Theo yêu cầu người dùng, chạy 1 subagent audit độc lập toàn bộ 4 file đã điền của A (b/c/g/h) — kiểm tra 4 tiêu chí: khớp đề gốc, số liệu chuẩn xác (re-verify từ `outputs/*`, tự tính lại từ `data/raw/data.csv`), logic nhận xét, ý nghĩa thực tế. Tự verify lại độc lập từng finding (không tin ngay) trước khi sửa.
 - Kết quả — xác nhận đúng cả 6 lỗi, đã sửa hết:

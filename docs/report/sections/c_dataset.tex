@@ -270,19 +270,6 @@ high correlation (international students almost always have a
 non-Portuguese \texttt{Nacionality} code), but lower than the four
 pairs above.
 
-\begin{quote}
-\todo{Data-integrity note (delete once acted on): the multicollinearity
-table in \texttt{docs/02-DATASET-VA-CONG-VIEC.md} Section~A6 has two
-values that do not match the real data when recomputed: it lists
-\texttt{Nacionality}$\leftrightarrow$\texttt{International} as $r=0.912$
-(actual $r=0.791$), and \texttt{Mother's/Father's occupation} as
-$r=0.724$ (actual $r=0.910$ -- \emph{much higher} than recorded, in fact
-the 3rd-highest pair in the dataset, not rank~9 as the old table implies).
-This report uses the recomputed values above; \texttt{docs/02} should be
-updated so Role E's rationale for dropping columns in f.3 is not built on
-the wrong ranking.}
-\end{quote}
-
 A decision tree is not as sensitive to multicollinearity as linear
 regression (it does not need redundant features removed to converge),
 but multicollinearity still splits feature importance across correlated
