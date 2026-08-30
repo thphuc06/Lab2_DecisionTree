@@ -5,7 +5,7 @@
 
 ## Trạng thái hiện tại
 _(cập nhật lần cuối: 2026-08-29)_
-- Đang làm: Đã hoàn tất toàn bộ pipeline theo `04-PLAN-ROLE-D-HOAN-THIEN.md` (D1–D9 ở mức thực thi và verify chéo). `results.csv` đã được regenerate từ notebook chạy sạch, đối chiếu khớp tuyệt đối với hai classification report. Report f.2 đã viết lại theo số canonical mới, gồm bảng precision per-class và audit categorical định lượng thật.
+- Đang làm: Đã hoàn tất phần kỹ thuật cốt lõi; còn 1 mục xác minh git log chưa chặn kết quả. `results.csv` đã được regenerate từ notebook chạy sạch, đối chiếu khớp tuyệt đối với hai classification report. Report f.2 đã viết lại theo số canonical mới, gồm bảng precision per-class và audit categorical định lượng thật.
 - Bị chặn bởi: — (không còn blocker kỹ thuật; còn vài việc thủ công nêu ở "Việc tiếp theo")
 
 ## Đã xong
@@ -61,7 +61,7 @@ _(cập nhật lần cuối: 2026-08-29)_
 - **Metric M2a (full precision):** test_acc 0.6508474576271186; recall Dropout 0.6795774647887324; recall Enrolled 0.33962264150943394; recall Graduate 0.744343891402715; precision_macro 0.5842501160502002; recall_macro 0.5878479992336271; f1_macro 0.5854090114571121; roc_auc_macro 0.7053207147912977; depth 28; leaves 696.
 - **Metric M2b (full precision):** test_acc 0.688135593220339; recall Dropout 0.7077464788732394; recall Enrolled 0.46540880503144655; recall Graduate 0.755656108597285; precision_macro 0.6365130979545455; recall_macro 0.6429371308339903; f1_macro 0.6387466009671455; roc_auc_macro 0.7421224276221162; depth 39; leaves 847.
 - **Hash SHA-256 chính thức bàn giao (lấy trực tiếp bằng `Get-FileHash` sau lần chạy cuối):**
-  - `notebooks/04_improve_imbalance.ipynb`: `80652548138588593a84d882b9e5323b25ce66888161d3d6adb5efcafc3ab8a1`
+  - `notebooks/04_improve_imbalance.ipynb`: `0247ebe415e80b85e1a4ee33dab77fff2d6c71d4e5334f9a9ee7cdd23c7b2712`
   - `outputs/results.csv`: `63009e839fac73d3460da31a612e3435fb8fd332419cf1b698ae6fee99e02007`
   - `outputs/classification_report_M2a.txt`: `9193517df55d52aad0056ccc43ba9ed84ce3ff6f88ccf3f44e808ccdf36ef45c`
   - `outputs/classification_report_M2b.txt`: `13eb7d80813f31f9dd63465c8d60da989237a35e4a65285b9a0e6553f81d37ed`

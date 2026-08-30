@@ -40,9 +40,9 @@ vẫn fit trên đúng tập train gốc; không tạo thêm mẫu dữ liệu n
 M2b dùng `SMOTE(random_state=42)` sau khi đã có split chung:
 
 ```python
-X_train_smote, y_train_smote = SMOTE(random_state=42).fit_resample(
-    X_train, y_train
-)
+X_train_smote, y_train_smote = SMOTE(
+    sampling_strategy="auto", random_state=42, k_neighbors=5
+).fit_resample(X_train, y_train)
 DecisionTreeClassifier(random_state=42).fit(X_train_smote, y_train_smote)
 ```
 
@@ -145,13 +145,25 @@ với category thật nào.
 
 Notebook đo trực tiếp hiện tượng này trên 1.762 hàng synthetic mà M2b thực sự dùng để train:
 
-| Nhóm cột | Chỉ số đo | Kết quả |
-|---|---|---|
-| 6 cột mã số (5 nominal + 1 ordinal) | Tỷ lệ giá trị không nguyên trong hàng synthetic | 0,0% cho cả 6 cột |
-| Marital Status (one-hot) | Tỷ lệ hàng synthetic có vector one-hot không tổng bằng 1 | 14,7% |
-| Application mode (one-hot) | Tỷ lệ hàng synthetic có vector one-hot không tổng bằng 1 | 65,4% |
-| **Course (one-hot)** | Tỷ lệ hàng synthetic có vector one-hot không tổng bằng 1 | **83,0%** |
-| Previous qualification (one-hot) | Tỷ lệ hàng synthetic có vector one-hot không tổng bằng 1 | 24,8% |
+*Bảng 1: Kiểm tra sinh category lạ trên 6 cột mã số nguyên (Nominal/Ordinal)*
+
+| Cột | Dtype | Tỷ lệ vi phạm giá trị phân số | Tỷ lệ sinh ra mã số lạ ngoài tập gốc (`frac_out_of_train_vocab`) |
+|---|---|---|---|
+| Mother's qualification | nominal | 0,0% | 3,01% |
+| Father's qualification | nominal | 0,0% | 2,89% |
+| Mother's occupation | nominal | 0,0% | 1,19% |
+| Father's occupation | nominal | 0,0% | 2,04% |
+| Nacionality | nominal | 0,0% | 2,38% |
+| Application order | ordinal | 0,0% | 0,00% |
+
+*Bảng 2: Phân bố lỗi nội suy trên 4 nhóm cột One-hot (đo trên 1.762 mẫu synthetic)*
+
+| Nhóm cột (One-hot) | All-zero (`sum=0`) | Đa category (`sum>1`) | Chứa phân số (`fractional`) | Vi phạm count (`active_count_violation`) | Hợp lệ (`valid_one_hot`) |
+|---|---|---|---|---|---|
+| Marital Status | 14,7% | 0,0% | 0,0% | 14,7% | 85,3% |
+| Application mode | 65,4% | 0,0% | 0,0% | 65,4% | 34,6% |
+| **Course** | **83,0%** | 0,0% | 0,0% | **83,0%** | 17,0% |
+| Previous qualification | 24,8% | 0,0% | 0,0% | 24,8% | 75,2% |
 
 Hai nhóm kết quả cần đọc khác nhau:
 
@@ -167,9 +179,8 @@ Hai nhóm kết quả cần đọc khác nhau:
   Vì các cột dummy do `src/data.py` tạo ra có dtype là `int`, các giá trị nội suy phân số của
   vanilla SMOTE bị **cắt cụt (truncate, không phải làm tròn)** về integer — `.astype(int)`
   luôn cắt phần thập phân về phía 0, không làm tròn tới số gần nhất. Với phép nội suy giữa hai
-  vector one-hot khác category, các thành phần phân số gần như luôn bị cắt về 0. Khi đó, vector
-  vi phạm chủ yếu là all-zero (không
-  có category nào hoạt động), chứ không phải là "pha trộn nhiều category". Điều này giải thích
+  vector one-hot khác category, các thành phần phân số gần như luôn bị cắt về 0. Khi đó, toàn bộ (100%) vector
+  vi phạm là all-zero (không có category nào hoạt động), chứ không phải là "pha trộn nhiều category". Điều này giải thích
   vì sao `Course` có tới 83,0% hàng synthetic vi phạm tổng bằng 1. Đây là bằng chứng cụ thể
   rằng vanilla SMOTE tạo ra các representation categorical không hợp lệ.
 
