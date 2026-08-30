@@ -1,66 +1,233 @@
-% Owner: Role E. NOT translated yet -- structural skeleton only.
-%
-% Source material: notebooks/05_improve_features.ipynb markdown cells
-% (already fact-checked -- progress/A.md 2026-08-30 audit: 0 errors out
-% of ~12 checked numeric claims; the notebook even self-verifies its own
-% numbers against outputs/results.csv before printing "PASS"). There is
-% no separate docs/report_draft_f3_*.md file -- render the notebook to
-% read it comfortably if needed:
-%   jupyter nbconvert --to markdown notebooks/05_improve_features.ipynb
-%
-% Brief requires, for EACH improvement method (Section 3.4.f):
-%   - Description of the method
-%   - Modified tree or model setting
-%   - Accuracy and error rate
-%   - Explanation of why the method improves (or does not improve) the result
-%
-% Figures already committed and ready to reference (do not rename):
-%   figures/E_feature_importance.png  -- M0 vs M3 top-10 Gini importance
-%   figures/E_tree_M3.png             -- M3 tree
-%   figures/E_cm_M3.png               -- M3 confusion matrix
-%
-% IMPORTANT: when citing "most important features," always source the
-% number from outputs/E_feature_importance_comparison.csv (this project's
-% own M0/M3 Gini importance), NOT from docs/02-DATASET-VA-CONG-VIEC.md
-% Section A5 (the original paper's Random Forest/XGBoost/LightGBM/CatBoost
-% permutation importance -- a different algorithm on a different model).
-% Conflating the two was exactly the error Role A found and fixed in its
-% own g_comparison.tex source draft -- e.g. "Curricular units 1st sem
-% (approved)" is in the paper's top-5 but ranks 9th in this project's own
-% M0 tree. Section c_dataset.tex above already states the corrected M0
-% top-5 explicitly if you need to cross-check.
+% Owner: Role E. Final report text adapted from the verified M3 notebook
+% and cross-checked against the canonical result, classification-report,
+% Gini/MDI, grouped-permutation, tree, and confusion-matrix artifacts.
 
 \subsection{Improvement Method 3: Feature Selection for Early Warning}
 \label{sec:f3}
 
 \subsubsection{Method description}
 
-\todo{Describe the method: remove all six first-semester and all six second-semester outcome columns, retain 24 original features including the three macroeconomic variables known at enrollment, and train the same unconstrained Gini tree with seed 42. Feature availability must be the only intentional difference from M0.}
+The third improvement changes the information available to the classifier
+rather than tuning its structure. Its operational question is whether a
+student's outcome can be estimated at enrollment time, early enough for
+supportive intervention. All first- and second-semester outcome variables are
+therefore excluded. Table~\ref{tab:f3-exclusions} defines the exclusion rule;
+applying the six suffixes to both semester families removes exactly 12 original
+features.
 
-\subsubsection{Modified tree / model setting}
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Semester-outcome feature families excluded from M3}
+  \label{tab:f3-exclusions}
+  \begin{tabular}{@{}lp{9.0cm}r@{}}
+    \toprule
+    Feature family & Removed measurements & Count \\
+    \midrule
+    First-semester curricular units & credited, enrolled, evaluations,
+      approved, grade, and without evaluations & 6 \\
+    Second-semester curricular units & credited, enrolled, evaluations,
+      approved, grade, and without evaluations & 6 \\
+    \midrule
+    Total & & 12 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The remaining 24 original features describe information already available at
+enrollment, including application and program information, prior academic
+background, tuition and scholarship status, demographics, and the three
+macroeconomic variables---unemployment rate, inflation rate, and GDP---that
+are associated with the year of enrollment. The
+\texttt{International} indicator is retained: M3 deliberately changes only
+semester-result availability, rather than combining the timing intervention
+with correlation-based removal.
+
+Feature importance and test performance were not used to choose these inputs.
+They are examined only after fitting, so the held-out partition does not leak
+into feature selection. M3 uses the same stratified train/test rows, Gini
+criterion, and unconstrained scikit-learn tree configuration as M0
+\citep{pedregosa2011scikit}. Consequently, feature availability is the only
+intentional experimental difference. Table~\ref{tab:f3-setting} summarizes the
+resulting input and model contract. As for the other tree configurations, no
+feature scaling is applied.
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Input and model setting for the early-warning experiment}
+  \label{tab:f3-setting}
+  \begin{tabular}{@{}lll@{}}
+    \toprule
+    Component & M0 baseline & M3 early warning \\
+    \midrule
+    Original features & 36 & 24 \\
+    Columns after one-hot encoding & 90 & 78 \\
+    Semester outcomes available & Yes & No \\
+    Split & \multicolumn{2}{c}{Same stratified train/test rows} \\
+    Classifier & \multicolumn{2}{c}{Unconstrained Gini decision tree} \\
+    Random seed & \multicolumn{2}{c}{42} \\
+    Feature scaling & \multicolumn{2}{c}{None} \\
+    Grouped permutation audit & \multicolumn{2}{c}{Accuracy, 30 repeats, seed 42} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{landscape}
+\subsubsection{Modified tree and model interpretation}
+
+Figure~\ref{fig:f3-tree} displays M3 through depth 4 for readability; the
+display limit does not prune or otherwise modify the fitted model. The root
+tests whether tuition fees are up to date. Its next level uses GDP for the
+branch with overdue fees and scholarship status for the branch with fees up to
+date. Thus, once academic outcomes are unavailable, the upper tree shifts to
+financial, contextual, and enrollment-time information.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.75\textwidth]{E_tree_M3.png}
-  \caption{\todo{Caption: M3 tree; state its full depth and leaf count.}}
+  \includegraphics[width=0.82\linewidth]{E_tree_M3.png}
+  \caption{M3 early-warning tree displayed through depth 4.}
+  \label{fig:f3-tree}
 \end{figure}
+\end{landscape}
+
+The fitted tree has depth 30 and 963 leaves, as reported with its predictive
+metrics in Table~\ref{tab:f3-results}. This is not a smaller or automatically
+more interpretable tree than M0: feature removal alone does not regularize an
+unconstrained classifier.
+
+Figure~\ref{fig:f3-gini} compares fitted-tree Gini/MDI importance after
+summing all one-hot dummy importances back to their original feature names.
+In M0, \texttt{Curricular units 2nd sem (approved)} dominates with an
+importance of 0.340. Three of M0's five highest-ranked original features are
+second-semester outcomes and are therefore unavailable to M3. In the
+early-warning tree, importance is redistributed mainly toward
+\texttt{Course} (0.118), \texttt{Admission grade} (0.113), and
+\texttt{Tuition fees up to date} (0.112). These values describe how the fitted
+trees use their training inputs; they are associations, not causal effects,
+and MDI can favor features offering many possible splits.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{E_feature_importance.png}
-  \caption{\todo{Caption: top-10 Gini feature importance, M0 (all 36 original features) vs.\ M3 (24 retained features) side by side, one-hot dummy importances summed back to their original UCI feature name for a fair comparison.}}
+  \caption{Top-10 aggregated Gini/MDI importances for M0 and M3.}
+  \label{fig:f3-gini}
+\end{figure}
+
+To check whether the fitted-tree ranking also matters on unseen rows, grouped
+permutation importance was computed on the untouched held-out partition. All
+dummy columns belonging to one original categorical feature were permuted
+together, preserving valid one-hot groups. Figure~\ref{fig:f3-permutation}
+shows the mean held-out accuracy decrease and its standard deviation across 30
+repetitions. The baseline remains most sensitive to second-semester approvals,
+whereas M3 is most sensitive to tuition status, course, and age at enrollment.
+The agreement between the training-derived and held-out views strengthens the
+interpretation without turning either importance measure into evidence of
+causality.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{E_feature_importance_permutation.png}
+  \caption{Grouped permutation importance on the held-out partition.}
+  \label{fig:f3-permutation}
 \end{figure}
 
 \subsubsection{Accuracy and error rate}
 
-\todo{Report M3 test accuracy, error rate, and macro-F1 against M0, then discuss the confusion matrix below.}
+Table~\ref{tab:f3-results} compares M3 with M0 on the same held-out rows. M3
+achieves test accuracy 0.541243 and error rate 0.458757, compared with
+0.668927 and 0.331073 for M0. The 0.127684 decrease in accuracy is therefore
+an equal 12.77-percentage-point increase in error rate. Macro-F1 also falls
+from 0.608271 to 0.493050, showing that the loss is not confined to the
+majority class.
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Baseline and early-warning results on the shared held-out partition}
+  \label{tab:f3-results}
+  \begin{tabular}{@{}lrrr@{}}
+    \toprule
+    Metric & M0 baseline & M3 early warning & M3 $-$ M0 \\
+    \midrule
+    Train accuracy & 1.000000 & 1.000000 & 0.000000 \\
+    Test accuracy & \textbf{0.668927} & 0.541243 &
+      $-0.127684$ ($-12.77$ pp) \\
+    Error rate & \textbf{0.331073} & 0.458757 &
+      $+0.127684$ ($+12.77$ pp) \\
+    Generalization gap (train $-$ test) & \textbf{0.331073} & 0.458757 &
+      $+0.127684$ \\
+    Macro precision & \textbf{0.607642} & 0.492090 & $-0.115552$ \\
+    Macro recall & \textbf{0.609310} & 0.494390 & $-0.114921$ \\
+    Macro-F1 & \textbf{0.608271} & 0.493050 & $-0.115221$ \\
+    Macro ROC-AUC (OvR) & \textbf{0.719456} & 0.625355 & $-0.094101$ \\
+    Recall: Dropout & \textbf{0.679577} & 0.531690 & $-0.147887$ \\
+    Recall: Enrolled & \textbf{0.383648} & 0.327044 & $-0.056604$ \\
+    Recall: Graduate & \textbf{0.764706} & 0.624434 & $-0.140271$ \\
+    Tree depth & 27 & 30 & $+3$ \\
+    Number of leaves & 634 & 963 & $+329$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Figure~\ref{fig:f3-cm} and Table~\ref{tab:f3-classification} provide the
+class-level evidence behind the aggregate scores. M3 correctly identifies 151
+of 284 Dropout students, 52 of 159 Enrolled students, and 276 of 442 Graduate
+students. Enrolled remains the hardest class: more of its cases are assigned
+to Graduate (60) or Dropout (47) than are correctly classified (52).
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.6\textwidth]{E_cm_M3.png}
-  \caption{\todo{Caption: M3 confusion matrix on the same 885-sample held-out test set as every other model.}}
+  \includegraphics[width=0.62\textwidth]{E_cm_M3.png}
+  \caption{M3 confusion matrix on the shared held-out partition.}
+  \label{fig:f3-cm}
 \end{figure}
 
-\subsubsection{Why this does not improve accuracy --- and why that is expected}
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Class-level performance of M3 on the held-out partition}
+  \label{tab:f3-classification}
+  \begin{tabular}{@{}lrrrr@{}}
+    \toprule
+    Class & Precision & Recall & F1-score & Support \\
+    \midrule
+    Dropout & 0.5207 & 0.5317 & 0.5261 & 284 \\
+    Enrolled & 0.3077 & 0.3270 & 0.3171 & 159 \\
+    Graduate & 0.6479 & 0.6244 & 0.6359 & 442 \\
+    \midrule
+    Macro average & 0.4921 & 0.4944 & 0.4931 & 885 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
-\todo{Explain plainly that the accuracy drop is intended, not a failure: the removed columns include several of M0's strongest Gini-importance features, especially second-semester approvals, but those values arrive too late for enrollment-time action. State the M0/M3 trade-off and cite \citep{martins2021early} if it supports the early-prediction framing.}
+\subsubsection{Why accuracy does not improve --- and why this is expected}
+
+M3 does not improve predictive accuracy because M0 has a substantial
+information advantage. Several of M0's strongest predictors are semester
+outcomes, especially second-semester approvals. They are powerful precisely
+because they summarize academic progress close to the eventual outcome, but
+they become available too late for an enrollment-time warning. The held-out
+permutation analysis reaches the same qualitative conclusion: disrupting
+second-semester approvals causes the largest accuracy loss for M0.
+
+The experiment also preserves the unconstrained M0 tree setting to isolate
+the effect of timing. M3 consequently fits the training data perfectly while
+generalizing poorly, with a 0.458757 train--test accuracy gap. Its greater
+depth and leaf count show that removing variables is not a substitute for
+pruning: when the strongest signals disappear, the tree can fragment the
+training data using weaker enrollment-time associations.
+
+The result should therefore be interpreted as a performance--timeliness
+trade-off, not as a failed experiment. M0 is the stronger classifier once
+semester outcomes exist; M3 is the only configuration in this comparison
+that can operate at enrollment. This distinction is central to early student
+performance prediction, where the value of a warning depends partly on
+whether it arrives early enough for an intervention to be possible
+\citep{martins2021early}.
+
+Finally, M3 is an interpretable laboratory experiment rather than a
+production-ready decision system. Its demographic and socioeconomic splits
+reflect associations in the observed sample, not causal effects. An
+early-warning output should support human review and offers of assistance; it
+should not be used as an automatic or punitive decision about a student.
