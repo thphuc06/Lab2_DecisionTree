@@ -33,18 +33,17 @@ The group did not copy figures from the UCI metadata page; instead it
 directly inspected the raw dataset to confirm:
 
 \begin{itemize}
-  \item The raw file contains \textbf{4,424 rows and 37 columns}
-    $\rightarrow$ 4{,}424 samples (students), 36 features + 1 label
-    column \texttt{Target}.
+  \item The raw file contains \textbf{4,424 rows and 37 columns}: 4{,}424
+    samples (students), 36 features plus 1 label column \texttt{Target}.
   \item There are \textbf{zero} missing values across the whole dataset
     (the authors pre-cleaned the data).
   \item \textbf{Notable finding:} the UCI page lists 36 features, but
     Table~1 of the original paper lists only 34. Cross-checking the
     actual column list against that table, the discrepancy is exactly
     two columns: \texttt{Previous qualification (grade)} and
-    \texttt{Admission grade} --- present in the released CSV but absent
-    from the paper's table. This is direct evidence the group inspected
-    the real data rather than copying the metadata.
+    \texttt{Admission grade}, both present in the released CSV but absent
+    from the paper's table. That discrepancy is only visible by reading
+    the actual column list, not by copying the metadata page.
 \end{itemize}
 
 The 36 features fall into six groups by nature: demographics (6 columns,
@@ -68,11 +67,17 @@ outcomes (6 columns), and second-semester outcomes (6 columns).
     Enrolled & 794     & 17.9\% & Still enrolled past the standard timeline \\
     \bottomrule
   \end{tabular}
+  \\[0.3em]
+  \footnotesize Percentages are rounded to one decimal place and therefore
+  sum to 99.9\% rather than 100\%; the unrounded values (49.93\%, 32.12\%,
+  17.95\%) sum to 100\%.
 \end{table}
 
-\textbf{Enrolled} is the minority class and the hardest to classify, as it
-sits ``between'' the other two classes in feature space -- this is the
-reason the class-imbalance improvement (Section~\ref{sec:f}, f.2) exists.
+\textbf{Enrolled} is both the minority class and the hardest to classify:
+across every model configuration compared in Section~\ref{sec:g}, its
+recall is the lowest of the three classes (e.g.\ 0.3836 for the baseline
+M0), which is why the class-imbalance improvement (Section~\ref{sec:f},
+f.2) targets this class.
 
 \begin{figure}[H]
   \centering
@@ -116,8 +121,9 @@ Descriptive statistics from exploratory data analysis illustrate how
 strongly some features relate to the target: among
 students who had \textbf{not paid tuition on time}, 86\% ended up in the
 Dropout class, versus 25\% Dropout / 56\% Graduate among students who had
-paid on time. Students with a \textbf{scholarship} have a 3$\times$ lower
-Dropout rate than those without (12\% vs.\ 39\%).
+paid on time. Students with a \textbf{scholarship} have a Dropout rate
+26.5 percentage points lower than those without (12.2\% vs.\ 38.7\%,
+about 3.2$\times$).
 
 \begin{figure}[H]
   \centering
@@ -129,25 +135,26 @@ Dropout rate than those without (12\% vs.\ 39\%).
 
 \texttt{Tuition fees up to date} is among the top-5 features by
 permutation importance in the original paper \citep{realinho2022predicting},
-and is also rank~3 in Table~\ref{tab:c-importance} -- the two ways of
+and is also rank~3 in Table~\ref{tab:c-importance}: the two ways of
 measuring importance agree here. \texttt{Scholarship holder} is a more
 subtle case: it is \textbf{not} in the top-5 of either the paper or
 Table~\ref{tab:c-importance} (rank~24), even though its
 percentage-of-target chart above looks just as striking as tuition's. A
 large gap in a simple percentage-of-target chart does not automatically
-mean a feature is an important tree split once it is placed alongside
+mean a feature drives an important tree split once it sits alongside
 stronger, possibly overlapping features such as \texttt{Tuition fees up
-to date} -- the tree may be extracting the same signal from a stronger
-correlate instead.
+to date}; the tree may instead be extracting the same signal from that
+stronger correlate.
 
 By program of study, the two lowest-graduation programs are course code
-33 (Biofuel Production Technologies, 66.7\% Dropout) and course code 9119
-(Informatics Engineering, 54.1\% Dropout) -- only \textbf{8.3\% and 8.2\%}
-of their students graduate respectively, versus the dataset average of
-49.9\%. The two
-highest-graduation programs are course code 9238 (Social Service, 69.9\%
-Graduate) and course code 9500 (Nursing, 71.5\% Graduate), with the
-lowest Dropout rates (18.3\% and 15.4\%).
+33 (Biofuel Production Technologies, $n=12$, 66.7\% Dropout) and course
+code 9119 (Informatics Engineering, $n=170$, 54.1\% Dropout). Only
+\textbf{8.3\% and 8.2\%} of their students graduate respectively, versus
+the dataset average of 49.9\%. Course 33's rate is based on a very small
+sample ($n=12$) and should be read as indicative rather than precise. The
+two highest-graduation programs are course code 9238 (Social Service,
+$n=355$, 69.9\% Graduate) and course code 9500 (Nursing, $n=766$, 71.5\%
+Graduate), with the lowest Dropout rates (18.3\% and 15.4\%).
 
 \begin{figure}[H]
   \centering
@@ -158,10 +165,9 @@ lowest Dropout rates (18.3\% and 15.4\%).
 
 The original paper ranks \texttt{Course} in its top-5 features by
 permutation importance \citep{realinho2022predicting}; in
-Table~\ref{tab:c-importance}, \texttt{Course} ranks 6th -- close to
-top-5 either way, and importantly, available at enrollment time, which
-is why it underpins the early-warning model M3 (Section~\ref{sec:f},
-f.3).
+Table~\ref{tab:c-importance}, \texttt{Course} ranks 6th, close to top-5
+either way. It is also available at enrollment time, which is why it
+underpins the early-warning model M3 (Section~\ref{sec:f}, f.3).
 
 The strongest single predictor in the whole dataset, by contrast, is
 only known once a semester has actually happened:
@@ -175,9 +181,9 @@ only known once a semester has actually happened:
 
 Median values are 0 for Dropout, 4 for Enrolled, and 6 for Graduate. This
 is the single most important feature in Table~\ref{tab:c-importance}
-(rank~1, importance 0.340 -- more than the sum of ranks 2--5 combined),
-but it is only known \emph{after} the second semester ends, so it cannot
-be used by the early-warning model M3.
+(rank~1, importance 0.340, more than the sum of ranks 2--5 combined), but
+it is only known \emph{after} the second semester ends, so it cannot be
+used by the early-warning model M3.
 
 \subsection{Preprocessing performed}
 
@@ -186,27 +192,28 @@ by the whole team so every model is evaluated on the exact same
 train/test split.
 
 \begin{enumerate}
-  \item \textbf{No missing-value handling needed} -- the dataset is
+  \item \textbf{No missing-value handling needed}: the dataset is
     already clean at the source (0 missing values).
   \item \textbf{Re-encoding categorical columns stored as integers.} Many
     columns are integer codes for unordered categories (e.g.\
     \texttt{Course} code 33 = Biofuel Production Technologies, code 9500
-    = Nursing -- these codes carry no ordinal relationship). Left as-is,
+    = Nursing; these codes carry no ordinal relationship). Left as-is,
     scikit-learn would treat them as continuous and produce meaningless
     splits like \texttt{Course} $\le$ 8.5. The group used a mixed
     strategy:
   \begin{itemize}
     \item \textbf{One-hot encode} the 4 low-cardinality columns:
       \texttt{Marital Status} (6), \texttt{Application mode} (18),
-      \texttt{Course} (17), \texttt{Previous qualification} (17) -- so
+      \texttt{Course} (17), \texttt{Previous qualification} (17), so
       each split reads as a clear yes/no question (e.g.\ ``is this the
       Nursing program?'').
     \item \textbf{Keep the raw integer code} for high-cardinality
       columns: the mother's and father's occupations (32/46 values),
       the mother's and father's qualifications (29/34 values), and
-      \texttt{Nacionality} (21 values) -- one-hot encoding these would create
-      dozens of sparse columns, destabilizing the tree more than it
-      would help. This trade-off is noted explicitly as a limitation.
+      \texttt{Nacionality} (21 values). One-hot encoding these would
+      create dozens of sparse columns, which would likely destabilize
+      the tree more than it would help -- a limitation the group
+      accepts explicitly rather than works around.
     \item After this step the feature count grows from 36 to
       \textbf{90} columns.
   \end{itemize}
@@ -217,11 +224,11 @@ train/test split.
     \texttt{StandardScaler}/\texttt{MinMaxScaler} here would be
     redundant and would not change the learned tree structure at all.
   \item \textbf{Stratified train/test split}: 80\%/20\%, stratified by
-    class to preserve the $\approx$50/32/18 class ratio in both sets --
-    required because the data is imbalanced, to avoid a random split
-    accidentally starving the test set of the minority class. A fixed
-    random seed is used so all 5 models in the project are evaluated on
-    the exact same split.
+    class to preserve the $\approx$50/32/18 class ratio in both sets.
+    This matters because the data is imbalanced; a plain random split
+    could accidentally starve the test set of the minority class. A
+    fixed random seed is used so all 5 models in the project are
+    evaluated on the exact same split.
 \end{enumerate}
 
 After preprocessing: \textbf{3{,}539 training samples / 885 test
@@ -263,8 +270,8 @@ The three highest-correlation pairs in the whole dataset are
 \texttt{1st sem credited} $\leftrightarrow$ \texttt{2nd sem credited},
 \texttt{1st sem enrolled} $\leftrightarrow$ \texttt{2nd sem enrolled},
 and \textbf{\texttt{Mother's occupation} $\leftrightarrow$
-\texttt{Father's occupation}} -- this last pair is \emph{higher} than
-the semester-approved pair (\texttt{1st/2nd sem approved}). The pair
+\texttt{Father's occupation}}, which is \emph{higher} than the
+semester-approved pair (\texttt{1st/2nd sem approved}). The pair
 \texttt{Nacionality} $\leftrightarrow$ \texttt{International} is still a
 high correlation (international students almost always have a
 non-Portuguese \texttt{Nacionality} code), but lower than the four
@@ -286,27 +293,26 @@ difference from M0.
 \begin{enumerate}
   \item \textbf{Features have clear, real-world semantics} (tuition,
     scholarship, semester outcomes, program of study, \ldots), so every
-    split translates into an ordinary sentence -- this plays directly to
-    a decision tree's interpretability strength, unlike image or text
-    data where that advantage is less exploitable.
-  \item \textbf{A mix of categorical and numerical features} -- after
+    split translates into an ordinary sentence. This plays directly to a
+    decision tree's interpretability strength, in a way that image or
+    text features cannot match as easily.
+  \item \textbf{A mix of categorical and numerical features}: after
     nominal categories are encoded, the tree handles the resulting
-    numerical and indicator columns without scaling. This is unlike KNN
-    and many linear-model workflows, where feature scale directly affects
+    numerical and indicator columns without scaling, unlike KNN and many
+    linear-model workflows, where feature scale directly affects
     distances or optimization.
-  \item \textbf{A genuine class imbalance} (50\%/32\%/18\%) -- creates a
-    realistic scenario to apply and compare imbalance-handling
+  \item \textbf{A genuine class imbalance} (50\%/32\%/18\%): creates a
+    realistic scenario for applying and comparing imbalance-handling
     techniques, one of the improvement directions the brief itself
     suggests (Section 3.2.d, ``Handling class imbalance'').
   \item \textbf{Features split cleanly by collection time} (known at
-    enrollment vs.\ known only at end of semester) -- enables a
-    feature-selection experiment with real application meaning (early
-    warning), not just a statistics-driven selection.
-  \item \textbf{No missing values} -- lets the group spend its time on
+    enrollment vs.\ known only at end of semester): enables a
+    feature-selection experiment with a real application meaning (early
+    warning) rather than a purely statistics-driven one.
+  \item \textbf{No missing values}: lets the group spend its time on
     analysis and interpretation instead of data cleaning, matching the
-    brief's own emphasis: not just running a ready-made model, but
-    clearly explaining how the tree is built and why the improvements
-    help.
+    brief's own emphasis on clearly explaining how the tree is built and
+    why the improvements help, beyond simply running a ready-made model.
 \end{enumerate}
 
 \subsection{Ethical note}

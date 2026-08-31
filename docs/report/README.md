@@ -16,14 +16,14 @@ docs/report/
 ├── references.bib          shared bibliography (BibTeX), append-only
 ├── README.md                this file
 └── sections/
-    ├── a_group_intro.tex     Team lead   -- names, IDs, contributions
+    ├── a_group_intro.tex     Team lead   -- skeleton only, needs names/IDs/contributions
     ├── b_introduction.tex    Role A      -- FILLED IN, translated + fact-checked
     ├── c_dataset.tex         Role A      -- FILLED IN, translated + fact-checked
-    ├── d_baseline.tex        Role B      -- skeleton only, needs translation
-    ├── e_analysis.tex        Role B      -- skeleton only, needs translation
+    ├── d_baseline.tex        Role B      -- FILLED IN
+    ├── e_analysis.tex        Role B      -- FILLED IN
     ├── f1_pruning.tex        Role C      -- FILLED IN, translated + fact-checked
-    ├── f2_imbalance.tex      Role D      -- skeleton only, needs translation
-    ├── f3_features.tex       Role E      -- skeleton only, needs translation
+    ├── f2_imbalance.tex      Role D      -- FILLED IN
+    ├── f3_features.tex       Role E      -- FILLED IN
     ├── g_comparison.tex      Role A      -- FILLED IN, translated + fact-checked
     └── h_conclusion.tex      Role A      -- FILLED IN, translated + fact-checked
 ```
@@ -52,26 +52,19 @@ correlation values, incomplete tree rules, and model-comparison mix-ups --
 see `progress/A.md` for the full audit trail). Nothing in those four files
 was invented for this skeleton.
 
-Role C's `f1_pruning.tex` has since been completed from its independently
-verified source draft and rerun notebook; it contains no `\todo` placeholder.
+Roles B, C, D, and E have since completed `d_baseline.tex`,
+`e_analysis.tex`, `f1_pruning.tex`, `f2_imbalance.tex`, and
+`f3_features.tex` from their independently verified source drafts and
+rerun notebooks; none of these contain a `\todo` placeholder any more.
 
-The remaining five sections (a, d, e, f2, f3) are **structural skeletons
-only**: correct `\section`/`\subsection` headers matching the assignment's
-exact wording, `\includegraphics` calls already pointing at the right,
-already-committed figure files, and `\todo{...}` placeholders (rendered
-in red in the compiled PDF) describing exactly what needs to go there and
-which already-verified source file to translate/adapt from. Each source
-draft was independently audited on 2026-08-30 (see `progress/A.md`):
-B (`docs/report_draft_d_e.md`), C (`docs/report_draft_f1_pruning.md`), and
-E (`notebooks/05_improve_features.ipynb`) came back with **zero errors**;
-D (`docs/report_draft_f2_imbalance.md`) had 2 small wording errors, already
-fixed. Owners of unfinished sections should adapt the corresponding verified
-source rather than re-derive numbers from scratch -- the values were already
-checked against primary result files (`outputs/results.csv`, classification
-reports, etc.), and re-deriving them risks reintroducing a caught error.
+Only `a_group_intro.tex` (team lead: names, student IDs, GroupID,
+contribution percentages) and the `\todo{GroupID}` placeholder in
+`report.tex` itself remain -- both blocked on information only the team
+can supply, not on any remaining analysis or writing.
 
 Search for `\todo` in a section file (or look for red text in the
-compiled PDF) to find everything still missing in that file.
+compiled PDF) to find everything still missing in that file
+(`rg -n '\\todo' sections report.tex`).
 
 ## Style rule: keep figure captions short, put analysis in body text
 
@@ -90,16 +83,11 @@ then a paragraph of real prose right after the figure) when filling in
 ## How to compile
 
 You need a LaTeX distribution (TeX Live, MiKTeX, or Overleaf).
-`report.pdf` is the current 27-page A4 preview tracked with this source. It
-was compiled with MiKTeX 26.5 and rendered page by page during the final
-2026-08-30 integration audit: the LaTeX log has no errors, undefined
-citations/references, rerun requests, or overfull boxes. This establishes
-that the report framework and every referenced figure are technically
-healthy; it is still a **skeleton preview, not a submission-ready report**,
-because the five remaining owner sections listed above intentionally retain
-red `\todo{...}` placeholders. Recompile whenever any `.tex`, `.bib`, or
-referenced figure changes; do not treat an older PDF timestamp as evidence
-that the source still compiles.
+`report.pdf` is currently 45 pages (title page, table of contents, and
+every section a-i), compiled with MiKTeX. Recompile whenever any `.tex`,
+`.bib`, or referenced figure changes; do not treat an older PDF timestamp
+or an older page count noted anywhere else as evidence of the current
+state -- always regenerate and re-check the log.
 
 ```bash
 cd docs/report
@@ -108,6 +96,12 @@ bibtex report
 pdflatex report.tex
 pdflatex report.tex   # run twice after bibtex so citation numbers settle
 ```
+
+If you prefer `latexmk` instead of running the four commands by hand
+(`latexmk -pdf report.tex`), note that MiKTeX's `latexmk` requires a Perl
+interpreter on `PATH` (e.g. Strawberry Perl) -- without one it fails even
+though plain `pdflatex`/`bibtex` work fine. The four-command sequence
+above has no such dependency and is what this project has actually used.
 
 Or open `docs/report/` as an Overleaf project (upload the folder, or
 connect the GitHub repo) -- Overleaf compiles automatically and needs no

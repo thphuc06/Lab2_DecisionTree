@@ -14,10 +14,11 @@
 The project directly demonstrates the two theoretical points raised in
 the Introduction: a decision tree is both interpretable and prone to
 overfitting if its complexity is not controlled. After nominal categories
-are encoded, it also needs no feature scaling. The unconstrained M0 model reaches perfect training
-accuracy (1.000) while test accuracy is only 0.6689 -- a generalization
-gap of 0.3311 that is direct, not inferred, evidence of the overfitting
-phenomenon described in the theory \citep{breiman1984classification, mitchell1997machine}.
+are encoded, it also needs no feature scaling. The unconstrained M0 model
+reaches perfect training accuracy (1.000) while test accuracy is only
+0.6689, a generalization gap of 0.3311 measured directly from this
+project's own results rather than assumed from theory
+\citep{breiman1984classification, mitchell1997machine}.
 
 The three improvement directions highlight distinct lessons:
 
@@ -26,36 +27,39 @@ The three improvement directions highlight distinct lessons:
     controlling complexity is highly effective.} Pruning improves aggregate
     held-out performance and structural simplicity, although its effect is
     not uniform across classes because Enrolled recall decreases slightly.
-  \item \textbf{Class-imbalance techniques do not automatically help} --
-    effectiveness depends on the specific mechanism (M2a reweights the
+  \item \textbf{Class-imbalance techniques do not automatically help.}
+    Effectiveness depends on the specific mechanism (M2a reweights the
     Gini computation without adding data, while M2b adds synthetic
     samples in the minority class's feature region), and must be judged
-    by per-class recall, not overall accuracy alone -- a model can be
+    by per-class recall, not overall accuracy alone: a model can be
     ``worse'' on accuracy yet ``better'' on the real application goal.
   \item \textbf{The most accurate model is not always the most useful
     one.} M3 shows that this dataset's strongest predictive features
-    (semester outcomes) are only available once it is already too late
-    for preventive intervention -- so M3's lower accuracy is a
-    reasonable price for early-warning capability.
+    (semester outcomes) only become available well after enrollment,
+    the same window during which an early-warning model would need to
+    act, so M3's lower accuracy is a reasonable price for being usable
+    that early.
 \end{enumerate}
 
 \subsection{Key findings from the experiments}
 
 \begin{itemize}
   \item M0's overfitting: a 0.3311 generalization gap (train 1.000 vs.\
-    test 0.6689), depth 27, 634 leaves -- the tree ``memorizes'' rather
+    test 0.6689), depth 27, 634 leaves. The tree ``memorizes'' rather
     than generalizes.
   \item Pruning shrinks the leaf count by \textbf{$\sim$37$\times$}
     (634$\to$17) while raising test accuracy by 8.70 percentage points,
     consistent with much of the removed structure capturing sample-specific
     variation rather than stable predictive signal.
   \item \texttt{class\_weight='balanced'} (M2a) does not improve
-    minority-class recall on this data; SMOTE-on-train (M2b) raises
-    Enrolled recall by 8.18 points and Dropout recall by 2.82 points,
-    while also raising precision -- a genuine improvement, not an
-    artifact.
+    minority-class recall on this data. SMOTE-on-train (M2b) raises
+    Enrolled recall by 8.18 points and Dropout recall by 2.82 points
+    without a corresponding drop in Enrolled precision
+    (Section~\ref{sec:g}), so the gain is not pure over-prediction of
+    Enrolled -- though SMOTE on one-hot-encoded categorical features
+    still carries known limitations.
   \item Dropping the 12 semester-outcome columns (M3) costs 12.77
-    accuracy points -- a direct measurement of the ``price'' of wanting
+    accuracy points, a direct measurement of the ``price'' of wanting
     an early warning instead of a later but more accurate one.
   \item All 5 models share one fixed, stratified train/test split
     (\texttt{random\_state=42}). This makes the comparisons directly
@@ -67,33 +71,35 @@ The three improvement directions highlight distinct lessons:
 
 A decision tree suits this dataset for the reasons argued in the Dataset
 Description section: features have clear semantics, so every decision
-rule is interpretable -- for example, the Dropout rule extracted from the
+rule is interpretable. For example, the Dropout rule extracted from the
 M0 tree in Section~\ref{sec:e} is a chain of 9 conditions that together
-identify a leaf of $n=189$ training samples at 100\% purity; the single
+identify a leaf of $n=189$ training samples at 100\% purity. The single
 most readable condition in that chain is passing at most 1.5
 second-semester course units (\texttt{2nd sem approved} $\le$ 1.5), but
-that threshold alone is not sufficient on its own -- it is one term in
-the full conjunction. The parallel Graduate leaf ($n=176$, 100\% purity)
-is a 16-condition chain, the two most readable conditions being passing
+that threshold alone is not sufficient by itself; it is one term in the
+full conjunction. The parallel Graduate leaf ($n=176$, 100\% purity) is
+a 16-condition chain, the two most readable conditions being passing
 more than 5.5 second-semester course units \emph{and}
-\texttt{Tuition fees up to date} $> 0.5$ -- the latter consistent with
-the EDA observation in Figure~\ref{fig:c2} that paying tuition on time
+\texttt{Tuition fees up to date} $> 0.5$, consistent with the EDA
+observation in Figure~\ref{fig:c2} that paying tuition on time
 correlates strongly with graduating. Long condition chains like these
 are themselves a sign of the overfitting discussed above: a rule that
 needs 9--16 ANDed conditions to stay 100\% pure is fitting narrow
-pockets of the training set, not a simple general pattern -- one of the
-concrete costs of leaving M0 unpruned. After preprocessing, the tree can
-split numerical and one-hot indicator columns without feature scaling.
-But the project also
-exposes the inherent limits of a single, unconstrained tree: it overfits
-easily, and no single model configuration is simultaneously the most
-accurate, the fairest across classes, and the earliest-usable -- these
-three goals require three different configurations of the same
-algorithm. For an application with multiple distinct goals, like dropout
-prediction, a more realistic conclusion than ``one best model'' is:
-\textbf{a decision tree is a flexible enough tool to be optimized for
-each goal separately} (accuracy, class fairness, or timeliness), provided
-the user chooses the right configuration and understands the trade-off
-being accepted -- exactly the spirit the assignment brief asks for: not
-just running a model, but explaining why each choice does or does not
-help.
+pockets of the training set rather than a simple general pattern, one of
+the concrete costs of leaving M0 unpruned. After preprocessing, the tree
+can split numerical and one-hot indicator columns without feature
+scaling. But the project also exposes the inherent limits of a single,
+unconstrained tree: it overfits easily, and no single model
+configuration is simultaneously the most accurate, the most balanced
+across classes' recall, and the earliest-usable; these three goals
+require three different configurations of the same algorithm. (This is
+a class-wise recall comparison, not a formal fairness audit across
+sensitive attributes such as gender or nationality, which this project
+does not perform.) For an application with multiple distinct goals, like
+dropout prediction, a more realistic conclusion than ``one best model''
+is that \textbf{a decision tree is a flexible enough tool to be
+optimized for each goal separately} (accuracy, class-wise recall
+balance, or timeliness), provided the user chooses the right
+configuration and understands the trade-off being accepted. This is the
+kind of explanation the assignment brief asks for: why each choice helps
+or does not, not only which one scores highest.

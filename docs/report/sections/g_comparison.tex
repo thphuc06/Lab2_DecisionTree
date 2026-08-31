@@ -38,11 +38,11 @@
 \end{figure}
 
 Reading the four panels: top-left (test accuracy and error rate) shows
-M1 highest and M3 lowest; top-right (the four macro metrics --
-Precision/Recall/F1/ROC-AUC) shows M1 leading on all four; bottom-left
-(per-class recall) shows M2b dominating on Dropout and Enrolled while M1
-dominates on Graduate; bottom-right (tree complexity, leaf count on a
-log scale) shows M1 far more compact than the other four models.
+M1 highest and M3 lowest; top-right (the four macro metrics: Precision,
+Recall, F1, ROC-AUC) shows M1 leading on all four; bottom-left (per-class
+recall) shows M2b dominating on Dropout and Enrolled while M1 dominates
+on Graduate; bottom-right (tree complexity, leaf count on a log scale)
+shows M1 far more compact than the other four models.
 
 \subsection{Comparing each improvement against the baseline}
 
@@ -59,37 +59,40 @@ criterion for selecting \texttt{ccp\_alpha}/\texttt{max\_depth}/
 protect minority-class recall, it can favor the majority Graduate class
 whenever doing so raises the total number of correct predictions.
 
-\textbf{M2 (Class Imbalance) gives two opposite results}, consistent with
-the experimental nature of this improvement. M2a
+M2 (Class Imbalance) gives two opposite results, consistent with the
+experimental nature of this improvement. M2a
 (\texttt{class\_weight='balanced'}) \textbf{does not improve} M0 on this
-test set: test accuracy drops 1.81 points, and even Enrolled recall --
-the metric this technique targets -- also drops (0.3836$\to$0.3396). In
+test set: test accuracy drops 1.81 points, and even Enrolled recall, the
+metric this technique targets, also drops (0.3836$\to$0.3396). In
 contrast, M2b (SMOTE on train only) improves both overall accuracy
 (+1.92 points) and the recall of the two hardest classes: Dropout recall
 +2.82 points, Enrolled recall \textbf{+8.18 percentage points} (61/159
 $\to$ 74/159 Enrolled students correctly identified), at the cost of a
 slight 0.90-point drop in Graduate recall. M2b also raises Enrolled
-precision relative to M0 (0.3567$\to$0.4044), meaning the model is not
-simply ``guessing Enrolled more often'' to buy recall -- this is a
-genuine improvement, not an artifact of biased prediction.
+precision relative to M0 (0.3567$\to$0.4044), so the higher recall does
+not simply come from the model predicting Enrolled more often. Vanilla
+SMOTE on one-hot-encoded categorical features still has known
+limitations (Section~\ref{sec:h}), so this result is best read as a real
+improvement on this particular held-out set rather than a guarantee that
+generalizes to every deployment.
 
 \textbf{M3 (Early Warning) drops performance substantially, and this is
 the expected result, not a failure.} Test accuracy falls from 0.6689 to
 0.5412 (\textbf{$-12.77$ percentage points}), F1 macro falls 11.52
 points. The direct cause, measured from M0's own tree (not inferred from
-the original paper): by M0's real Gini feature importance (computed by
-Role E), 3 of the top 5 features are \texttt{2nd sem approved} (rank~1,
-importance 0.340 -- over a third of the whole tree's total importance),
-\texttt{2nd sem grade} (rank~2, 0.045), and \texttt{2nd sem enrolled}
-(rank~4, 0.045) -- all three fall inside the 12 columns dropped in M3
-because they are only known \emph{after} the second semester ends. The
-other two features in M0's real top-5 -- \texttt{Tuition fees up to
-date} (rank~3) and \texttt{Admission grade} (rank~5) -- are retained in
-M3 since they are known at enrollment, but that is not enough to make up
-for losing \texttt{2nd sem approved}, which alone accounts for more
-importance than the next four features combined. M3 must predict using
-only information available at enrollment time (program of study,
-admission grade, tuition status, the 3 macroeconomic variables, \ldots).
+the original paper): by M0's real Gini feature importance, 3 of the top
+5 features are \texttt{2nd sem approved} (rank~1, importance 0.340, over
+a third of the whole tree's total importance), \texttt{2nd sem grade}
+(rank~2, 0.045), and \texttt{2nd sem enrolled} (rank~4, 0.045). All
+three fall inside the 12 columns dropped in M3 because they are only
+known \emph{after} the second semester ends. The other two features in
+M0's real top-5, \texttt{Tuition fees up to date} (rank~3) and
+\texttt{Admission grade} (rank~5), are retained in M3 since they are
+known at enrollment, but that is not enough to make up for losing
+\texttt{2nd sem approved}, which alone accounts for more importance than
+the next four features combined. M3 must predict using only information
+available at enrollment time (program of study, admission grade,
+tuition status, the 3 macroeconomic variables, \ldots).
 
 \begin{quote}
 \small
@@ -103,7 +106,7 @@ only importance values measured from M0 itself.}
 
 \subsection{Which model is ``best''?}
 
-There is no single answer -- it depends on the criterion:
+There is no single answer: it depends on the criterion.
 
 \begin{table}[H]
   \centering
@@ -126,8 +129,10 @@ There is no single answer -- it depends on the criterion:
 five model configurations is that \textbf{``best'' depends on the application goal.} M1
 is best for an accurate, interpretable classification system used once
 semester data already exists. M2b is best if the goal is to miss as few
-at-risk students as possible (Dropout/Enrolled), accepting a small
-overall-accuracy trade-off. M3 is the only feasible choice if the goal is
-\textbf{early intervention right at enrollment} -- none of the other
-four configurations can run at that point in time, no matter how much higher
-their accuracy is.
+at-risk students as possible (Dropout/Enrolled), accepting lower overall
+accuracy than M1 (0.6881 vs.\ 0.7559) in exchange for the better Dropout
+and Enrolled recall shown above; M2b still improves on M0's accuracy, so
+this trade-off is only relative to M1, not to the unimproved baseline.
+M3 is the only feasible choice if the goal is \textbf{early intervention
+right at enrollment}. None of the other four configurations can run at
+that point in time, no matter how much higher their accuracy is.

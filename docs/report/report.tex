@@ -34,7 +34,12 @@
 
 \usepackage[margin=1in]{geometry}
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+\usepackage[T5,T1]{fontenc}
+% T5 is needed only so the real Vietnamese names in a_group_intro.tex
+% render correctly. \vnname{...} switches to it for just that text so
+% the rest of the (English) report keeps default T1 hyphenation rules.
+\usepackage[vietnamese,english]{babel}
+\newcommand{\vnname}[1]{\foreignlanguage{vietnamese}{#1}}
 \usepackage{graphicx}
 % All figures live in the shared figures/ folder at the repo root, two
 % levels up from docs/report/ (where this file lives). Section files can
@@ -52,6 +57,8 @@
 \hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue}
 \usepackage[round]{natbib}
 \setlength{\emergencystretch}{2em}
+\hypersetup{pdftitle={Lab 2: Decision Tree Modeling and Improvement},
+            pdfauthor={Group 2}}
 
 % The assignment specifies lettered sections a--i. Let LaTeX generate those
 % letters so headings do not show redundant combinations such as "6 f.".
@@ -68,13 +75,41 @@
 % is actually written; do not leave stale TODOs in a submitted report.
 \newcommand{\todo}[1]{{\color{red}\textbf{[TODO --- #1]}}}
 
-\title{Lab 2: Decision Tree Modeling and Improvement \\ \large Predicting Student Dropout and Academic Success}
-\author{Group \todo{GroupID} \\ \todo{Course / instructor}}
-\date{\today}
-
 \begin{document}
 
-\maketitle
+\begin{titlepage}
+  \centering
+  \vspace*{0.3cm}
+  {\Large VIETNAM NATIONAL UNIVERSITY -- HO CHI MINH CITY\par}
+  \vspace{0.3cm}
+  {\Large UNIVERSITY OF SCIENCE\par}
+  \vspace{0.3cm}
+  {\Large FACULTY OF INFORMATION TECHNOLOGY\par}
+  \vspace{1.6cm}
+  \includegraphics[width=0.3\textwidth]{logo_hcmus.png}\par
+  \vspace{1.6cm}
+  {\LARGE\bfseries TECHNICAL REPORT\par}
+  \vspace{0.6cm}
+  \rule{\linewidth}{0.6pt}\par
+  \vspace{0.5cm}
+  {\Large\bfseries Lab 2: Decision Tree Modeling and Improvement\\[0.25cm]
+    Predicting Student Dropout and Academic Success\par}
+  \vspace{0.5cm}
+  \rule{\linewidth}{0.6pt}\par
+  \vspace{1.2cm}
+  {\large\bfseries Course: Introduction to Artificial Intelligence\par}
+  \vspace{0.6cm}
+  {\itshape Instructors:\par}
+  {Dr.\ Bui Tien Len\par}
+  {Mr.\ Vo Nhat Tan\par}
+  \vspace{1cm}
+  {\large Group 2\par}
+  \vfill
+  {\large September 2, 2026\par}
+\end{titlepage}
+
+\tableofcontents
+\newpage
 
 \input{sections/a_group_intro}
 \input{sections/b_introduction}

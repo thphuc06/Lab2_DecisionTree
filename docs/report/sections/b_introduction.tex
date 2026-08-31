@@ -23,10 +23,10 @@ reduces class \emph{impurity} the most, then repeats recursively on each
 resulting subset. Two impurity measures are standard:
 
 \begin{itemize}
-  \item \textbf{Entropy / Information Gain} -- used by the ID3 algorithm
+  \item \textbf{Entropy / Information Gain}: used by the ID3 algorithm
     \citep{quinlan1986induction}, measuring the information gained by a
     split.
-  \item \textbf{Gini impurity} -- used by CART \citep{breiman1984classification},
+  \item \textbf{Gini impurity}: used by CART \citep{breiman1984classification},
     measuring the probability of misclassification if a label were drawn
     at random from the node's class distribution.
 \end{itemize}
@@ -40,17 +40,17 @@ models (neural networks, complex ensembles) is \textbf{interpretability}:
 every path from the root to a leaf can be read directly as an
 \texttt{IF (condition 1) AND (condition 2) ... THEN (label)} rule, with no
 separate explanation technique (SHAP, LIME) required. Once nominal
-categories have been encoded, trees handle the resulting numerical and
-indicator features without feature scaling -- both properties are
-exploited directly in Section~\ref{sec:c} below.
+categories have been encoded, trees also handle the resulting numerical
+and indicator features without feature scaling. Both properties are used
+directly in Section~\ref{sec:c} below.
 
 The \textbf{main weakness} is a tendency to \textbf{overfit}: an
 unconstrained tree keeps splitting until almost every leaf is pure on the
 training set, effectively memorizing training noise, which yields very
 high training accuracy but a much lower test accuracy
-\citep{mitchell1997machine, breiman1984classification}. This is exactly
-what is observed for the baseline model in Section~\ref{sec:d}, and is the
-motivation for the pruning improvement in Section~\ref{sec:f}.
+\citep{mitchell1997machine, breiman1984classification}. Section~\ref{sec:d}
+shows this pattern directly in the baseline model, which motivates the
+pruning improvement in Section~\ref{sec:f}.
 
 \subsection{Objective of the project}
 
@@ -70,22 +70,22 @@ university students in Portugal. Concretely, the group:
   \item Proposes and tests three improvement methods, each targeting a
     different weakness of the baseline:
   \begin{itemize}
-    \item \textbf{Pruning} (cost-complexity pruning) -- addresses
-      overfitting, trading tree complexity for generalization.
+    \item \textbf{Pruning} (cost-complexity pruning): trades tree
+      complexity for generalization to address overfitting.
     \item \textbf{Class-imbalance handling}
-      (\texttt{class\_weight='balanced'}, SMOTE) -- addresses the model's
-      default bias toward the majority class (Graduate), which causes it
-      to miss the minority classes that matter most for the application
-      (Enrolled, Dropout).
-    \item \textbf{Feature selection for early warning} -- addresses a
-      practical limitation: the baseline's strongest features are only
-      known \emph{after} a semester ends, so the most accurate model is
-      not necessarily the model that is actually deployable for early
-      intervention.
+      (\texttt{class\_weight='balanced'}, SMOTE): addresses the model's
+      default bias toward the majority class (Graduate). At baseline,
+      Enrolled recall (0.3836) is well below Dropout's already-reasonable
+      recall (0.6796), so Enrolled is the main target of this improvement.
+    \item \textbf{Feature selection for early warning}: addresses a
+      practical limitation. The baseline's strongest features are only
+      known \emph{after} a semester ends, so the model with the highest
+      accuracy is not necessarily the model that can actually be deployed
+      for early intervention.
   \end{itemize}
-  \item Quantitatively compares all five model configurations and draws conclusions
-    not only about the numbers, but about \textbf{which model suits
-    which application goal} -- in the spirit the assignment brief
-    emphasizes: not just running a model, but explaining how the tree is
-    built, how it behaves, and why each improvement helps (or does not).
+  \item Quantitatively compares all five model configurations and asks
+    \textbf{which model suits which application goal}, in line with the
+    assignment brief's emphasis on explaining how the tree is built, how
+    it behaves, and why each improvement helps or does not, rather than
+    only reporting a final accuracy score.
 \end{enumerate}
