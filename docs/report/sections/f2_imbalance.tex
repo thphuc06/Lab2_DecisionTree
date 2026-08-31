@@ -32,7 +32,7 @@ Improvement Method 2 (M2) evaluates two complementary ways of increasing a decis
 tree's sensitivity to minority classes: reweighting the training objective
 (\textbf{M2a}) and synthetically rebalancing the training distribution
 (\textbf{M2b}). Both configurations reuse the single shared
-train/test split produced by \texttt{src.data.get\_train\_test()}
+train/test split (the project's shared stratified train/test split)
 (3{,}539 training rows and 885 held-out test rows, 90 features after one-hot
 encoding, \texttt{random\_state=42}); no feature scaling and no independent
 re-splitting are performed in the notebook, consistent with the project-wide data
@@ -42,7 +42,7 @@ contract.
 \label{sec:f2-method}
 
 \textbf{M2a -- class weighting.} M2a trains a single
-\texttt{DecisionTreeClassifier} with \texttt{class\_weight=`balanced'} and
+\texttt{DecisionTreeClassifier} with \texttt{class\_weight=}\allowbreak\texttt{`balanced'} and
 \texttt{random\_state=42}, fit directly on the original (non-resampled) training
 data:
 \begin{quote}
@@ -57,8 +57,9 @@ SMOTE \citep{chawla2002smote,imblearn_smote_api} to the training split only, aft
 the shared split has already been produced, and fits an otherwise unmodified
 decision tree on the resampled data:
 \begin{quote}
-\texttt{X\_train\_smote, y\_train\_smote = SMOTE(sampling\_strategy="auto",
-random\_state=42, k\_neighbors=5).fit\_resample(X\_train, y\_train)} \\
+\texttt{X\_train\_smote, y\_train\_smote = SMOTE(} \\
+\indent \texttt{sampling\_strategy="auto", random\_state=42, k\_neighbors=5} \\
+\texttt{).fit\_resample(X\_train, y\_train)} \\
 \texttt{DecisionTreeClassifier(random\_state=42).fit(X\_train\_smote, y\_train\_smote)}
 \end{quote}
 All three SMOTE hyperparameters are declared explicitly rather than left to their
@@ -87,7 +88,7 @@ never to compute any reported metric.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.85\textwidth]{D_cm_M2a.png}
+  \includegraphics[width=0.75\textwidth]{D_cm_M2a.png}
   \caption{Confusion matrix of M2a (balanced class weights) on the 885-sample
   held-out test set.}
   \label{fig:cm-m2a}
@@ -95,12 +96,9 @@ never to compute any reported metric.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.85\textwidth]{D_cm_M2b.png}
+  \includegraphics[width=0.75\textwidth]{D_cm_M2b.png}
   \caption{Confusion matrix of M2b (SMOTE on the training set only) on the same
-  885-sample held-out test set. The model correctly classifies 201/284
-  \textit{Dropout}, 74/159 \textit{Enrolled}, and 334/442 \textit{Graduate}
-  students -- an improvement over both M0 and M2a on every class except a
-  marginal reduction on \textit{Graduate}.}
+  885-sample held-out test set. M2b correctly classifies 201 Dropout and 74 Enrolled students, exceeding both M0 (193, 61) and M2a (193, 54). It correctly classifies 334 Graduate students, more than M2a (329) but fewer than M0 (338).}
   \label{fig:cm-m2b}
 \end{figure}
 
@@ -149,7 +147,7 @@ never to compute any reported metric.
 Table~\ref{tab:f2-main-metrics} reports the full set of held-out test metrics for
 M0, M2a, and M2b, together with the change relative to the baseline. Table~
 \ref{tab:f2-per-class} reports per-class precision and F1-score, which are not part
-of the shared \texttt{results.csv} schema but are read directly from the two
+of the shared experiment-results artifact schema but are read directly from the two
 classification reports.
 
 \begin{table}[H]
@@ -244,7 +242,7 @@ categorical groups (\textit{Marital Status}, \textit{Application mode},
 \textit{Course}, \textit{Previous qualification}); the remaining high-cardinality
 categorical variables -- \textit{Mother's/Father's qualification},
 \textit{Mother's/Father's occupation}, \textit{Nacionality} (nominal), and
-\textit{Application order} (ordinal) - are retained as integer codes. Vanilla
+\textit{Application order} (ordinal) --- are retained as integer codes. Vanilla
 SMOTE treats every input feature as continuous and linearly interpolates between a
 sample and its nearest neighbours, which can in principle generate values that do
 not correspond to any real category.
@@ -274,7 +272,7 @@ Application order        & ordinal & 0.00\% & 0.00\% \\
 \vspace{0.3cm}
 
 \begin{table}[H]
-\centering
+\centering\small
 \caption{Interpolation outcome for the four one-hot-encoded groups, measured on
 the 1{,}762 synthetic rows. Percentages are row-wise: every synthetic row falls
 into exactly one of the first three columns.}
@@ -300,7 +298,7 @@ interpolated fractional values were truncated to integers during
 \texttt{fit\_resample()}'s dtype-restoration step, which would make this
 measurement, at the level of raw values, unable to detect the interpolation that
 still occurred. Even where a value is an integer, it can still fail to correspond
-to any real category - and the out-of-vocabulary-rate column above shows exactly
+to any real category --- and the out-of-vocabulary-rate column above shows exactly
 this: up to $3.01\%$ of synthetic values for \textit{Mother's qualification} are
 integer codes that never appear anywhere in the real training data.
 
@@ -315,20 +313,14 @@ one-hot vectors can never itself exceed 1 in any single component, this truncati
 can only push a component down to $0$, never up past $1$: the audit accordingly
 finds a fractional-component rate of $0.0\%$ and a multi-hot rate of $0.0\%$ in
 every group, and \emph{100\% of the observed violations are all-zero vectors}
-(no category active) rather than any mixture of multiple categories. This fully
-explains why \textit{Course}, with the largest number of possible categories,
-shows the worst violation rate at $83.0\%$: more categories means a randomly
-chosen neighbour is more likely to belong to a different category, which is
-precisely the condition that produces a violating (all-zero) synthetic vector
-under this truncation mechanism.
+(no category active) rather than any mixture of multiple categories. \textit{Course}'s high cardinality is a plausible contributor to its high all-zero violation rate ($83.0\%$) under this encoding-and-restoration path. The audit does not isolate category count as the sole cause.
 
 This is a documented limitation of vanilla SMOTE when applied to mixed
 continuous/categorical representations; the official \texttt{imbalanced-learn}
 documentation recommends \texttt{SMOTENC} for exactly this situation
-\citep{imblearn_oversampling_guide}. The group retains vanilla SMOTE for M2b
-because it is the technique explicitly required by the assignment brief. The M2b results reported above should
+\citep{imblearn_oversampling_guide}. Vanilla SMOTE was retained as one of the group's selected class-imbalance experiments. The assignment brief suggests handling class imbalance as a possible improvement direction but does not mandate SMOTE specifically. The M2b results reported above should
 therefore be read together with this limitation: the recall and precision
-improvements are genuinely measured on the real, untouched held-out test set, but
+improvements are measured on the real, untouched held-out test set, but
 part of the synthetic training data the tree learns from does not represent a
 "valid" student under the true meaning of the affected categorical columns.
 
@@ -338,13 +330,13 @@ part of the synthetic training data the tree learns from does not represent a
 In a class-imbalanced classification problem, overall accuracy alone cannot be the
 sole acceptance criterion. A model may legitimately trade a reduction in overall
 accuracy for a reduction in bias toward the majority class; when this happens,
-per-class recall - not a return to M0's accuracy figure - is the correct measure
+per-class recall --- not a return to M0's accuracy figure --- is the correct measure
 of success.
 
 M2a illustrates that this trade-off is not automatic: its accuracy falls
 \emph{and} its \textit{Enrolled} recall falls, so the result is reported plainly
 rather than selectively. M2b, by contrast, is not a trade-off at all on this
-held-out split: it simultaneously increases test accuracy, \textit{Dropout}
+held-out split: it simultaneously increases test accuracy ($0.668927 \rightarrow 0.688136$), \textit{Dropout}
 recall, and \textit{Enrolled} recall, at the cost of a $0.90$ percentage-point
 reduction in \textit{Graduate} recall. If the deployment priority is detecting
 students who are at risk of dropping out or remaining indefinitely enrolled, M2b
@@ -370,11 +362,11 @@ held-out test set: overall accuracy, \textit{Enrolled} recall, and
 Applying SMOTE to the training split only (M2b) increases \textit{Enrolled}
 recall by $8.18$ percentage points and \textit{Dropout} recall by $2.82$
 percentage points relative to M0, while simultaneously raising \textit{Enrolled}
-precision from $0.3234$ to $0.4044$ and lowering the overall error rate from
+precision from $0.3567$ to $0.4044$ and lowering the overall error rate from
 $0.331073$ to $0.311864$. M2b is therefore adopted as the more successful
 class-imbalance configuration within the scope of this experiment. M2a is
-retained in this report rather than discarded, both for transparency - not every
-class-balancing technique improves a given model on a given dataset - and to
+retained in this report rather than discarded, both for transparency --- not every
+class-balancing technique improves a given model on a given dataset --- and to
 document, alongside M2b, the quantitative categorical-representation limitation
 of vanilla SMOTE rather than presenting only favourable figures.
 

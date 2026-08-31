@@ -188,12 +188,12 @@ depth-limited view is more appropriate for interpretation.
 
 Table~\ref{tab:e-overfit} brings the generalization evidence together. The
 tree attains 1.000000 training accuracy but only 0.668927 test accuracy, a gap
-of 0.331073, or 33.11 percentage points. The test score lies within the
-predefined 0.65--0.72 diagnostic range and is far below the 0.90 leakage warning
-threshold; the score itself therefore does not suggest leakage. Instead, the
-combination of perfect training fit, a large held-out gap, depth 27, and hundreds
-of one- or two-sample pure leaves is direct evidence of high variance and
-substantial overfitting.
+of 0.331073, or 33.11 percentage points. The test accuracy is not anomalously
+high; however, predictive performance alone cannot rule out data leakage.
+Leakage control instead relies on using the fixed held-out split and fitting
+the model only on the training partition. The combination of perfect training
+fit, a large held-out gap, depth 27, and hundreds of one- or two-sample pure
+leaves is direct evidence of high variance and substantial overfitting.
 
 \begin{table}[H]
   \centering
