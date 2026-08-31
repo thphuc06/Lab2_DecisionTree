@@ -147,20 +147,24 @@ minus one standard deviation across folds. No test curve is shown because the
 test partition was deliberately excluded from model selection.
 
 \clearpage
-\begin{landscape}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{C_tree_M1.png}
-  \caption{Complete pruned M1 tree with shortened semester-feature labels for
-    legibility.}
+  \includegraphics[
+    width=\textwidth,
+    height=0.78\textheight,
+    keepaspectratio
+  ]{C_tree_M1.png}
+  \caption{Complete fitted M1 tree (33 nodes, depth 5, and 17 leaves), shown
+    without depth truncation or cropping.}
   \label{fig:f1b}
 \end{figure}
-\end{landscape}
 \clearpage
 
-Unlike the unconstrained baseline, Figure~\ref{fig:f1b} presents the complete
-M1 tree at a scale that permits direct examination of its nodes and branches.
-Its fitted depth and leaf count are reported in Table~\ref{tab:f1-setting}.
+Unlike the unconstrained baseline, Figure~\ref{fig:f1b} presents every node and
+branch of the complete fitted M1 tree on a portrait page. The original source
+image is retained in full; individual node text may require zooming because the
+tree is naturally much wider than the page. Its fitted depth and leaf count are
+reported in Table~\ref{tab:f1-setting}.
 
 \subsubsection{Accuracy and error rate}
 
