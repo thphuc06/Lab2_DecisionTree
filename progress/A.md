@@ -1,12 +1,14 @@
 # Tiến độ — Role A (Data Lead & Integrator)
 
-> Chỉ [Tên thành viên A] và agent trong phiên làm việc của A được sửa file này.
-> Agent: đọc file này ngay sau khi xác nhận mình đang phục vụ role A (bước 5, Mục 0 của `AGENT.md`), và **cập nhật lại trước khi bàn giao cuối mỗi phiên** (bước 8, Mục 0).
+> Owner: Trần Hoàng Phúc (Role A). Ngoài owner, chỉ agent đang làm task Role A
+> hoặc task integration/final-audit được người dùng giao rõ mới sửa file này.
+> Agent: đọc file này sau khi xác định phạm vi theo `AGENT.md` Mục 0 và cập
+> nhật ngay sau mỗi mốc đáng kể, đồng thời kiểm tra lại trước khi bàn giao.
 
 ## Trạng thái hiện tại
-_(cập nhật lần cuối: 2026-08-30)_
-- Đang làm: Merge `origin/main` (nhánh Role E) vào local đã xong — 2 conflict thật (`docs/02-DATASET-VA-CONG-VIEC.md`, `docs/report/report.pdf`) đã resolve tay, report compile sạch (22 trang, 0 lỗi). Chờ người dùng review diff rồi tự `git add`/`commit`/`push` để hoàn tất merge.
-- Bị chặn bởi: —
+_(cập nhật lần cuối: 2026-09-01)_
+- Trạng thái: đã hoàn tất audit nộp bài cuối ở mức source, số liệu và nội dung; report không còn TODO/placeholder. Các file draft từng được nhắc trong nhật ký cũ chỉ là sản phẩm trung gian và đã được xóa sau khi nội dung chuẩn được tích hợp vào LaTeX.
+- Bị chặn bởi: không có blocker kỹ thuật trong workspace; chỉ còn kiểm tra danh tính, media và đóng gói do con người thực hiện theo `Cac_Cong_Viec_Can_Phai_Lam.md`.
 
 ## Đã xong
 - [x] Tải dataset qua `ucimlrepo` (id=697), lưu `data/raw/data.csv`
@@ -15,10 +17,10 @@ _(cập nhật lần cuối: 2026-08-30)_
 - [x] Viết `src/data.py`: `load_and_preprocess()` + `get_train_test()`
 - [x] EDA: phân bố target, thống kê mô tả, heatmap tương quan (5 hình, `notebooks/01_eda.ipynb`)
 - [x] Gộp `results.csv` cuối dự án, vẽ `figures/comparison.png` — B/C/D/E đã xong M0-M3, đã gộp qua `notebooks/06_comparison.ipynb`
-- [x] Viết mục b/c (Introduction, Dataset Description) — `docs/report_draft_b_c.md`
-- [x] Viết mục g/h (Comparison of Results, Conclusion) — `docs/report_draft_g_h.md`
+- [x] Tích hợp mục b/c (Introduction, Dataset Description) vào report chính; xóa bản nháp trung gian sau audit cuối
+- [x] Tích hợp mục g/h (Comparison of Results, Conclusion) vào report chính; xóa bản nháp trung gian sau audit cuối
 - [x] Tích hợp `origin/main` `a29d356` vào Role E, tạo `requirements-lock.txt` canonical và tái lập artifact E hai lần độc lập
-- [x] Chạy audit cuối toàn repository: pipeline 01→06, notebook/CSV/PNG/link/dependency, số liệu M0–M3, LaTeX compile và render trực quan 22 trang A4
+- [x] Chạy audit cuối toàn repository: notebook/CSV/PNG/link/dependency, tái tính độc lập số liệu M0–M3, LaTeX compile và render trực quan toàn bộ PDF A4
 
 ## Quyết định đã chốt
 _(Ghi các lựa chọn kỹ thuật đã quyết — để agent phiên sau không hỏi lại hoặc tự đổi ý)_
@@ -26,17 +28,29 @@ _(Ghi các lựa chọn kỹ thuật đã quyết — để agent phiên sau kh�
 - Tên cột thực tế khác doc tóm tắt: `Marital Status` (không phải "Marital status"), `Nacionality` (không phải "Nationality") — `src/data.py` dùng đúng tên thật.
 - One-hot: `Marital Status` (6), `Application mode` (18), `Course` (17), `Previous qualification` (17). Giữ nguyên mã số: `Mother's/Father's qualification` (29/34), `Mother's/Father's occupation` (32/46), `Nacionality` (21), `Application order` (ordinal). Chi tiết + lý do: `docs/feature_types.md`.
 - Sau one-hot: **90 cột feature**. Split: `train_test_split(test_size=0.2, stratify=y, random_state=42)` → train (3539, 90), test (885, 90), tỉ lệ 3 lớp giữ nguyên ở cả 2 tập.
-- Smoke test: `DecisionTreeClassifier(random_state=42)` trên output của `get_train_test()` cho test acc = 0.6689 — khớp khoảng kỳ vọng 0.65–0.72 ở `AGENT.md` §3, không có dấu hiệu rò rỉ dữ liệu.
+- Smoke test: `DecisionTreeClassifier(random_state=42)` trên output của `get_train_test()` cho test acc = 0.6689 — khớp khoảng kỳ vọng 0.65–0.72 ở `AGENT.md` §3. Accuracy này chỉ là sanity check, không tự nó chứng minh không có leakage; leakage được kiểm soát bằng split cố định và chỉ fit trên train.
 
 ## Việc tiếp theo
-- Người dùng review diff cuối (đặc biệt 2 file vừa resolve tay: `docs/02-DATASET-VA-CONG-VIEC.md`, `docs/report/report.pdf`), rồi `git add -A && git commit` để hoàn tất merge commit, sau đó `git push`.
-- Bắt đầu pha viết report trên khung LaTeX hiện có: B điền d/e, C điền f.1, D điền f.2, E điền f.3; xóa từng `\todo{}` sau khi nội dung đã được đối chiếu với artifact canonical.
-- Trưởng nhóm điền mục a (tên nhóm/MSSV/GroupID/course/instructor) và đối chiếu bảng đóng góp — LƯU Ý: commit `0969118` gắn tag `[C]` trong git log thực chất là việc của E (cùng git author với commit `[E]` thật `04ee0bd`), đừng tính nhầm công cho C khi điền bảng đóng góp.
-- Sau khi report hết TODO và compile sạch, mới dùng chính số liệu/hình canonical đó để làm slide và video.
-- Nền tảng code, dữ liệu, artifact, tài liệu kỹ thuật và khung report đã sẵn sàng. Nội dung của sáu section report có chủ sở hữu vẫn là pha tiếp theo theo đúng kế hoạch, không được hiểu nhầm là bản báo cáo cuối đã hoàn tất.
+- Trưởng nhóm thực hiện các cổng con người/ngoài workspace trong `Cac_Cong_Viec_Can_Phai_Lam.md`: xác minh tên–MSSV–giảng viên–ngày nộp, kiểm tra video/đường dẫn chia sẻ và tạo gói `2.zip` đúng đề.
+- Người dùng review toàn bộ diff rồi tự `git add` / `git commit` / `git push` theo `AGENT.md`; agent không thực hiện ba thao tác này.
+- Commit `0969118` ghi nhầm `[C]` nhưng là công việc Role E. Không dùng prefix đó để tính contribution; nếu nhóm vẫn muốn sửa lịch sử đã công bố, chỉ con người thực hiện quy trình phối hợp trong runbook vì thao tác này viết lại 23 commit hậu duệ.
 
 ## Nhật ký phiên làm việc
 <!-- Mỗi phiên thêm 1 mục mới lên TRÊN CÙNG, không xóa mục cũ -->
+
+> Các entry dưới đây là snapshot lịch sử tại thời điểm được ghi. Khi số trang,
+> phiên bản, TODO hoặc trạng thái cũ khác phần đầu file, phần **Trạng thái hiện
+> tại** và artifact canonical mới nhất được ưu tiên.
+
+### 2026-09-01 — chuẩn hóa toàn bộ hệ Markdown trước bàn giao
+- Đã làm gì: audit 15 file Markdown theo đúng vai trò từng tài liệu; hoàn thiện README, thêm cổng `AGENTS.md`, sửa quy trình Git/agent, contribution, provenance, heading hierarchy và trạng thái progress.
+- Kết quả: không còn placeholder owner/template hiện hành; link, H1/heading, code fence, model-ID schema và wording safety gate đều đạt. Các việc chưa tick chỉ còn ở runbook/đóng gói do con người thực hiện.
+- Vướng gì / để lại cho phiên sau: không có finding Markdown kỹ thuật mở.
+
+### 2026-09-01 — audit nộp bài cuối và đồng bộ tài liệu
+- Đã làm gì: đối chiếu đề gốc, source LaTeX, toàn bộ artifact, số liệu M0–M3, Git/progress và tài liệu Markdown; loại năm draft trung gian sau khi xác nhận nội dung chuẩn đã có trong report chính.
+- Kết quả: phần report và code không còn việc kỹ thuật mở; các đầu việc còn lại đều là xác minh danh tính/media/đóng gói và được tập trung vào `Cac_Cong_Viec_Can_Phai_Lam.md`.
+- Vướng gì / để lại cho phiên sau: con người phải thực hiện các cổng ngoài workspace và tự commit/push sau khi review.
 
 ### 2026-08-30 (phiên 17) — resolve merge conflict giữa local (A) và origin/main (nhánh Role E)
 - Đã làm gì: Người dùng `git pull` sau khi commit 2 việc trước đó (fix bảng A6 lần 1, tạo Phancong.md) thì gặp `git pull` báo local changes ở `progress/A.md` sẽ bị ghi đè — hướng dẫn người dùng commit trước rồi pull lại. Sau khi pull, git tự merge sạch hầu hết file (kể cả `progress/A.md`, `c_dataset.tex`, `AGENT.md` — không conflict vì 2 bên sửa khác vùng/khác nội dung tương thích), chỉ còn đúng 2 file conflict thật: `docs/02-DATASET-VA-CONG-VIEC.md` và `docs/report/report.pdf` (binary).

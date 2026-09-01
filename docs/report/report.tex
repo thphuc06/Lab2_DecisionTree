@@ -1,45 +1,31 @@
-% ============================================================================
-% Lab 2: Decision Tree Modeling and Improvement -- Written Report
-%
-% Master document. Follows the exact section structure required by the
-% assignment brief (docs/00-DE-BAI-GOC.pdf, Section 3.4, sections a-i).
-%
-% OWNERSHIP -- one file per section, same convention as the rest of the repo
-% (see docs/03-GIT-WORKFLOW-VA-CAU-TRUC-CODE.md): edit only the section
-% file(s) assigned to your role. Do not edit another role's section file
-% without asking them, for the same reason the code repo enforces this.
-%
-%   sections/a_group_intro.tex   -- Team lead
-%   sections/b_introduction.tex  -- Role A
-%   sections/c_dataset.tex       -- Role A
-%   sections/d_baseline.tex      -- Role B
-%   sections/e_analysis.tex      -- Role B
-%   sections/f1_pruning.tex      -- Role C
-%   sections/f2_imbalance.tex    -- Role D
-%   sections/f3_features.tex     -- Role E
-%   sections/g_comparison.tex    -- Role A
-%   sections/h_conclusion.tex    -- Role A
-%   references.bib               -- shared, append-only (like outputs/results.csv)
-%
-% This file (report.tex) itself is Role A / team-lead territory: it only
-% \input's the section files and should rarely need editing once section
-% files exist.
+% Lab 2: Decision Tree Modeling and Improvement -- final written report.
+% The section order follows Section 3.4(a--i) of the assignment brief.
 %
 % HOW TO COMPILE (see README.md in this folder for details):
-%   pdflatex report.tex && bibtex report && pdflatex report.tex && pdflatex report.tex
+%   xelatex report.tex && bibtex report && xelatex report.tex &&
+%   xelatex report.tex && xelatex report.tex
 % or open this folder in Overleaf.
 % ============================================================================
 
 \documentclass[11pt,a4paper]{article}
 
 \usepackage[margin=1in]{geometry}
-\usepackage[utf8]{inputenc}
-\usepackage[T5,T1]{fontenc}
-% T5 is needed only so the real Vietnamese names in a_group_intro.tex
-% render correctly. \vnname{...} switches to it for just that text so
-% the rest of the (English) report keeps default T1 hyphenation rules.
-\usepackage[vietnamese,english]{babel}
-\newcommand{\vnname}[1]{\foreignlanguage{vietnamese}{#1}}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+  \usepackage[T5,T1]{fontenc}
+  % pdfLaTeX needs the MiKTeX/TeX Live `vntex` package for T5.  The
+  % Vietnamese encoding is scoped to member names so the English report
+  % keeps T1 hyphenation rules.
+  \usepackage[vietnamese,english]{babel}
+  \newcommand{\vnname}[1]{\foreignlanguage{vietnamese}{#1}}
+\else
+  % XeLaTeX/LuaLaTeX render the UTF-8 member names directly and therefore
+  % do not require `vntex` or the T5 encoding files.
+  \usepackage{fontspec}
+  \usepackage[english]{babel}
+  \newcommand{\vnname}[1]{#1}
+\fi
 \usepackage{graphicx}
 % All figures live in the shared figures/ folder at the repo root, two
 % levels up from docs/report/ (where this file lives). Section files can
@@ -49,7 +35,6 @@
 \usepackage{booktabs}
 \usepackage{amsmath}
 \usepackage{float}
-\usepackage{pdflscape}
 \usepackage{caption}
 \usepackage{titlesec}
 \usepackage{xcolor}
@@ -68,12 +53,6 @@
 \renewcommand{\thesubsubsection}{\alph{section}.\arabic{subsection}.\arabic{subsubsection}}
 \titleformat{\section}{\normalfont\Large\bfseries}{\thesection.}{1em}{}
 \renewcommand{\refname}{i. References}
-
-% Visible TODO marker -- every section file that is not yet filled in uses
-% this so it is obvious in the compiled PDF (and in a find-in-file search
-% for "\todo") what is still missing. Delete a \todo call once that piece
-% is actually written; do not leave stale TODOs in a submitted report.
-\newcommand{\todo}[1]{{\color{red}\textbf{[TODO --- #1]}}}
 
 \begin{document}
 
@@ -132,12 +111,7 @@
 \input{sections/g_comparison}
 \input{sections/h_conclusion}
 
-% i. References -- handled by BibTeX/natbib, not a separate section file.
-% Every \cite{...} used in any section file above must have a matching
-% entry in references.bib. Role E owns curating/finishing this list
-% per docs/02-DATASET-VA-CONG-VIEC.md Phan H, but anyone may append a
-% new @entry to references.bib when they cite something new -- see the
-% header comment in that file.
+% i. References -- generated from the bibliography database.
 \bibliographystyle{plainnat}
 \begingroup
 \small

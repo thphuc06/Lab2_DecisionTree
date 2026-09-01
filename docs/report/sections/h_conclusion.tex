@@ -1,10 +1,5 @@
-% Owner: Role A. Translated and adapted from the verified Vietnamese draft
-% docs/report_draft_g_h.md (section "h. Conclusion"), AFTER the 2026-08-30
-% fact-check pass that fixed a fabricated rule citation (the Dropout rule
-% quoted here was cross-checked against docs/report_draft_d_e.md's actual
-% extracted rule, not invented -- see progress/A.md log). If Role B's
-% e_analysis.tex rule wording changes, update the quoted rule below to
-% match.
+% Final section; claims synthesize the canonical results and the complete
+% representative rules reported in the preceding sections.
 
 \section{Conclusion}
 \label{sec:h}
@@ -35,10 +30,12 @@ The three improvement directions highlight distinct lessons:
     ``worse'' on accuracy yet ``better'' on the real application goal.
   \item \textbf{The most accurate model is not always the most useful
     one.} M3 shows that this dataset's strongest predictive features
-    (semester outcomes) only become available well after enrollment,
-    the same window during which an early-warning model would need to
-    act, so M3's lower accuracy is a reasonable price for being usable
-    that early.
+    (semester outcomes) only become available after enrollment and cannot
+    support a prediction at that earliest decision point. Under this study's
+    feature-availability assumption, M3's lower
+    accuracy quantifies the predictive cost of excluding those outcomes;
+    actual enrollment-time use still depends on verifying retained-field
+    timestamps.
 \end{enumerate}
 
 \subsection{Key findings from the experiments}
@@ -59,8 +56,9 @@ The three improvement directions highlight distinct lessons:
     Enrolled -- though SMOTE on one-hot-encoded categorical features
     still carries known limitations.
   \item Dropping the 12 semester-outcome columns (M3) costs 12.77
-    accuracy points, a direct measurement of the ``price'' of wanting
-    an early warning instead of a later but more accurate one.
+    accuracy points. Under the stated feature-availability assumption,
+    this is the measured predictive cost of configuring an enrollment-time
+    model rather than a later model that uses semester outcomes.
   \item All 5 models share one fixed, stratified train/test split
     (\texttt{random\_state=42}). This makes the comparisons directly
     comparable and prevents different partitions from confounding the
@@ -91,11 +89,11 @@ can split numerical and one-hot indicator columns without feature
 scaling. But the project also exposes the inherent limits of a single,
 unconstrained tree: it overfits easily, and no single model
 configuration is simultaneously the most accurate, the most balanced
-across classes' recall, and the earliest-usable; these three goals
-require three different configurations of the same algorithm. (This is
-a class-wise recall comparison, not a formal fairness audit across
-sensitive attributes such as gender or nationality, which this project
-does not perform.) For an application with multiple distinct goals, like
+across classes' recall, and configured for the earliest prediction point;
+these three goals require three different configurations of the same
+algorithm. The class-wise recall comparison is not an assessment of
+performance disparities across sensitive attributes such as gender or
+nationality. For an application with multiple distinct goals, like
 dropout prediction, a more realistic conclusion than ``one best model''
 is that \textbf{a decision tree is a flexible enough tool to be
 optimized for each goal separately} (accuracy, class-wise recall

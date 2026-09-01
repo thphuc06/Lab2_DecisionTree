@@ -1,9 +1,5 @@
-% Owner: Role A. Translated and adapted from the verified Vietnamese draft
-% docs/report_draft_b_c.md (section "b. Introduction"). Every claim in that
-% source file was fact-checked against src/data.py, data/raw/data.csv, and
-% outputs/results.csv before translation -- see progress/A.md 2026-08-30
-% logs for the audit trail. If you edit this file, keep it consistent with
-% the source draft or update both.
+% Final section; quantitative claims were checked against the canonical
+% experiment artifacts before submission.
 
 \section{Introduction}
 \label{sec:b}
@@ -78,10 +74,11 @@ university students in Portugal. Concretely, the group:
       Enrolled recall (0.3836) is well below Dropout's already-reasonable
       recall (0.6796), so Enrolled is the main target of this improvement.
     \item \textbf{Feature selection for early warning}: addresses a
-      practical limitation. The baseline's strongest features are only
-      known \emph{after} a semester ends, so the model with the highest
-      accuracy is not necessarily the model that can actually be deployed
-      for early intervention.
+      practical limitation. Semester outcomes are unavailable at enrollment,
+      so the model with the highest accuracy is not necessarily the model best
+      suited to that earliest intervention point. Operational feasibility of
+      the retained variables remains conditional on the feature-availability
+      assumption stated in Section~\ref{sec:f3}.
   \end{itemize}
   \item Quantitatively compares all five model configurations and asks
     \textbf{which model suits which application goal}, in line with the

@@ -1,13 +1,17 @@
 # CẤU TRÚC CODE & QUY TRÌNH GIT — 5 NGƯỜI LÀM SONG SONG
 
-> Nguyên tắc cốt lõi: **mỗi file chỉ có đúng một người sửa.** Conflict git chỉ xảy ra khi hai người sửa cùng một file cùng lúc — nếu chia quyền sở hữu rõ, conflict gần như không xảy ra.
+> Nguyên tắc cốt lõi: **mỗi path chỉ có một owner chính.** Phần lớn conflict
+> trong dự án này xuất hiện khi hai nhánh thay đổi cùng một path hoặc cùng một
+> vùng nội dung. Ownership rõ giúp giảm mạnh, nhưng không loại bỏ hoàn toàn các
+> trường hợp modify/delete, rename/modify hoặc binary conflict.
 
 ---
 
 ## 1. Cấu trúc thư mục cuối cùng
 
 ```
-[GroupID]-decision-tree/
+Lab2_DecisionTree/
+├── AGENTS.md                        ← cổng tương thích cho tool tìm tên số nhiều
 ├── AGENT.md                         ← đọc trước tiên khi mở agent, đừng để lệch chỗ
 ├── README.md                       ← Trưởng nhóm
 ├── requirements.txt                ← dependency trực tiếp; role đề xuất lib mới cho A
@@ -39,7 +43,7 @@
 │   ├── D.md                        ← CHỈ D
 │   └── E.md                        ← CHỈ E
 │
-├── figures/                         ← 22 PNG canonical, tên file có prefix (xem mục 4)
+├── figures/                         ← 22 PNG thí nghiệm + 1 logo, tên file có prefix (xem mục 4)
 │
 ├── outputs/
 │   ├── results.csv                 ⭐ 5 cấu hình, schema 16 cột
@@ -76,24 +80,27 @@ __pycache__/
 | `notebooks/0X_*.ipynb` | **Đúng 1 người ghi trong tên file** | Không mở sửa notebook người khác, kể cả "chỉ xem" — xem trên GitHub web |
 | `progress/<X>.md` | **Đúng 1 chữ cái tương ứng** | Không đọc/sửa progress của role khác — mỗi người tự ghi nhật ký của mình |
 | `outputs/results.csv` | **Ai cũng append được** | Chỉ được **thêm dòng**, không sửa/xóa dòng người khác (mục 5) |
-| `figures/*.png` | Người tạo ra hình đó | File ảnh không conflict (binary, git tự ghi đè theo tên) |
+| `figures/*.png` | Người tạo ra hình đó | Không sửa cùng một path. PNG là binary nên Git không merge nội dung; nếu hai nhánh cùng sửa một ảnh, owner phải chọn hoặc tái sinh bản canonical |
 | `README.md`, file kế hoạch | Trưởng nhóm tổng hợp | Người khác góp ý qua chat, không tự sửa trực tiếp |
 
-> Quy tắc duy nhất cần nhớ: **thấy file không phải của mình → không mở app sửa, chỉ đọc.**
+> Quy tắc cần nhớ: **thấy file không phải của mình → chỉ đọc; muốn sửa phải
+> phối hợp với owner hoặc có task integration được giao rõ.**
 
 ---
 
 ## 3. Chiến lược nhánh (branch)
 
-> Bảng tên nhánh ban đầu bên dưới là **quy ước lập kế hoạch**, không phải danh sách ref hiện có. Tại vòng tích hợp 2026-08-30, các ref đã fetch là `main`, `feature/pruning` và `role-e-final-thuy`; nhánh đang làm là `role-e-final-thuy` và đang merge `origin/main` mới nhất.
+> Bảng tên nhánh bên dưới là **quy ước lịch sử khi phát triển**, không phải danh sách ref hiện có. Ở lần đồng bộ cuối ngày 2026-09-01, working branch là `main`, tại commit `9393993`, và `main` khớp `origin/main` trước khi bắt đầu các chỉnh sửa audit chưa commit. Không suy ra trạng thái hiện tại chỉ từ tên nhánh cũ trong nhật ký.
 
 Với nhóm 5 người mới dùng git, **branch theo người** là đơn giản và đủ an toàn — không cần quy trình PR phức tạp.
 
 ```bash
 # Lần đầu — mỗi người tự tạo nhánh của mình từ main
-git checkout main
-git pull
-git checkout -b feature/pruning        # ví dụ của C
+git switch main
+git status --short                     # phải sạch trước khi đồng bộ
+git fetch origin
+git pull --ff-only origin main
+git switch -c feature/pruning          # ví dụ của C
 ```
 
 | Role | Tên nhánh khuyến nghị cho công việc mới |
@@ -108,20 +115,31 @@ git checkout -b feature/pruning        # ví dụ của C
 
 > Các lệnh `git add`/`commit`/`push` trong ví dụ này chỉ dành cho **thành viên thao tác Git**. Theo `AGENT.md`, coding agent phải dừng trước ba lệnh này và bàn giao thay đổi để con người duyệt.
 ```bash
-git checkout feature/pruning
-git pull origin main          # LUÔN kéo main mới nhất trước khi làm tiếp
+git switch feature/pruning
+git status --short            # dừng nếu còn work chưa commit/stash
+git fetch origin
+git merge origin/main         # thành viên chủ động tích hợp main mới
 # ... code, chạy notebook ...
 git add notebooks/03_improve_pruning.ipynb outputs/results.csv
 git commit -m "[C] Chạy pruning voi ccp_alpha, cap nhat results"
 git push origin feature/pruning
 ```
 
-**Merge vào `main`:** vì mỗi người chỉ động vào file của riêng mình (bảng mục 2), merge trực tiếp là an toàn — không bắt buộc phải làm Pull Request trên GitHub, nhưng **nên** tạo PR nếu muốn người khác review nhanh (đã có bảng "ai review ai" trong file kế hoạch tổng). Nhóm mới dùng git thì cứ merge thẳng:
+`git fetch` chỉ cập nhật remote refs; `git merge`/`git pull` thay đổi branch và
+working tree. Không chạy merge/pull trên tree dirty. Nếu nhóm chọn rebase thay
+merge, phải thống nhất trước; không tự rebase một branch đã chia sẻ công khai.
+
+**Merge vào `main`:** ownership làm giảm conflict nhưng không thay thế review.
+Ưu tiên Pull Request nếu repository hỗ trợ. Nếu nhóm thống nhất merge trực tiếp,
+thành viên thực hiện phải kiểm tra tree sạch, cập nhật `main` bằng fast-forward
+và chạy checklist Mục 7 trước khi push:
 
 ```bash
-git checkout main
-git pull
-git merge feature/pruning
+git switch main
+git status --short
+git fetch origin
+git pull --ff-only origin main
+git merge --no-ff feature/pruning
 git push origin main
 ```
 
@@ -163,30 +181,62 @@ figures/E_feature_importance_permutation.png
 
 ## 5. Điểm conflict thật sự duy nhất: `results.csv`
 
-Đây là file text ai cũng ghi vào. Nếu 2 người push gần nhau, git sẽ báo conflict — nhưng vì CSV chỉ là các dòng text, xử lý rất dễ, không đáng sợ như conflict trong code.
+Đây là file text nhiều role cùng ghi. Conflict có thể giải quyết có hệ thống,
+nhưng vẫn phải kiểm tra schema, model ID và provenance; ghép được text không có
+nghĩa là kết quả khoa học đã đúng.
 
-**Quy ước repo hiện tại:** dùng duy nhất `outputs/results.csv`; mỗi role chỉ được thêm hoặc đối soát model ID do mình sở hữu và không xóa/sửa row của role khác. Riêng Role E phải snapshot raw row M0/M1/M2a/M2b trước và sau `evaluate_model()` để chứng minh việc chạy M3 không thay đổi kết quả đã handoff.
+**Quy ước repo hiện tại:** dùng duy nhất `outputs/results.csv`; mỗi role chỉ
+được upsert hoặc đối soát model ID do mình sở hữu và không xóa/sửa row của role
+khác. Riêng Role E phải snapshot raw row M0/M1/M2a/M2b trước và sau
+`evaluate_model()` để chứng minh việc chạy M3 không thay đổi kết quả đã handoff.
 
 **Khi file chung `results.csv` xảy ra conflict**, xử lý như sau:
 
 ```bash
-git pull origin main
+git status --short     # phải sạch trước khi tích hợp
+git fetch origin
+git merge origin/main
 # Git báo conflict trong outputs/results.csv, file sẽ có dạng:
 
 M0,Baseline,...,B
 <<<<<<< HEAD
 M1,Pruned,...,C
 =======
-M2,Balanced,...,D
+M2a,Class Weight,...,D
+M2b,SMOTE,...,D
 >>>>>>> feature/imbalance
 ```
-Chỉ cần **xóa 3 dòng đánh dấu** (`<<<<<<<`, `=======`, `>>>>>>>`) và giữ lại cả hai dòng dữ liệu:
+Xóa ba loại conflict marker (`<<<<<<<`, `=======`, `>>>>>>>`), giữ các row
+canonical không trùng model ID và kiểm tra lại toàn bộ file:
 ```
 M0,Baseline,...,B
 M1,Pruned,...,C
-M2,Balanced,...,D
+M2a,Class Weight,...,D
+M2b,SMOTE,...,D
 ```
-Rồi `git add`, `git commit`, `git push` bình thường. Đây là conflict dễ nhất trong git — không có logic gì để "giải quyết sai", chỉ là ghép 2 dòng lại.
+
+Không ghép máy móc hai phiên bản: một phía có thể chứa row cũ, header lặp hoặc
+model ID trùng. Chạy tối thiểu kiểm tra sau trước khi người dùng commit:
+
+```powershell
+$rows = Import-Csv -LiteralPath outputs/results.csv
+$expected = @('M0', 'M1', 'M2a', 'M2b', 'M3')
+$actual = @($rows.model_id | Sort-Object)
+
+if ((Get-Content -LiteralPath outputs/results.csv -First 1).Split(',').Count -ne 16) {
+    throw 'results.csv must have 16 columns'
+}
+if (@($rows | Group-Object model_id | Where-Object Count -ne 1).Count -ne 0) {
+    throw 'Duplicate model_id in results.csv'
+}
+if (@(Compare-Object $expected $actual).Count -ne 0) {
+    throw 'Expected exactly M0, M1, M2a, M2b, M3'
+}
+```
+
+Sau đó đối chiếu row bị conflict với notebook/classification report canonical.
+Agent được sửa nội dung và báo kết quả kiểm tra, nhưng theo `AGENT.md` chỉ người
+dùng mới chạy `git add`/`commit`/`push`.
 
 ---
 
@@ -198,19 +248,29 @@ Prefix bằng ký hiệu tên để dễ tra `git log` và dễ dùng cho bảng
 [A] Them ham get_train_test, EDA phan bo target
 [B] Train M0 baseline, ve cay, xuat rules
 [C] Chay cost_complexity_pruning_path, chon alpha bang CV
-[D] Train M2 voi class_weight balanced
+[D] Train M2a/M2b voi class_weight va SMOTE
 [E] Loc 12 cot HK1/HK2, train M3
 ```
 
+Ngoại lệ lịch sử đã biết: commit `0969118` có prefix `[C]` nhưng nội dung thuộc
+Role E. Không dùng prefix sai này để tính contribution và không rewrite 23
+commit hậu duệ đã công bố chỉ để sửa nhãn; xem quy trình human-only trong
+[`Cac_Cong_Viec_Can_Phai_Lam.md`](../Cac_Cong_Viec_Can_Phai_Lam.md).
+
 ---
 
-## 7. Checklist trước khi merge vào `main`
+## 7. Checklist mẫu trước khi merge vào `main`
 
-- [ ] `git pull origin main` trước khi push lần cuối
-- [ ] Notebook đã `Restart & Run All` — số thứ tự cell chạy liền mạch từ 1
-- [ ] Đã xóa cell rác, cell lỗi, cell thử nghiệm
-- [ ] Không sửa file không thuộc quyền của mình (đối chiếu bảng mục 2)
-- [ ] `outputs/results.csv` đã có đúng dòng model thuộc role của mình, đúng schema chung và không thay đổi row của role khác
+Đây là mẫu tái sử dụng cho một lần tích hợp mới, **không phải danh sách việc còn tồn đọng của bản nộp hiện tại**:
+
+- `git status --short` sạch và đang ở đúng branch trước khi tích hợp.
+- `git fetch origin`, sau đó tích hợp `origin/main` bằng quy trình nhóm đã chọn;
+  trên `main`, dùng `git pull --ff-only origin main`.
+- Notebook đã `Restart & Run All`; execution count của code cell liên tục từ 1.
+- Đã xóa cell rác, cell lỗi và cell thử nghiệm.
+- Không sửa file ngoài phạm vi đã thống nhất nếu chưa được yêu cầu.
+- `outputs/results.csv` có đúng một dòng cho model thuộc role, đúng schema chung và không thay đổi row của role khác.
+- Không có conflict marker; source/dependency/Markdown gate liên quan đều pass.
 
 ---
 
@@ -220,6 +280,6 @@ Prefix bằng ký hiệu tên để dễ tra `git log` và dễ dùng cho bảng
 |---|---|
 | Mở sửa `src/data.py` khi không phải A | Phá pipeline chung, 4 người khác lệch kết quả ngay |
 | Mở notebook của người khác để "sửa giùm" | JSON diff cực khó đọc, dễ hỏng file |
-| Push thẳng vào `main` mà không `pull` trước | Đè mất commit của người khác |
+| Push vào `main` mà chưa fetch, cập nhật và kiểm tra branch | Có thể bị reject, tích hợp base cũ hoặc bỏ sót thay đổi của người khác |
 | Để `.ipynb_checkpoints/` lên git | Rác, phình repo, dễ conflict vô nghĩa |
 | Commit dataset đã encode/transform thành file mới tùy tiện | Người khác không biết bạn dùng bản nào, kết quả không tái lập được |

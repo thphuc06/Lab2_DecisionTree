@@ -1,11 +1,5 @@
-% Owner: Role A. Translated and adapted from the verified Vietnamese draft
-% docs/report_draft_b_c.md (section "c. Dataset Description"), AFTER the
-% 2026-08-30 fact-check pass that fixed 5 real errors (see progress/A.md).
-% Numbers below (course Graduate rates, correlation values, feature
-% importance ranks) are the CORRECTED values verified directly against
-% data/raw/data.csv and outputs/E_feature_importance_comparison.csv --
-% do not "fix" them back to the values in docs/02-DATASET-VA-CONG-VIEC.md
-% Phan A5/A6, those were the ones found to be wrong.
+% Final section; CSV-derived claims and published metadata were audited
+% separately so their evidence bases remain explicit.
 
 \section{Dataset Description}
 \label{sec:c}
@@ -25,7 +19,7 @@ Service, Biofuel Production Technologies, Informatics Engineering, etc.),
 academic years \textbf{2008/09 to 2018/19}. It combines information from
 several administrative sources at enrollment time (admission records,
 socio-economic data) with academic outcomes at the end of each of the
-first two semesters.
+first two semesters \citep[Section~2, ``Data Description'']{realinho2022predicting}.
 
 \subsection{Dataset description --- numbers confirmed from actual data}
 
@@ -122,8 +116,8 @@ strongly some features relate to the target: among
 students who had \textbf{not paid tuition on time}, 86\% ended up in the
 Dropout class, versus 25\% Dropout / 56\% Graduate among students who had
 paid on time. Students with a \textbf{scholarship} have a Dropout rate
-26.5 percentage points lower than those without (12.2\% vs.\ 38.7\%,
-about 3.2$\times$).
+26.5 percentage points lower than those without (12.2\% vs.\ 38.7\%);
+their rate is about one-third as high.
 
 \begin{figure}[H]
   \centering
@@ -147,11 +141,12 @@ to date}; the tree may instead be extracting the same signal from that
 stronger correlate.
 
 By program of study, the two lowest-graduation programs are course code
-33 (Biofuel Production Technologies, $n=12$, 66.7\% Dropout) and course
+33 (Biofuel Production Technologies, $n=12$: 8 Dropout, 3 Enrolled, and
+1 Graduate; 66.7\% Dropout) and course
 code 9119 (Informatics Engineering, $n=170$, 54.1\% Dropout). Only
 \textbf{8.3\% and 8.2\%} of their students graduate respectively, versus
 the dataset average of 49.9\%. Course 33's rate is based on a very small
-sample ($n=12$) and should be read as indicative rather than precise. The
+sample ($n=12$) and is not evidence of a stable program-level effect. The
 two highest-graduation programs are course code 9238 (Social Service,
 $n=355$, 69.9\% Graduate) and course code 9500 (Nursing, $n=766$, 71.5\%
 Graduate), with the lowest Dropout rates (18.3\% and 15.4\%).
@@ -166,8 +161,9 @@ Graduate), with the lowest Dropout rates (18.3\% and 15.4\%).
 The original paper ranks \texttt{Course} in its top-5 features by
 permutation importance \citep{realinho2022predicting}; in
 Table~\ref{tab:c-importance}, \texttt{Course} ranks 6th, close to top-5
-either way. It is also available at enrollment time, which is why it
-underpins the early-warning model M3 (Section~\ref{sec:f}, f.3).
+either way. Under the study's feature-availability assumption, it is treated
+as available at enrollment and therefore retained in M3
+(Section~\ref{sec:f}, f.3).
 
 The strongest single predictor in the whole dataset, by contrast, is
 only known once a semester has actually happened:
@@ -182,8 +178,7 @@ only known once a semester has actually happened:
 Median values are 0 for Dropout, 4 for Enrolled, and 6 for Graduate. This
 is the single most important feature in Table~\ref{tab:c-importance}
 (rank~1, importance 0.340, more than the sum of ranks 2--5 combined), but
-it is only known \emph{after} the second semester ends, so it cannot be
-used by the early-warning model M3.
+it is defined as a second-semester outcome and is therefore excluded from M3.
 
 \subsection{Preprocessing performed}
 
@@ -197,7 +192,8 @@ train/test split.
   \item \textbf{Re-encoding categorical columns stored as integers.} Many
     columns are integer codes for unordered categories (e.g.\
     \texttt{Course} code 33 = Biofuel Production Technologies, code 9500
-    = Nursing; these codes carry no ordinal relationship). Left as-is,
+    = Nursing \citep[Variables Table, row ``Course'']{realinho2021dataset};
+    these codes carry no ordinal relationship). Left as-is,
     scikit-learn would treat them as continuous and produce meaningless
     splits like \texttt{Course} $\le$ 8.5. The group used a mixed
     strategy:
@@ -210,10 +206,11 @@ train/test split.
     \item \textbf{Keep the raw integer code} for high-cardinality
       columns: the mother's and father's occupations (32/46 values),
       the mother's and father's qualifications (29/34 values), and
-      \texttt{Nacionality} (21 values). One-hot encoding these would
-      create dozens of sparse columns, which would likely destabilize
-      the tree more than it would help -- a limitation the group
-      accepts explicitly rather than works around.
+      \texttt{Nacionality} (21 values). This was a pragmatic choice to
+      limit the number of sparse indicators. It imposes an artificial
+      order on nominal codes, so thresholds on these columns are an
+      acknowledged representation limitation and require cautious
+      interpretation.
     \item After this step the feature count grows from 36 to
       \textbf{90} columns.
   \end{itemize}
@@ -225,10 +222,9 @@ train/test split.
     redundant and would not change the learned tree structure at all.
   \item \textbf{Stratified train/test split}: 80\%/20\%, stratified by
     class to preserve the $\approx$50/32/18 class ratio in both sets.
-    This matters because the data is imbalanced; a plain random split
-    could accidentally starve the test set of the minority class. A
-    fixed random seed is used so all 5 models in the project are
-    evaluated on the exact same split.
+    This guarantees that both partitions retain the observed class
+    proportions. A fixed random seed is used so all five models in the
+    project are evaluated on the exact same split.
 \end{enumerate}
 
 After preprocessing: \textbf{3{,}539 training samples / 885 test
@@ -283,8 +279,8 @@ but multicollinearity still splits feature importance across correlated
 columns and can make the tree structure less stable across samples. These
 correlations therefore provide diagnostic context, but they are not the
 selection rule for M3. The canonical early-warning experiment removes
-exactly the 12 semester-outcome columns based on availability at
-enrollment, while retaining both \texttt{Nacionality} and
+exactly the 12 semester-outcome columns under the feature-availability
+assumption stated in Section~\ref{sec:f3}, while retaining both \texttt{Nacionality} and
 \texttt{International} so that feature timing is the only intentional
 difference from M0.
 
@@ -305,10 +301,12 @@ difference from M0.
     realistic scenario for applying and comparing imbalance-handling
     techniques, one of the improvement directions the brief itself
     suggests (Section 3.2.d, ``Handling class imbalance'').
-  \item \textbf{Features split cleanly by collection time} (known at
-    enrollment vs.\ known only at end of semester): enables a
-    feature-selection experiment with a real application meaning (early
-    warning) rather than a purely statistics-driven one.
+  \item \textbf{Documented feature families support a timing experiment}:
+    the published documentation distinguishes semester outcomes from
+    enrollment-related data. The project therefore evaluates an early-warning
+    exclusion rule, while treating the exact availability of every retained
+    field as an assumption to be verified from a data dictionary and snapshot
+    timestamps before deployment.
   \item \textbf{No missing values}: lets the group spend its time on
     analysis and interpretation instead of data cleaning, matching the
     brief's own emphasis on clearly explaining how the tree is built and
@@ -320,6 +318,7 @@ difference from M0.
 The dataset contains sensitive variables: gender, nationality, marital
 status, and parents' education/occupation. Any tree splits on these
 variables only reflect \textbf{correlations observed in one Portuguese
-university's sample from 2008--2019}, not causal relationships, and
+institution's sample from academic years 2008/09--2018/19
+\citep[Section~2]{realinho2022predicting}}, not causal relationships, and
 should not be used as grounds for any discriminatory policy toward
 students in practice.

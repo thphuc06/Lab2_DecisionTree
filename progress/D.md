@@ -1,12 +1,14 @@
 # Tiến độ — Role D (Improvement 2: Class Imbalance)
 
-> Chỉ [Tên thành viên D] và agent trong phiên làm việc của D được sửa file này.
-> Agent: đọc file này ngay sau khi xác nhận mình đang phục vụ role D (bước 5, Mục 0 của `AGENT.md`), và **cập nhật lại trước khi bàn giao cuối mỗi phiên** (bước 8, Mục 0).
+> Owner: Nguyễn Hữu Gia Minh (Role D). Ngoài owner, chỉ agent đang làm task
+> Role D hoặc task integration/final-audit được người dùng giao rõ mới sửa file này.
+> Agent: đọc file này sau khi xác định phạm vi theo `AGENT.md` Mục 0 và cập
+> nhật ngay sau mỗi mốc đáng kể, đồng thời kiểm tra lại trước khi bàn giao.
 
 ## Trạng thái hiện tại
-_(cập nhật lần cuối: 2026-08-29)_
-- Đang làm: Đã hoàn tất phần kỹ thuật cốt lõi; còn 1 mục xác minh git log chưa chặn kết quả. `results.csv` đã được regenerate từ notebook chạy sạch, đối chiếu khớp tuyệt đối với hai classification report. Report f.2 đã viết lại theo số canonical mới, gồm bảng precision per-class và audit categorical định lượng thật.
-- Bị chặn bởi: — (không còn blocker kỹ thuật; còn vài việc thủ công nêu ở "Việc tiếp theo")
+_(cập nhật lần cuối: 2026-09-01)_
+- Trạng thái: hoàn tất; `results.csv`, hai classification report, notebook và f.2 đã được đối chiếu lại. D-02 cũng đã được xác minh bằng Git.
+- Bị chặn bởi: không.
 
 ## Đã xong
 
@@ -24,9 +26,9 @@ _(cập nhật lần cuối: 2026-08-29)_
 - [x] Quality gate cuối notebook: `error_rate == 1 - test_acc`, macro metrics trong `[0, 1]` — PASS
 - [x] Xóa 2 dòng `M2a`/`M2b` cũ trong `results.csv`, Restart Kernel → Run All để regenerate, không đụng M0/M1/M3
 - [x] Verify chéo: `results.csv` ↔ 2 classification report ↔ output notebook — khớp tuyệt đối tới nhiều chữ số thập phân
-- [x] Viết lại `docs/report_draft_f2_imbalance.md` theo số canonical mới: thêm provenance (môi trường + xác nhận guardrail PASS), bảng precision per-class, 2 hình cây M2b, thay đoạn limitation bằng bảng audit categorical thật (Course: 83,0% hàng synthetic vi phạm one-hot)
+- [x] Viết lại và tích hợp f.2 theo số canonical; bản nháp trung gian đã được xóa sau audit cuối
 - [x] Đọc paper SMOTE (Chawla et al., 2002) — **đã thực hiện**
-- [ ] Xác minh D-02 (nghi vấn Role E từng sửa dòng M2a/M2b ở commit `04ee0bd`) — **chưa chạy `git diff` để xác minh**; không còn ảnh hưởng thực tế vì M2a/M2b đã được regenerate hoàn toàn ở phiên này, nhưng nên xác minh cho đầy đủ hồ sơ
+- [x] Xác minh D-02 bằng Git: commit `04ee0bd` từng thay các dòng M2a/M2b bằng kết quả từ môi trường khác; các commit D `76891d6` và `6d558b1` đã phục hồi artifact canonical, và lần tái tính cuối khớp tuyệt đối
 - [x] Chạy lần 2 độc lập trên kernel sạch để đối chiếu bit-for-bit (D7) — **đã chạy chính thức lần 2 sau bản notebook cuối cùng và xác nhận kết quả khớp tuyệt đối**
 - [x] Ghi `git rev-parse HEAD` và file hash thật (`Get-FileHash` SHA-256) vào manifest bàn giao bên dưới
 
@@ -36,39 +38,46 @@ _(cập nhật lần cuối: 2026-08-29)_
   - M0 (tham chiếu, author B): test_acc 0,668927; recall Dropout/Enrolled/Graduate = 0,679577 / 0,383648 / 0,764706
   - **M2a**: test_acc 0,650847 (thấp hơn M0); recall Dropout 0,679577 (không đổi), Enrolled 0,339623 (giảm), Graduate 0,744344 (giảm); precision Enrolled 0,3234; depth 28, leaves 696
   - **M2b**: test_acc 0,688136 (cao hơn M0); recall Dropout 0,707746, Enrolled 0,465409, Graduate 0,755656; precision Enrolled 0,4044; depth 39, leaves 847
-  - M2b cải thiện đồng thời accuracy tổng (+0,019209), recall Dropout (+0,028169) và recall Enrolled (+0,081761) so với M0 — không phải đánh đổi mà là cải thiện toàn diện trên held-out split này
+  - M2b cải thiện accuracy tổng (+0,019209), recall Dropout (+0,028169) và recall Enrolled (+0,081761) so với M0 trên held-out split này; đổi lại Graduate recall giảm nhẹ, cây sâu/nhiều lá hơn và vanilla SMOTE không bảo toàn đầy đủ cấu trúc categorical
   - M2a không cải thiện M0 ở bất kỳ chỉ số ưu tiên nào trên split này — giữ lại trong báo cáo để minh bạch, không phải mọi kỹ thuật cân bằng lớp đều hiệu quả
 - **Audit categorical (D5) — kết quả định lượng dùng cho phần limitation:**
   - 6 cột giữ mã số (5 nominal + `Application order` ordinal): 0,0% giá trị không nguyên trong hàng synthetic — diễn giải thận trọng trong report là "không phát hiện được bằng phép đo này", không khẳng định SMOTE không ảnh hưởng, vì nhiều khả năng bị ép kiểu int che khuất giá trị nội suy thật
   - 4 nhóm one-hot: tỷ lệ hàng synthetic không tổng bằng 1 là Marital Status 14,7%, Application mode 65,4%, **Course 83,0%**, Previous qualification 24,8% — bằng chứng định lượng mạnh, dùng làm trọng tâm phần hạn chế của report
-- Giữ nguyên vanilla `SMOTE` cho M2b theo đúng yêu cầu đề bài; không âm thầm đổi sang `SMOTENC`; không sửa `src/data.py`
+- Giữ nguyên vanilla `SMOTE` cho M2b vì đây là kỹ thuật nhóm đã chọn cho hướng cải tiến class imbalance; đề gợi ý xử lý mất cân bằng nhưng không bắt buộc SMOTE. Không âm thầm đổi sang `SMOTENC`; không sửa `src/data.py`
 - Môi trường đã tạo ra số liệu canonical: Python 3.14.0, numpy 2.3.4, pandas 2.3.3, scikit-learn 1.9.0, matplotlib 3.11.1, imbalanced-learn 0.14.2
 
 ## Việc tiếp theo
-
-1. Xác minh D-02 bằng `git log --oneline -- outputs/results.csv` và `git diff 8e7c498 04ee0bd -- outputs/results.csv` — chỉ để hoàn thiện hồ sơ, không còn ảnh hưởng số liệu vì đã regenerate.
-2. Chạy notebook lần 2 trên kernel sạch (Restart Kernel and Clear All Outputs → Run All) để có bằng chứng D7 chính thức; xác nhận số liệu giống hệt lần chạy hiện tại.
-3. Mở từng hình trong `figures/D_*.png` để tự kiểm tra bằng mắt (D8): class order, độ rõ nét, không có đường dẫn cá nhân lộ trong output.
-4. Đọc tóm tắt paper SMOTE (Chawla et al., 2002) hoặc nguồn chính thức tương đương, tick lại mục checklist.
-5. Ghi `git rev-parse HEAD` thật và hash file thật (thay cho hash bản review) vào manifest bên dưới trước khi coi là bàn giao đầy đủ theo D10.
-6. Người dùng tự `git add`, review diff, commit và push — agent không tự thực hiện.
-7. Commit message đề xuất: `[D] Make M2a/M2b reproducible and synchronize all imbalance artifacts`
+- Không còn việc Role D trong workspace. Người dùng chỉ cần hoàn tất cổng nộp bài trong `Cac_Cong_Viec_Can_Phai_Lam.md`, review diff và tự commit/push.
 
 ## Manifest bàn giao (D10)
 
-- **Commit base tham chiếu trong kế hoạch:** snapshot D cuối `8e7c498`, commit D đầu tiên `5b35992`, commit E có nghi vấn `04ee0bd` — cần xác minh lại bằng `git log`/`git diff` thật (xem "Việc tiếp theo" mục 1).
+- **Provenance Git:** snapshot D đầu `5b35992`; commit `04ee0bd` từng thay M2a/M2b; các commit D `76891d6` và `6d558b1` đã phục hồi kết quả canonical.
 - **Môi trường:** Python 3.14.0; numpy 2.3.4; pandas 2.3.3; scikit-learn 1.9.0; matplotlib 3.11.1; imbalanced-learn 0.14.2.
 - **Metric M2a (full precision):** test_acc 0.6508474576271186; recall Dropout 0.6795774647887324; recall Enrolled 0.33962264150943394; recall Graduate 0.744343891402715; precision_macro 0.5842501160502002; recall_macro 0.5878479992336271; f1_macro 0.5854090114571121; roc_auc_macro 0.7053207147912977; depth 28; leaves 696.
 - **Metric M2b (full precision):** test_acc 0.688135593220339; recall Dropout 0.7077464788732394; recall Enrolled 0.46540880503144655; recall Graduate 0.755656108597285; precision_macro 0.6365130979545455; recall_macro 0.6429371308339903; f1_macro 0.6387466009671455; roc_auc_macro 0.7421224276221162; depth 39; leaves 847.
 - **Hash SHA-256 chính thức bàn giao (lấy trực tiếp bằng `Get-FileHash` sau lần chạy cuối):**
-  - `notebooks/04_improve_imbalance.ipynb`: `0247ebe415e80b85e1a4ee33dab77fff2d6c71d4e5334f9a9ee7cdd23c7b2712`
+  - `notebooks/04_improve_imbalance.ipynb`: `41b9590a6f58535a50f778767a1e563382dfd2a65a3751405851fe58e8b8e3cb`
   - `outputs/results.csv`: `63009e839fac73d3460da31a612e3435fb8fd332419cf1b698ae6fee99e02007`
   - `outputs/classification_report_M2a.txt`: `9193517df55d52aad0056ccc43ba9ed84ce3ff6f88ccf3f44e808ccdf36ef45c`
   - `outputs/classification_report_M2b.txt`: `13eb7d80813f31f9dd63465c8d60da989237a35e4a65285b9a0e6553f81d37ed`
-- **Kết quả validator/repeatability:** `nbformat.validate()` PASS, 21 cell, mọi cell có id hợp lệ duy nhất; execution count 1→12 liên tục, không cell nào lỗi; toàn bộ assert/guardrail nội bộ PASS trong lần chạy được review. Chạy lặp lần 2 chính thức: **đã thực hiện và đối chiếu khớp tuyệt đối**.
+- **Kết quả validator/repeatability:** notebook có 22 cell, gồm 13 code cell với execution count 1→13 liên tục, không stored error/timing metadata; toàn bộ assert/guardrail nội bộ PASS. Lần Run All cuối ngày 2026-09-01 giữ nguyên byte của `results.csv`, hai classification report và sáu hình D.
 
 ## Nhật ký phiên làm việc
 <!-- Mỗi phiên thêm 1 mục mới lên TRÊN CÙNG, không xóa mục cũ -->
+
+> Các entry dưới đây là snapshot lịch sử tại thời điểm được ghi. Khi số trang,
+> phiên bản, TODO hoặc trạng thái cũ khác phần đầu file, phần **Trạng thái hiện
+> tại** và artifact canonical mới nhất được ưu tiên.
+
+### 2026-09-01 — sửa diễn giải M2b trong tài liệu vận hành
+- Đã làm gì: điền owner thật; sửa hai câu hiện hành từng gọi SMOTE là yêu cầu bắt buộc và M2b là cải thiện toàn diện; giữ nguyên số liệu canonical và limitation categorical.
+- Kết quả: progress nay phản ánh đúng rằng SMOTE là lựa chọn của nhóm; M2b tăng accuracy/recall ưu tiên nhưng giảm nhẹ Graduate recall, làm cây phức tạp hơn và không loại bỏ limitation representation.
+- Vướng gì / để lại cho phiên sau: không.
+
+### 2026-09-01 — đóng D-02 và audit f.2 cuối
+- Đã làm gì: kiểm tra lịch sử `outputs/results.csv`, xác minh nguồn của thay đổi sai và commit khôi phục; đối chiếu lại metric, caption, limitation categorical và ROC-AUC trong f.2; Run All notebook bằng kernel canonical để sửa code cell có output nhưng thiếu execution count.
+- Kết quả: D-02 đã đóng; 13 code cell có count 1→13 và 0 error. Mọi số liệu M2a/M2b trong report khớp artifact canonical; hash của kết quả/report/hình D không đổi sau Run All.
+- Vướng gì / để lại cho phiên sau: không.
 
 ### 2026-08-30 (phiên 6)
 - Đã làm gì: Đồng bộ toàn bộ tài liệu theo plan `04-PLAN-ROLE-D-HOAN-THIEN.md`. Sửa version NumPy 2.3.4, pandas 2.3.3 trong toàn bộ file. Sửa mục cài đặt Python 3.14.0 trong `README.md`, bổ sung checklist và cập nhật các tham chiếu D. Cập nhật AGENT.md, docs 02, docs 03.

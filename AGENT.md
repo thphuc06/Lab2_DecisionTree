@@ -1,7 +1,8 @@
 # AGENT.md — Hướng dẫn cho AI Coding Agent
 
-> File này dành cho AI agent (Claude Code, Cursor, Codex...) đọc trước khi làm bất kỳ việc gì trong repo.
-> Nếu công cụ agent của bạn tìm file tên `AGENTS.md` (số nhiều) thay vì `AGENT.md`, hãy đổi tên hoặc tạo symlink — nội dung không đổi.
+> File này là nguồn hướng dẫn canonical dành cho AI agent (Claude Code, Cursor,
+> Codex...) trước khi làm bất kỳ việc gì trong repo. `AGENTS.md` ở repo root chỉ
+> là cổng tương thích trỏ về file này; không sao chép quy tắc sang hai nơi.
 
 ---
 
@@ -11,14 +12,38 @@
 2. Đọc `docs/00-DE-BAI-GOC.pdf` — **đề gốc của thầy, nguồn xác thực cao nhất.** Các file bên dưới (`02-...`, `03-...`) là bản diễn giải lại từ đề này để tiện dùng, **có thể còn sai sót**. Nếu phát hiện điều gì trong `02-...`/`03-...` mâu thuẫn hoặc không khớp với đề gốc, **đề gốc luôn thắng** — báo lại cho người dùng, không tự ý chọn theo bản tóm tắt.
 3. Đọc hết `docs/02-DATASET-VA-CONG-VIEC.md` — đặc tả dataset, feature, 5 cấu hình mô hình, metrics.
 4. Đọc hết `docs/03-GIT-WORKFLOW-VA-CAU-TRUC-CODE.md` — cấu trúc repo, quyền sở hữu file, quy trình git.
-5. **Hỏi người dùng: "Bạn là role nào — A, B, C, D, hay E?"** nếu họ chưa nói. Không tự đoán, không tự chọn role "hợp lý nhất".
-6. **Đọc `progress/<role>.md`** (đúng file của role vừa xác nhận, VD role C đọc `progress/C.md`) — đây là nhật ký của chính role này qua các phiên làm việc trước, cho biết đã làm tới đâu, quyết định gì đã chốt, đang vướng gì. Không đọc file `progress/` của role khác.
-7. Sau khi biết role, **chỉ hoạt động trong phạm vi file được liệt kê ở Mục 5 cho role đó.** Không tự ý mở rộng sang việc của role khác dù thấy "tiện" hay "nhanh hơn".
-8. Chạy `git pull origin main` (đã ở đúng nhánh của mình theo `docs/03`), rồi `git status`, `git log --oneline -10`, kiểm tra `src/data.py` đã tồn tại chưa — **trước khi viết bất kỳ dòng code nào**. Không code trên base cũ. Đây là lệnh **chỉ đọc/đồng bộ**, được phép dùng tự do.
-9. **Cập nhật `progress/<role>.md` ngay sau MỖI mốc hoàn thành** — xong 1 mục trong checklist "Đã xong", train xong 1 model, sửa xong 1 bug đáng kể — **không đợi tới cuối phiên**. Phiên có thể bị ngắt bất cứ lúc nào (hết context, người dùng đóng tab, mất kết nối); cập nhật trễ đồng nghĩa mất toàn bộ thông tin của phiên đó, kể cả khi code vẫn còn trên đĩa.
-10. Khi hoàn thành toàn bộ task được giao (hoặc người dùng báo dừng), **KHÔNG tự chạy `git add`/`git commit`/`git push`** — kể cả khi được yêu cầu trực tiếp (xem Mục 7). Xác nhận lại `progress/<role>.md` đã phản ánh đúng trạng thái mới nhất (mục 9), rồi tóm tắt các file đã thay đổi, đề xuất commit message theo quy ước `[X] ...` (`docs/03`), để người dùng tự xem diff và tự thực hiện commit/push.
+5. Xác định **chế độ công việc** trước khi sửa:
+   - Task thuộc một workstream A/B/C/D/E: hỏi người dùng role nếu họ chưa nói;
+     không tự đoán.
+   - Task được người dùng giao rõ là integration, final audit, đồng bộ tài liệu
+     hoặc rà soát toàn repository: không ép người dùng chọn một role; được đọc
+     các file progress liên quan và sửa chéo role trong đúng phạm vi task đó.
+6. Ở chế độ role, đọc `progress/<role>.md`. Ở chế độ integration/final audit,
+   đọc các progress liên quan để đối chiếu attribution và trạng thái; không coi
+   một nhật ký lịch sử là nguồn chuẩn cao hơn artifact/report hiện hành.
+7. Ở chế độ role, chỉ hoạt động trong phạm vi Mục 5. Muốn sửa file của role
+   khác phải hỏi. Ngoại lệ chỉ áp dụng khi người dùng đã cấp phạm vi
+   integration/final-audit rõ ràng; ngoại lệ này không mở rộng sang thay đổi
+   code/model ngoài yêu cầu.
+8. Trước mọi thay đổi, chạy `git status --short`, `git branch --show-current`
+   và `git log --oneline -10`. Có thể chạy `git fetch origin` để cập nhật remote
+   refs mà không merge vào branch hiện tại. **`git pull` là thao tác ghi/tích
+   hợp**: chỉ dùng khi người dùng yêu cầu đồng bộ, working tree sạch, đang đúng
+   branch và đã xác định cách tích hợp; trên `main` ưu tiên
+   `git pull --ff-only origin main`. Không pull trên working tree đang dirty.
+9. **Cập nhật progress ngay sau mỗi mốc hoàn thành đáng kể.** Ở chế độ role,
+   cập nhật đúng `progress/<role>.md`; ở chế độ integration, chỉ cập nhật các
+   progress thực sự bị ảnh hưởng và ghi rõ đây là audit tích hợp. Không đợi tới
+   cuối phiên vì phiên có thể bị ngắt bất cứ lúc nào.
+10. Khi hoàn thành task (hoặc người dùng báo dừng), **KHÔNG tự chạy
+    `git add`/`git commit`/`git push`** — kể cả khi được yêu cầu trực tiếp (xem
+    Mục 7). Xác nhận các progress bị ảnh hưởng đã phản ánh đúng trạng thái mới
+    nhất, rồi tóm tắt file thay đổi và đề xuất commit message theo quy ước
+    `[X] ...` (`docs/03`) để người dùng tự review/commit/push.
 
-Nếu người dùng không cung cấp role và từ chối cung cấp, agent dừng lại và giải thích rằng cần biết role để tránh làm sai phạm vi, không được đoán.
+Nếu task rõ ràng thuộc một role nhưng người dùng không cung cấp và từ chối xác
+nhận role, agent dừng lại để tránh sửa sai ownership. Quy tắc này không áp dụng
+cho task integration/final-audit đã được giao rõ trên toàn repository.
 
 ---
 
@@ -31,6 +56,13 @@ Nếu người dùng không cung cấp role và từ chối cung cấp, agent d�
 trên dataset **UCI Predict Students' Dropout and Academic Success** (id=697): 4.424 sinh viên, 36 feature, 3 lớp (Dropout/Enrolled/Graduate).
 
 **Ba sản phẩm nộp:** báo cáo PDF, source code, video thuyết trình — đóng gói `[GroupID].zip`.
+
+**Trạng thái tích hợp ngày 2026-09-01:** code/thí nghiệm và report LaTeX đã
+hoàn tất vòng audit cuối. Source report canonical nằm trong `docs/report/`;
+các file `docs/report_draft_*.md` cũ đã bị xóa để tránh hai nguồn sự thật.
+Slide/video được nhóm quản lý ngoài workspace. Những task final-audit được
+trưởng nhóm giao rõ cho toàn repository được phép cập nhật tài liệu chéo role,
+nhưng vẫn không được tự ghi lịch sử Git.
 
 **Không có yêu cầu UI/web app/deploy nào cả.** "Resulting tree" trong đề nghĩa là **hình ảnh tĩnh** của cây (`plot_tree` → PNG dán vào báo cáo), không phải giao diện tương tác. Nếu người dùng yêu cầu xây dashboard, web app, hay bất kỳ giao diện nào cho dự án này, agent nên hỏi lại vì đề bài không yêu cầu — có thể họ nhầm với môn khác.
 
@@ -54,13 +86,13 @@ Bất kể role nào, agent phải tuân thủ tuyệt đối:
 | Mọi model phải xuất | (1) đủ metrics theo schema `results.csv` ở Mục 3, (2) ít nhất 1 hình cây PNG, (3) confusion matrix, (4) `classification_report` |
 | `error_rate` | Bắt buộc tính = `1 - test_accuracy`, đề yêu cầu rõ ràng, đừng bỏ sót |
 | Comment code | Đề yêu cầu "clearly organized and commented" — mọi hàm phải có docstring ngắn |
-| File sở hữu | Xem bảng Mục 5 và `docs/03-GIT-WORKFLOW...`. Không sửa file không thuộc role của mình |
+| File sở hữu | Ở task role-scoped, xem Mục 5 và `docs/03-GIT-WORKFLOW...`, không sửa file ngoài role nếu chưa hỏi. Task integration/final-audit được giao rõ có thể sửa chéo role trong đúng phạm vi audit, không tự mở rộng sang code/model |
 | Nhánh làm việc | Nắm rõ agent đang ở nhánh nào (`feature/<tên-role>` theo `docs/03`, VD `feature/pruning` cho role C) — nhưng **không tự tạo/checkout/merge nhánh** nếu người dùng chưa yêu cầu rõ |
-| `git pull` | **Bắt buộc trước khi bắt đầu code trong mỗi phiên** — lệnh chỉ đọc/đồng bộ, được dùng tự do. Không liên quan đến commit/push (xem hàng dưới) |
+| Đồng bộ Git | Kiểm tra `status`/branch trước, dùng `git fetch origin` để cập nhật remote refs. `git pull` là thao tác thay đổi trạng thái vì cập nhật branch/working tree; chỉ chạy trên tree sạch với ý định tích hợp rõ, ưu tiên `--ff-only` trên `main` |
 | **Commit & Push** | ⛔ **Agent KHÔNG BAO GIỜ tự chạy `git add`/`git commit`/`git push`, kể cả khi được yêu cầu trực tiếp** ("commit giúp tôi", "push lên đi"). Chỉ người dùng tự thao tác. Agent dừng lại, tóm tắt thay đổi + đề xuất commit message, để người dùng tự review diff và tự commit/push — xem Mục 7 |
-| `outputs/results.csv` | File **duy nhất nhiều role cùng ghi vào**. Agent chỉ sửa nội dung file (append dòng mới, không xóa/sửa dòng người khác); nếu thấy conflict marker `<<<<<<<`/`=======`/`>>>>>>>` trong file, có thể sửa giúp bằng cách giữ lại **cả hai** dòng dữ liệu — nhưng **người dùng vẫn là người commit** sau khi xem lại (chi tiết: `docs/03` Mục 5) |
+| `outputs/results.csv` | File **duy nhất nhiều role cùng ghi vào**. Mỗi role chỉ được upsert/đối soát model ID mình sở hữu, phải giữ nguyên row role khác và kết thúc với đúng một header + một row cho mỗi M0/M1/M2a/M2b/M3. Khi có conflict, không chỉ ghép máy móc: bỏ marker, kiểm tra schema 16 cột, model ID trùng và đối chiếu row canonical trước khi bàn giao cho người dùng commit (chi tiết: `docs/03` Mục 5) |
 | Chữ trong hình (matplotlib) | Toàn bộ `title`/`xlabel`/`ylabel`/`suptitle`/legend phải là **tiếng Anh** — báo cáo nộp là tiếng Anh, hình ảnh xuất ra (PNG) không tự dịch lại được nếu code để tiếng Việt. Markdown giải thích trong notebook có thể vẫn tiếng Việt (không phải deliverable chấm điểm trực tiếp), nhưng chữ **bên trong hình** thì không |
-| Viết văn bản báo cáo (`docs/report/sections/*.tex`) | **Không được nhắc tên file, đường dẫn, hay tên hàm nội bộ của repo** trong văn bản báo cáo thật (VD: không viết `src/data.py`, `get_train_test()`, `outputs/results.csv`, `docs/02-...md`) — báo cáo cho thầy đọc như một bài luận học thuật, không phải nhật ký kỹ thuật. Trích dẫn nguồn ngoài (bài báo, thư viện như `scikit-learn`, `DecisionTreeClassifier`, `SMOTE`) vẫn được, đó là thuật ngữ chuẩn chứ không phải chi tiết nội bộ repo. Ngoại lệ: khối `\todo{}` (màu đỏ, sẽ bị xoá trước khi nộp) và comment `%` đầu file — đây là ghi chú nội bộ giữa các phiên/role, không phải nội dung cuối cùng, được phép nhắc tên file thoải mái. Xem `docs/report/README.md` để biết cấu trúc, ai sở hữu file nào, và quy tắc caption/nhận xét (caption ngắn mô tả hình, phân tích viết thành đoạn văn riêng, không nhét vào caption) |
+| Viết văn bản báo cáo (`docs/report/sections/*.tex`) | **Không được nhắc tên file, đường dẫn, tên hàm hay commit nội bộ của repo** trong văn bản báo cáo thật (VD: không viết `src/data.py`, `get_train_test()`, `outputs/results.csv`, `docs/02-...md`) — báo cáo cho thầy đọc như một bài luận học thuật, không phải nhật ký kỹ thuật. Trích dẫn nguồn ngoài (bài báo, thư viện như `scikit-learn`, `DecisionTreeClassifier`, `SMOTE`) vẫn được. Comment `%` trong source có thể ghi provenance nội bộ nhưng không hiển thị trong PDF. Bản nộp không được còn TODO/placeholder. Xem `docs/report/README.md` để biết quy tắc caption/nhận xét (caption ngắn mô tả hình, phân tích viết thành đoạn văn riêng, không nhét vào caption) |
 | **Mọi số liệu trong báo cáo phải truy được nguồn** | Mỗi con số trong văn bản báo cáo (accuracy, error rate, feature importance, hệ số tương quan, rank, purity, n mẫu...) phải **verify được trực tiếp** từ (a) output code thật (`outputs/results.csv`, `classification_report_*.txt`, hoặc tự chạy lại để đối chiếu), hoặc (b) một bảng/hình/diagram artifact **đã có mặt trong chính báo cáo** mà người đọc tra được ngay tại chỗ (không phải hình sẽ xuất hiện ở mục sau, không phải "tự tin là đúng"). **Tuyệt đối không suy diễn số liệu "nghe có vẻ hợp lý"** (VD: bịa điều kiện luật quyết định vì nghe giống mẫu hình thường gặp) và **không copy số từ tài liệu kế hoạch** (`docs/02-...md`) mà không re-verify trên dữ liệu/artifact thật — tài liệu kế hoạch có thể sai (đã từng xảy ra 2 lần: bảng đa cộng tuyến A6 và bảng feature importance A5 khác thuật toán). Nếu một đoạn phân tích trích số nhưng không hình/bảng nào trong báo cáo thể hiện được số đó, phải **thêm bảng nhỏ ngay tại chỗ** (kèm `\ref{}` trỏ tới), không được để số liệu "không biết từ đâu ra". Trước khi coi văn bản báo cáo là xong, đọc lại và tự hỏi: mỗi con số này có bảng/hình nào ngay trong báo cáo chứng minh được không? |
 
 ---
@@ -96,13 +128,19 @@ Giữ lại 3 biến vĩ mô (`Unemployment rate`, `Inflation rate`, `GDP`) vì 
 
 ---
 
-## 4. Cách xác định role — agent phải hỏi trước
+## 4. Cách xác định phạm vi — role hoặc integration
 
-Khi phiên làm việc bắt đầu và người dùng chưa nói rõ, agent hỏi:
+Nếu task chỉ thuộc một workstream và người dùng chưa nói rõ, agent hỏi:
 
 > "Bạn đang làm role nào trong nhóm — A (Data Lead), B (Baseline & Tree Analysis), C (Pruning), D (Class Imbalance), hay E (Early-warning Feature Selection)?"
 
-Sau khi có câu trả lời, đọc đúng mục tương ứng ở Mục 5 và **chỉ làm việc trong phạm vi đó**.
+Sau khi có câu trả lời, đọc đúng mục tương ứng ở Mục 5 và chỉ làm việc trong
+phạm vi đó.
+
+Nếu người dùng yêu cầu rõ audit/đồng bộ toàn repository, agent không cần gán
+task vào một role giả. Agent được đọc toàn bộ tài liệu cần thiết và sửa các file
+chéo role trong phạm vi audit, nhưng phải bảo toàn code/artifact ngoài yêu cầu,
+không tự mở rộng thành thay đổi model hoặc lịch sử Git.
 
 Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (ví dụ role C yêu cầu sửa `src/data.py`), agent nhắc: *"Việc này thuộc quyền sở hữu của role A theo quy ước repo. Bạn có muốn tôi (a) đề xuất thay đổi để bạn gửi cho A, hay (b) vẫn muốn tôi sửa trực tiếp?"* — không tự ý sửa mà không hỏi trước, vì sửa file dùng chung có thể làm lệch kết quả của cả nhóm.
 
@@ -138,7 +176,7 @@ Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (v
 **Mục tiêu:** Train model M0, và viết mục phân tích cây — **mục ăn điểm nhất của toàn báo cáo**.
 
 **Việc cụ thể:**
-1. Viết `src/evaluate.py`: hàm `evaluate_model(model, X_train, y_train, X_test, y_test, model_id, model_name, params, author) -> dict`, tính đủ metrics theo schema Mục 3 (16 cột, gồm cả `precision_macro` và `roc_auc_macro`), tự append vào `results.csv`
+1. Viết `src/evaluate.py`: hàm `evaluate_model(model, X_train, y_train, X_test, y_test, model_id, model_name, params, author) -> dict`, tính đủ metrics theo schema Mục 3 (16 cột, gồm cả `precision_macro` và `roc_auc_macro`), upsert idempotent đúng row `model_id` do caller sở hữu và giữ nguyên row khác trong `results.csv`
 2. Viết `src/visualize.py`: `plot_tree_figure(model, feature_names, class_names, max_depth=None, save_path)` và `export_rules(model, feature_names, save_path)`
 3. Train M0: `DecisionTreeClassifier(random_state=42)`
 4. Xuất: cây đầy đủ (`figures/B_tree_M0_full.png`), cây rút gọn `max_depth=3` để đọc (`figures/B_tree_M0_top3.png`), confusion matrix, `outputs/rules_M0.txt`
@@ -146,7 +184,9 @@ Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (v
 
 **Không được làm:** sửa `src/data.py`. Chỉ gọi hàm từ đó, không tự viết logic load/split riêng trong notebook.
 
-**Definition of Done:** `results.csv` có dòng M0 đủ 16 cột theo schema Mục 3; có ít nhất 3 hình cây; mục Analysis of the Tree trả lời đủ 5 câu ở trên với số liệu cụ thể, không chỉ mô tả chung chung.
+**Definition of Done:** `results.csv` có dòng M0 đủ 16 cột theo schema Mục 3;
+có cây đầy đủ, cây top-3 và confusion matrix; mục Analysis of the Tree trả lời
+đủ 5 câu ở trên với số liệu cụ thể, không chỉ mô tả chung chung.
 
 ---
 
@@ -174,7 +214,7 @@ Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (v
 
 ### Role D — Improvement 2: Class Imbalance
 
-**File được sửa:** `notebooks/04_improve_imbalance.ipynb`, `progress/D.md`, `docs/report_draft_f2_imbalance.md`, `outputs/classification_report_M2a.txt`, `outputs/classification_report_M2b.txt`. Ngoại lệ: được cập nhật thông tin cài đặt/M2a/M2b trong `README.md`, `docs/02-DATASET-VA-CONG-VIEC.md`, `docs/03-GIT-WORKFLOW-VA-CAU-TRUC-CODE.md` và `AGENT.md`.
+**File được sửa:** `notebooks/04_improve_imbalance.ipynb`, `progress/D.md`, `docs/report/sections/f2_imbalance.tex`, `outputs/classification_report_M2a.txt`, `outputs/classification_report_M2b.txt`. Ngoại lệ: được cập nhật thông tin cài đặt/M2a/M2b trong `README.md`, `docs/02-DATASET-VA-CONG-VIEC.md`, `docs/03-GIT-WORKFLOW-VA-CAU-TRUC-CODE.md` và `AGENT.md`.
 
 **Mục tiêu:** Trả lời câu hỏi "lớp thiểu số (Enrolled 18%, Dropout 32%) có được phát hiện tốt hơn không?"
 
@@ -189,7 +229,7 @@ Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (v
 
 **Không được làm:** sửa `src/data.py`, `src/evaluate.py`, `src/visualize.py`. Không áp dụng SMOTE trước khi gọi `get_train_test()`.
 
-**Definition of Done:** `results.csv` có 2 dòng (M2a, M2b); báo cáo `report_draft_f2_imbalance.md` có bảng recall 3 lớp × 3 model, giải thích ép kiểu categorical và 2 hình cây; đủ 6 hình D; file dùng chung (`README.md`, docs) đã cập nhật xong theo ngoại lệ; validator PASS; có hash thật trên manifest `progress/D.md`.
+**Definition of Done:** `results.csv` có 2 dòng (M2a, M2b); section f.2 có bảng recall 3 lớp × 3 model, giải thích representation categorical và hình cây; đủ 6 hình D; file dùng chung (`README.md`, docs) đã cập nhật xong theo ngoại lệ; validator PASS; manifest `progress/D.md` phản ánh đúng trạng thái cuối.
 
 ---
 
@@ -208,7 +248,9 @@ Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (v
 6. Snapshot bốn row M0/M1/M2a/M2b và artifact D trước/sau evaluation; phải chứng minh byte-for-byte bất biến
 7. Hỗ trợ B hoàn thiện mục Analysis of the Tree nếu B cần
 
-**Ngoài phạm vi giai đoạn code hiện tại:** report, References, slide và video. Nhóm sẽ thực hiện chung ở giai đoạn sau theo quyết định người dùng; không xem đây là thiếu sót ngăn bàn giao code E.
+**Trạng thái deliverable liên quan:** section f.3 và References đã hoàn tất trong
+`docs/report/`. Slide/video đã được nhóm thực hiện ngoài workspace; không tự sửa
+media nếu người dùng không cung cấp file hoặc yêu cầu rõ.
 
 **Không được làm:** sửa `src/data.py`, `src/evaluate.py`, `src/visualize.py`.
 
@@ -218,8 +260,10 @@ Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (v
 
 ## 6. Khi nào agent phải dừng lại và hỏi người dùng thay vì tự quyết
 
-- Chưa biết mình đang phục vụ role nào → hỏi trước khi viết bất kỳ dòng code nào
-- Task yêu cầu sửa file thuộc quyền role khác → hỏi trước khi sửa
+- Task role-scoped nhưng chưa biết role → hỏi trước khi viết code; task
+  integration/final-audit đã được giao rõ thì không cần ép chọn role
+- Task role-scoped yêu cầu sửa file thuộc quyền role khác → hỏi trước khi sửa;
+  task integration/final-audit đã cấp phạm vi chéo role thì tuân theo phạm vi đó
 - `src/data.py` chưa tồn tại và role hiện tại không phải A → dùng dữ liệu giả tạm thời, không tự viết loader thay A
 - Metric hoặc kết quả ra số bất thường so với Mục 3 (VD: SMOTE mà accuracy tăng vọt lên 0.99) → nghi ngờ rò rỉ dữ liệu, báo người dùng thay vì tự "sửa" bằng cách nới lỏng ràng buộc
 - Người dùng yêu cầu thứ không có trong đề (UI, deploy, thêm thuật toán ngoài decision tree, dataset khác) → hỏi lại xem có chắc không, vì có thể lệch khỏi yêu cầu thầy
@@ -230,12 +274,13 @@ Nếu người dùng yêu cầu việc nằm ngoài phạm vi role của họ (v
 
 ## 7. Việc tuyệt đối không được làm, bất kể role
 
-- ⛔ **Không bao giờ tự chạy `git commit`, `git push`, hay `git add` để commit thay — kể cả khi người dùng yêu cầu trực tiếp.** Agent chỉ được sửa file trong working directory; người dùng luôn là người xem diff và tự thực hiện commit/push. Ngoại lệ duy nhất: `git pull`/`git fetch`/`git status`/`git log`/`git diff` là lệnh chỉ-đọc hoặc đồng bộ, được dùng tự do để nắm trạng thái repo (xem Mục 0, Mục 2)
+- ⛔ **Không bao giờ tự chạy `git commit`, `git push`, hay `git add` để commit thay — kể cả khi người dùng yêu cầu trực tiếp.** Agent chỉ được sửa file trong working directory; người dùng luôn là người xem diff và tự thực hiện commit/push. `git status`/`git log`/`git diff` và `git fetch` không merge vào working tree; `git pull` có thể thay branch/working tree nên chỉ được dùng theo điều kiện an toàn ở Mục 0/Mục 2
 - Không tạo UI, web app, dashboard, hay bất kỳ giao diện tương tác nào — đề không yêu cầu
 - Không dùng framework ngoài scikit-learn (+ imbalanced-learn) trừ khi được yêu cầu rõ ràng
 - Không scale/chuẩn hóa dữ liệu cho decision tree
 - Không split dữ liệu ở đâu ngoài `src/data.py`
 - Không SMOTE/oversample trước khi split
 - Không chọn hyperparameter (đặc biệt `ccp_alpha`) dựa theo kết quả test set
-- Không sửa file thuộc quyền sở hữu của role khác (xem Mục 5 và `docs/03-...`)
+- Không sửa file thuộc role khác trong task role-scoped nếu chưa được cho phép;
+  ngoại lệ integration/final-audit chỉ có hiệu lực trong phạm vi người dùng giao
 - Không để notebook có cell lỗi, cell rác, hoặc thứ tự chạy không liền mạch khi commit lần cuối

@@ -1,17 +1,16 @@
-% Owner: Role E. Final report text adapted from the verified M3 notebook
-% and cross-checked against the canonical result, classification-report,
-% Gini/MDI, grouped-permutation, tree, and confusion-matrix artifacts.
+% Final section; values were checked against the canonical M3 result,
+% classification report, importance analyses, tree, and confusion matrix.
 
 \subsection{Improvement Method 3: Feature Selection for Early Warning}
 \label{sec:f3}
 
 \subsubsection{Method description}
 
-The third improvement changes the information available to the classifier
-rather than tuning its structure. Its operational question is whether a
-student's outcome can be estimated at enrollment time, early enough for
-supportive intervention. All first- and second-semester outcome variables are
-therefore excluded. Table~\ref{tab:f3-exclusions} defines the exclusion rule;
+The third improvement changes the information supplied to the classifier
+rather than tuning its structure. Under this study's feature-availability
+assumption, it evaluates an enrollment-time outcome estimate intended to support
+early assistance. All first- and second-semester outcome variables are therefore
+excluded. Table~\ref{tab:f3-exclusions} defines the exclusion rule;
 applying the six suffixes to both semester families removes exactly 12 original
 features.
 
@@ -34,21 +33,28 @@ features.
   \end{tabular}
 \end{table}
 
-The remaining 24 original features describe information already available at
-enrollment, including application and program information, prior academic
-background, tuition and scholarship status, demographics, and the three
-macroeconomic variables---unemployment rate, inflation rate, and GDP---that
-are associated with the year of enrollment. The
+Under this study's feature-availability assumption, M3 treats the remaining 24
+original features as available at enrollment. They include application and
+program information, prior academic background, tuition and scholarship status,
+demographics, and the three macroeconomic variables---unemployment rate,
+inflation rate, and GDP---associated with the year of enrollment. The
 \texttt{International} indicator is retained: M3 deliberately changes only
-semester-result availability, rather than combining the timing intervention
+semester-result inclusion, rather than combining the timing intervention
 with correlation-based removal.
+
+This timing classification is an experimental assumption, not something the
+CSV can prove. In particular, a field such as \texttt{Tuition fees up to date}
+may change after enrollment. Before operational use, the institution would need
+an authoritative data dictionary and row-level snapshot timestamps to verify
+that every retained value was actually observable at the intended prediction
+time and was not updated later.
 
 Feature importance and test performance were not used to choose these inputs.
 They are examined only after fitting, so the held-out partition does not leak
 into feature selection. M3 uses the same stratified train/test rows, Gini
 criterion, and unconstrained scikit-learn tree configuration as M0
-\citep{pedregosa2011scikit}. Consequently, feature availability is the only
-intentional experimental difference. Table~\ref{tab:f3-setting} summarizes the
+\citep{pedregosa2011scikit}. Consequently, the 12-column exclusion rule is the
+only intentional experimental difference. Table~\ref{tab:f3-setting} summarizes the
 resulting input and model contract. As for the other tree configurations, no
 feature scaling is applied.
 
@@ -63,7 +69,7 @@ feature scaling is applied.
     \midrule
     Original features & 36 & 24 \\
     Columns after one-hot encoding & 90 & 78 \\
-    Semester outcomes available & Yes & No \\
+    Semester-outcome columns included & Yes & No \\
     Split & \multicolumn{2}{c}{Same stratified train/test rows} \\
     Classifier & \multicolumn{2}{c}{Unconstrained Gini decision tree} \\
     Random seed & \multicolumn{2}{c}{42} \\
@@ -73,7 +79,6 @@ feature scaling is applied.
   \end{tabular}
 \end{table}
 
-\clearpage
 \subsubsection{Modified tree and model interpretation}
 
 Figure~\ref{fig:f3-tree} displays M3 through depth 4 for readability; the
@@ -81,7 +86,8 @@ display limit does not prune or otherwise modify the fitted model. The root
 tests whether tuition fees are up to date. Its next level uses GDP for the
 branch with overdue fees and scholarship status for the branch with fees up to
 date. Thus, once academic outcomes are unavailable, the upper tree shifts to
-financial, contextual, and enrollment-time information.
+financial and contextual variables treated as enrollment-time information
+under the stated feature-availability assumption.
 
 \begin{figure}[H]
   \centering
@@ -99,7 +105,7 @@ Figure~\ref{fig:f3-gini} compares fitted-tree Gini/MDI importance after
 summing all one-hot dummy importances back to their original feature names.
 In M0, \texttt{Curricular units 2nd sem (approved)} dominates with an
 importance of 0.340. Three of M0's five highest-ranked original features are
-second-semester outcomes and are therefore unavailable to M3. In the
+second-semester outcomes and are therefore excluded from M3. In the
 early-warning tree, importance is redistributed mainly toward
 \texttt{Course} (0.118), \texttt{Admission grade} (0.113), and
 \texttt{Tuition fees up to date} (0.112). These values describe how the fitted
@@ -206,7 +212,8 @@ M3 does not improve predictive accuracy because M0 has a substantial
 information advantage. Several of M0's strongest predictors are semester
 outcomes, especially second-semester approvals. They are powerful precisely
 because they summarize academic progress close to the eventual outcome, but
-they become available too late for an enrollment-time warning. The held-out
+they are defined after enrollment and cannot support a prediction at that
+earliest point. The held-out
 permutation analysis reaches the same qualitative conclusion: disrupting
 second-semester approvals causes the largest accuracy loss for M0.
 
@@ -215,12 +222,14 @@ the effect of timing. M3 consequently fits the training data perfectly while
 generalizing poorly, with a 0.458757 train--test accuracy gap. Its greater
 depth and leaf count show that removing variables is not a substitute for
 pruning: when the strongest signals disappear, the tree can fragment the
-training data using weaker enrollment-time associations.
+training data using weaker associations among the retained variables.
 
 The result should therefore be interpreted as a performance--timeliness
 trade-off, not as a failed experiment. M0 is the stronger classifier once
-semester outcomes exist; M3 is the only configuration in this comparison
-that can operate at enrollment. This distinction is central to early student
+semester outcomes exist. Under this study's feature-availability assumption,
+M3 is the only configuration in this comparison designed to operate at
+enrollment; actual operational feasibility still requires the data-dictionary
+and snapshot-timestamp verification described above. This distinction is central to early student
 performance prediction, where the value of a warning depends partly on
 whether it arrives early enough for an intervention to be possible
 \citep{martins2021early}.

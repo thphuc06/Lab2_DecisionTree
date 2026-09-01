@@ -1,12 +1,14 @@
 # Tiến độ — Role E (Improvement 3: Early-warning Feature Selection)
 
-> Chỉ [Tên thành viên E] và agent trong phiên làm việc của E được sửa file này.
-> Agent: đọc file này ngay sau khi xác nhận mình đang phục vụ role E (bước 5, Mục 0 của `AGENT.md`), và **cập nhật lại trước khi bàn giao cuối mỗi phiên** (bước 8, Mục 0).
+> Owner: Mai Phương Thùy (Role E). Ngoài owner, chỉ agent đang làm task Role E
+> hoặc task integration/final-audit được người dùng giao rõ mới sửa file này.
+> Agent: đọc file này sau khi xác định phạm vi theo `AGENT.md` Mục 0 và cập
+> nhật ngay sau mỗi mốc đáng kể, đồng thời kiểm tra lại trước khi bàn giao.
 
 ## Trạng thái hiện tại
-_(cập nhật lần cuối: 2026-08-30)_
-- Đang làm: Phạm vi code/notebook/artifact M3 và phần report f.3 của Role E đã hoàn tất; PDF đã được biên dịch và kiểm tra trực quan bằng MiKTeX 25.12.
-- Bị chặn bởi: —. Role E không còn blocker; các placeholder còn lại thuộc section của role khác.
+_(cập nhật lần cuối: 2026-09-01)_
+- Trạng thái: hoàn tất; code/notebook/artifact M3 và f.3 đã được đối chiếu trong audit toàn report, không còn việc kỹ thuật mở.
+- Bị chặn bởi: không.
 
 ## Đã xong
 - [x] Loại đúng 12 cột HK1+HK2 (xem `AGENT.md` Mục 3), giữ 24 feature còn lại
@@ -22,28 +24,25 @@ _(cập nhật lần cuối: 2026-08-30)_
 - [x] Hoàn thiện mục f.3 bằng tiếng Anh: mô tả phương pháp, model setting/cây M3, accuracy/error rate, confusion matrix, Gini/MDI, grouped permutation importance, giải thích trade-off và lưu ý đạo đức; không còn `\todo` trong section Role E
 - [x] Cài MiKTeX 25.12, biên dịch `docs/report/report.pdf` thành công và kiểm tra trực quan toàn bộ trang f.3
 
-**Pha tiếp theo:** Các owner còn lại hoàn tất section a/d/e/f.2; Role A/Integrator biên dịch bản tổng cuối. Slide và video dùng lại số liệu canonical, không cần thay đổi thí nghiệm M3.
+**Trạng thái bàn giao:** mọi section report đã hoàn tất. Slide/video do nhóm quản lý ngoài workspace và phải được đối chiếu với số canonical trước khi đóng gói.
 
 ## Quyết định đã chốt
-- Accuracy M3 so với M0: 0,5412 so với 0,6689; giảm 0,1277 (12,77 điểm phần trăm) do loại thông tin kết quả hai học kỳ.
+- Accuracy M3 so với M0: 0,5412 so với 0,6689; giảm 0,1277 (12,77 điểm phần trăm) sau khi loại thông tin kết quả hai học kỳ trong thí nghiệm kiểm soát này.
 - Có loại thêm `International` (đa cộng tuyến với `Nationality`) không: Không. M3 chính thức chỉ loại đúng 12 cột bắt buộc để giữ thí nghiệm dễ đối chiếu và còn đúng 24 feature gốc.
 - Gini/MDI là train-derived; grouped permutation là kiểm tra bổ sung trên held-out test. Không dùng importance để tune M3 và không diễn giải causal.
 
 ## Việc tiếp theo
-- Sau khi các section còn lại hết `\todo`, chạy lại MiKTeX để tạo bản PDF tổng cuối.
-- Khi làm slide/video, dùng các artifact canonical này làm nguồn số liệu; không chạy lại bằng môi trường khác.
-- Sau khi người dùng review, tự hoàn tất merge commit và push branch theo quy ước repo.
+- Không còn việc Role E trong workspace. Nhóm kiểm tra media/đóng gói theo `Cac_Cong_Viec_Can_Phai_Lam.md`; người dùng review rồi tự commit/push.
 
 ## Manifest bàn giao code E
 
 - Base Role E: `0969118`; implementation Role E: `33b21fa`; integration main: `a29d356`; handoff Role D được bảo vệ: `6d558b1`.
 - Environment: Python 3.14.0; NumPy 2.3.4; pandas 2.3.3; SciPy 1.17.1; scikit-learn 1.9.0; Matplotlib 3.11.1; seaborn 0.13.2; imbalanced-learn 0.14.2; ucimlrepo 0.0.7; joblib 1.5.3; threadpoolctl 3.6.0; nbformat 5.11.1; nbconvert 7.17.1; IPython 9.17.0; ipykernel 7.3.0. `pip check`: PASS.
-- Lock canonical: `requirements-lock.txt` SHA-256 `a2e41b2e0286ca9987881ec3a68c7c092c0ca18ce85077832a59cbb223192a0f`.
+- Lock canonical: `requirements-lock.txt` SHA-256 `41105bcc92fa60b4fb08978b19b69077909bc3fae817cc55b418a2c7c54354f7`.
 - M3 full precision: train accuracy 1.0; test accuracy 0.5412429378531074; error rate 0.4587570621468926; precision macro 0.49208976226946116; recall macro 0.4943895183808582; macro-F1 0.49305009179124043; ROC-AUC macro 0.6253549801464316; recall Dropout/Enrolled/Graduate 0.5316901408450704 / 0.3270440251572327 / 0.6244343891402715; depth 30; leaves 963.
 - Protected non-M3 raw-row SHA-256 trước/sau: `2d5d37b708195d0560757698f0a0b731eb77296dad077045f391d17fc3374d15`.
 - Hai Run All liên tiếp trên integration main có cùng hash cho notebook, `results.csv`, classification report M3, hai CSV importance và bốn PNG E. Notebook có 22 cell, 10 code cell, execution 1→10, không lỗi và không timing metadata.
 - `outputs/results.csv` SHA-256: `63009e839fac73d3460da31a612e3435fb8fd332419cf1b698ae6fee99e02007`; đúng một row cho mỗi M0/M1/M2a/M2b/M3.
-- README SHA-256: `15f78b6861d781cbca20490de8f32356eef4261065d91e670daaff00dc3a6701`; tài liệu dùng kernel `.venv` định danh và lock canonical, giữ đủ hướng dẫn Role D/E.
 
 Artifact E canonical SHA-256:
 
@@ -56,10 +55,24 @@ Artifact E canonical SHA-256:
 - `figures/E_feature_importance.png`: `f7c1d3b5e955f9fae92cb80bf797fa3a721c57e9998fa65a122a5c3e2dce822a`
 - `figures/E_feature_importance_permutation.png`: `eac66257924cc89c9a7e0f187aa1421dd60cda2f3b48b6e61f1dffa0933b957b`
 
-Trong audit cuối, notebook D chỉ được chuẩn hóa output Styler để tái lập bit-for-bit, không đổi code thí nghiệm hay artifact D; hash notebook hiện tại là `3b69b94085aeeabcc96314260d6a978c61e1984ab8e8c8f1f159076f121b016e`. Các file D được bảo vệ còn lại giữ nguyên: report f.2 `4617abb3edcdba47a655ec6c5303219e1430628bf77e7155a5962a91ae717f31`; progress D `a2fe6582ef4ccc79b75f43401d37a8085c9af4a26c285636cc9f417bf73097cb`; classification report M2a/M2b `9193517df55d52aad0056ccc43ba9ed84ce3ff6f88ccf3f44e808ccdf36ef45c` / `13eb7d80813f31f9dd63465c8d60da989237a35e4a65285b9a0e6553f81d37ed`; sáu hình D lần lượt `a9f9962fe1fefedcef310f310d502a6a54155c8e289f16e6b536c17d18b99da8`, `2598e5b30ae70461b36829b4e1aa8b41f9eded9f61484390b26817f0f097d32d`, `887e94393a0a53489e0ebb654773bffa96079932049285457dd535504a4af977`, `5cf3db3c72d79e5921bdb357a10f96d4eb35b598c7cab5b5c2089bcf3156e54e`, `6eb0985ce38760306e18ccc46c572020084c88596efebf0e77669d060a993add`, `8d57ca1e203f2a07fb23a2895efdb3afdc4420c189dda27931d6b2d62109c459`.
+Trong audit cuối, notebook D được Run All bằng kernel canonical để khép execution count 1→13, không đổi code thí nghiệm hay artifact; SHA-256 hiện tại là `41b9590a6f58535a50f778767a1e563382dfd2a65a3751405851fe58e8b8e3cb`. `results.csv`, hai classification report và sáu hình D giữ nguyên byte. Không lưu hash của README/progress/report source ở đây vì các tài liệu đó tiếp tục được đồng bộ trong vòng audit cuối; dùng Git diff và manifest bản nộp để kiểm tra phiên bản cuối.
 
 ## Nhật ký phiên làm việc
 <!-- Mỗi phiên thêm 1 mục mới lên TRÊN CÙNG, không xóa mục cũ -->
+
+> Các entry dưới đây là snapshot lịch sử tại thời điểm được ghi. Khi số trang,
+> phiên bản, TODO hoặc trạng thái cũ khác phần đầu file, phần **Trạng thái hiện
+> tại** và artifact canonical mới nhất được ưu tiên.
+
+### 2026-09-01 — chuẩn hóa metadata progress cuối
+- Đã làm gì: điền owner thật, loại entry template rỗng và làm mềm cách mô tả chênh lệch M3 thành kết quả sau khi loại feature trong thí nghiệm kiểm soát.
+- Kết quả: progress Role E không còn placeholder; attribution, metric và availability caveat khớp report/runbook canonical.
+- Vướng gì / để lại cho phiên sau: không.
+
+### 2026-09-01 — audit f.3 và attribution cuối
+- Đã làm gì: đối chiếu metric/importance/cây/confusion matrix M3, làm rõ giả định thời điểm có feature và đồng bộ trạng thái report/media. Xác minh commit `0969118` là công việc Role E dù subject ghi nhầm `[C]`.
+- Kết quả: không còn finding mở thuộc Role E; attribution trong nội dung report không dựa vào prefix commit sai. Việc đổi subject của commit đã công bố chỉ là tùy chọn Git-history do con người phối hợp thực hiện theo runbook.
+- Vướng gì / để lại cho phiên sau: không.
 
 ### 2026-08-30 — hoàn thiện report f.3 của Role E
 - Đã làm gì: Đọc lại toàn bộ đề gốc 6 trang, hướng dẫn/phân quyền, source dùng chung, notebook M3, kết quả CSV/classification report và bốn hình E; chuyển nội dung đã kiểm chứng thành section LaTeX hoàn chỉnh. Cài MiKTeX 25.12 theo chế độ user, cài các package cần thiết và chạy chuỗi biên dịch LaTeX/BibTeX.
@@ -95,8 +108,3 @@ Trong audit cuối, notebook D chỉ được chuẩn hóa output Styler để t
 - Đã làm gì: Đọc đề gốc, đặc tả kỹ thuật, quy ước repo; kiểm tra pipeline A–D; hoàn thiện và chạy toàn bộ `05_improve_features.ipynb`.
 - Kết quả: M3 dùng 24 feature gốc/78 cột sau one-hot, test accuracy 0,5412, error rate 0,4588, macro-F1 0,4931; đã sinh cây, confusion matrix, classification report, biểu đồ importance và dòng M3 trong `results.csv`. Tất cả quality gates của notebook đều PASS. A–C tái lập được; D có sai khác nhẹ theo phiên bản scikit-learn nên cần Role D khóa phiên bản trước khi bàn giao cuối.
 - Vướng gì / để lại cho phiên sau: Phần code/notebook không còn vướng; report, slide và video để sau theo yêu cầu hiện tại.
-
-### _(ngày)_
-- Đã làm gì:
-- Kết quả:
-- Vướng gì / để lại cho phiên sau:

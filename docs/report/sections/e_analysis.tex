@@ -1,6 +1,5 @@
-% Owner: Role B. Translated and adapted from the independently verified
-% Vietnamese source draft docs/report_draft_d_e.md. The node statistics and
-% complete rule paths were cross-checked against the stored M0 artifacts.
+% Final section; node statistics and complete rule paths were checked against
+% the canonical fitted M0 tree and exported rules.
 
 \section{Analysis of the Tree}
 \label{sec:e}
@@ -101,7 +100,6 @@ context variables refine those groups.
     \bottomrule
   \end{tabular}
 \end{table}
-\clearpage
 
 \begin{table}[H]
   \centering
@@ -141,7 +139,6 @@ context variables refine those groups.
     \bottomrule
   \end{tabular}
 \end{table}
-\clearpage
 
 The node paths also expose an encoding limitation. A threshold of 0.5 on a
 one-hot indicator means absence versus presence of that category, but a
@@ -330,7 +327,9 @@ large for practical presentation, many leaves describe only one or two
 training observations, and the large train--test gap indicates unstable
 generalization. Performance is particularly weak for Enrolled. Moreover, the
 strongest splits rely on first- and second-semester outcomes, so M0 cannot be
-used for intervention at enrollment time, before those outcomes exist. These
+used at enrollment, before those outcomes exist. Whether the retained M3
+variables are all available at that point remains the explicit assumption in
+Section~\ref{sec:f3}. These
 limitations directly motivate pruning, imbalance handling, and the
 early-warning feature set evaluated in the following sections.
 
@@ -341,6 +340,7 @@ gender, \texttt{Nacionality}, marital status, parents' education and occupation,
 and financial circumstances. Splits involving these variables reflect
 correlations in one Portuguese institution over the observed period; they do
 not establish causal effects and must not be used as grounds for discriminatory
-decisions. Any real deployment would require fairness auditing, group-specific
-error monitoring, and human oversight.
+decisions. Any real deployment would require a dedicated assessment of
+performance disparities across sensitive groups, group-specific error
+monitoring, and human oversight.
 \end{quote}

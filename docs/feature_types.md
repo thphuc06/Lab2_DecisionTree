@@ -2,6 +2,7 @@
 
 > Viết bởi Role A. Nguồn: chạy trực tiếp trên `data/raw/data.csv` (không copy từ UCI metadata) +
 > đối chiếu `docs/02-DATASET-VA-CONG-VIEC.md` Phần A4/B1.
+> Đồng bộ lần cuối: 2026-09-01.
 
 ## Số liệu thực tế đã xác nhận
 
@@ -28,6 +29,8 @@
 | `Application order` | 8 | Giữ nguyên (ordinal) | Có thứ tự tự nhiên (nguyện vọng 1, 2, 3...) |
 
 Sau one-hot: **90 cột feature** (từ 36 gốc, trừ `Target`, cộng thêm các cột dummy).
+
+Lưu ý phương pháp: giữ mã số cho các nominal feature nhiều giá trị là quyết định thực dụng để tránh tăng mạnh số chiều thưa, không phải khẳng định các mã có thứ tự định lượng. Cây có thể tạo split theo ngưỡng trên các mã này và do đó áp đặt quan hệ thứ tự nhân tạo; đây là hạn chế cần nhớ khi diễn giải node/importance và khi chuyển mô hình sang dữ liệu khác.
 
 ## Toàn bộ 36 feature theo 6 nhóm (tham chiếu, không lặp lại giải thích — xem `docs/02` Phần A4)
 

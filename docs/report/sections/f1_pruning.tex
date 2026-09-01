@@ -1,7 +1,5 @@
-% Owner: Role C. Translated and adapted from the independently verified
-% Vietnamese source draft docs/report_draft_f1_pruning.md. Every reported
-% value below traces to the canonical M0/M1 artifacts or the stored
-% cross-validation output in notebooks/03_improve_pruning.ipynb.
+% Final section; every reported value traces to the canonical M0/M1
+% artifacts or the stored training-only cross-validation output.
 
 \subsection{Improvement Method 1: Cost-Complexity Pruning}
 \label{sec:f1}
@@ -146,7 +144,6 @@ peak used to select $\alpha$. The shaded bands show the mean score plus or
 minus one standard deviation across folds. No test curve is shown because the
 test partition was deliberately excluded from model selection.
 
-\clearpage
 \begin{figure}[H]
   \centering
   \includegraphics[
@@ -158,7 +155,6 @@ test partition was deliberately excluded from model selection.
     without depth truncation or cropping.}
   \label{fig:f1b}
 \end{figure}
-\clearpage
 
 Unlike the unconstrained baseline, Figure~\ref{fig:f1b} presents every node and
 branch of the complete fitted M1 tree on a portrait page. The original source

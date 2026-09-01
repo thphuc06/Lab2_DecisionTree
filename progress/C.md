@@ -1,11 +1,13 @@
 # Tiến độ — Role C (Improvement 1: Pruning)
 
-> Chỉ [Tên thành viên C] và agent trong phiên làm việc của C được sửa file này.
-> Agent: đọc file này ngay sau khi xác nhận mình đang phục vụ role C (bước 5, Mục 0 của `AGENT.md`), và **cập nhật lại trước khi bàn giao cuối mỗi phiên** (bước 8, Mục 0).
+> Owner: Thái Quang Huy (Role C). Ngoài owner, chỉ agent đang làm task Role C
+> hoặc task integration/final-audit được người dùng giao rõ mới sửa file này.
+> Agent: đọc file này sau khi xác định phạm vi theo `AGENT.md` Mục 0 và cập
+> nhật ngay sau mỗi mốc đáng kể, đồng thời kiểm tra lại trước khi bàn giao.
 
 ## Trạng thái hiện tại
-_(cập nhật lần cuối: 2026-08-30 — đã áp dụng và kiểm chứng toàn bộ vòng hoàn thiện Role C)_
-- Đang làm: không còn hạng mục kỹ thuật nào của Role C; chờ người dùng duyệt diff/PDF cuối và tự commit/push với tiền tố `[C]`.
+_(cập nhật lần cuối: 2026-09-01 — audit nộp bài cuối)_
+- Trạng thái: hoàn tất; Figure 10 nằm trên trang mang số in 22 (trang vật lý 23 của file PDF), prose tiếp tục sau hình và quy tắc caption vẫn là một dòng căn giữa, nhiều dòng căn theo khối caption mặc định.
 - Bị chặn bởi: không.
 
 ## Đã xong
@@ -16,16 +18,21 @@ _(cập nhật lần cuối: 2026-08-30 — đã áp dụng và kiểm chứng t
 - [x] Gọi `evaluate_model()` từ `src/evaluate.py` — không tự viết lại
 - [x] Xuất `figures/C_ccp_alpha_curve.png`, `figures/C_tree_M1.png`, bảng grid search trong notebook
 - [x] Xuất thêm artifact theo contract chung: `figures/C_cm_M1.png`, `outputs/classification_report_M1.txt`, một dòng M1 trong `outputs/results.csv`
-- [x] Viết mục báo cáo `docs/report_draft_f1_pruning.md` bằng số liệu thực, gồm phương pháp, bảng grid, so sánh M0–M1, cơ chế, trade-off và giới hạn
+- [x] Viết và tích hợp nội dung f.1 bằng số liệu thực; bản nháp trung gian đã được xóa sau audit cuối
 - [x] Chuyển bản thảo đã kiểm chứng sang `docs/report/sections/f1_pruning.tex`: đủ 4 yêu cầu của đề, 4 bảng, 3 hình, citation và phân tích trade-off theo lớp; không còn TODO trong section Role C
 - [x] Restart & Run All bằng kernel mới: 12 code cell chạy liền mạch `1→12`, không có error output; chạy lại idempotent vẫn chỉ có đúng một dòng M1
 - [x] Kiểm chứng độc lập trong process mới: tái sinh alpha/grid và tính lại 12 trường số; tất cả khớp `results.csv` trong tolerance `1e-12`
 - [x] Kiểm tra trực quan đủ 3 hình Role C; kiểm tra schema 16 cột, artifact không rỗng và phạm vi file đúng quyền sở hữu
+- [x] Chuẩn bị kịch bản và tài liệu hỗ trợ quay video trong giai đoạn media; nhóm xác nhận slide/video hiện đã hoàn thành và được quản lý ngoài workspace này
+- [x] Rà lại đủ 3 ảnh canonical của Role C (`C_ccp_alpha_curve.png`, `C_tree_M1.png`, `C_cm_M1.png`); bổ sung confusion matrix vào danh sách tab, ACTION cuối và PDF, dùng hàng Enrolled `29 / 55 / 75` để giải thích trade-off
+- [x] Sửa luồng quay: bỏ checklist khỏi đoạn `0:00–0:14` và khỏi danh sách tab trình chiếu; bắt đầu trực tiếp tại cell tiêu đề của `notebooks/03_improve_pruning.ipynb`
+- [x] Bỏ `\clearpage` ngay sau Figure 10 trong `f1_pruning.tex` để tận dụng phần trắng bên dưới cho prose, không thay đổi ảnh/caption/kích thước cây M1
+- [x] Bỏ `\clearpage` ngay trước Figure 10 để đặt hình vào phần trống của trang mang số in 22; build lại PDF 41 trang và kiểm tra trực quan toàn bộ tài liệu
 - [x] Áp dụng vòng polish học thuật: làm mềm các kết luận nhân quả, giải thích rõ trade-off CV accuracy/macro-F1, định nghĩa generalization gap và diễn giải thận trọng giới hạn của một held-out split
-- [x] Tái sinh biểu đồ pruning và cây M1; rút gọn nhãn chỉ để hiển thị, đặt cây trên trang landscape riêng và xác nhận không còn node/nhãn chồng lấn
+- [x] Tái sinh biểu đồ pruning và cây M1; rút gọn nhãn chỉ để hiển thị, đặt toàn bộ cây trên trang A4 dọc và xác nhận không crop/chồng lấn
 - [x] Đồng bộ đánh số mục tự động `a`–`i`, tài liệu scikit-learn 1.9 và các đoạn Comparison/Conclusion liên quan trực tiếp đến kết quả M1
-- [x] Đồng bộ `docs/report/README.md` với trạng thái thật: f.1 đã hoàn tất, PDF 27 trang và còn năm section skeleton thuộc các role khác
-- [x] Compile report đầy đủ thành PDF A4 27 trang; kiểm tra trực quan toàn bộ 27 trang và ở độ phân giải cao các trang Role C/Comparison/Conclusion/References; log LaTeX, citation/reference, `qpdf`, text extraction và toàn bộ mốc số liệu đều pass
+- [x] Đồng bộ `docs/report/README.md` với trạng thái cuối: mọi section hoàn tất, không còn skeleton/TODO
+- [x] Compile report đầy đủ và kiểm tra toàn bộ trang, log LaTeX, citation/reference, `qpdf`, text extraction và các mốc số liệu
 
 ## Quyết định đã chốt
 - Giao thức: 5-fold `StratifiedKFold(shuffle=True, random_state=42)`, chọn theo mean validation accuracy; tie-break ưu tiên mô hình đơn giản hơn.
@@ -35,11 +42,40 @@ _(cập nhật lần cuối: 2026-08-30 — đã áp dụng và kiểm chứng t
 - M1 trên held-out test: accuracy `0.755932`, macro-F1 `0.672925`, ROC-AUC macro `0.847692`; depth `5`, leaves `17`.
 
 ## Việc tiếp theo
-- Người dùng review `git diff` và `docs/report/report.pdf`, rồi tự `git add` / `git commit` / `git push` theo `AGENT.md`; commit giữ tiền tố `[C]`.
-- Trước khi nộp báo cáo nhóm, các role sở hữu phần còn lại cần hoàn tất những TODO màu đỏ ngoài phạm vi Role C; không tự suy diễn hoặc điền thay số liệu chưa có của các role đó.
+- Không còn việc Role C trong workspace. Nhóm kiểm tra file/link video đã hoàn thành, đối chiếu số liệu với report và đóng gói theo `Cac_Cong_Viec_Can_Phai_Lam.md`.
+- Người dùng review diff/PDF rồi tự `git add` / `git commit` / `git push` theo `AGENT.md`.
 
 ## Nhật ký phiên làm việc
 <!-- Mỗi phiên thêm 1 mục mới lên TRÊN CÙNG, không xóa mục cũ -->
+
+> Các entry dưới đây là snapshot lịch sử tại thời điểm được ghi. Khi số trang,
+> phiên bản, TODO hoặc trạng thái cũ khác phần đầu file, phần **Trạng thái hiện
+> tại** và artifact canonical mới nhất được ưu tiên.
+
+### 2026-09-01 — đưa Figure 10 lên trang mang số in 22
+- Đã làm gì: xác định `\clearpage` ngay trước Figure 10 là nguyên nhân tạo khoảng trắng lớn; bỏ đúng lệnh ngắt trang này, giữ nguyên ảnh, kích thước, caption và prose; build lại bằng XeLaTeX/BibTeX rồi render kiểm tra toàn bộ 41 trang.
+- Kết quả: Figure 10 nằm trọn trên trang mang số in 22 (trang vật lý 23), caption hai dòng vẫn căn theo khối, prose tiếp tục ngay dưới hình; hai PDF qua `qpdf` và có cùng SHA-256 `b8c9350fd40467aad3a4fb0ba961d092c3b0811318ac8fa1daaa93f91529d9be`.
+- Vướng gì / để lại cho phiên sau: không.
+
+### 2026-09-01 — chuẩn hóa metadata và trạng thái Figure 10
+- Đã làm gì: điền owner thật, đồng bộ hướng dẫn progress với `AGENT.md` mới và sửa checklist hiện hành để phản ánh đúng Figure 10 ở trang A4 dọc thay vì trạng thái landscape trung gian.
+- Kết quả: current state, README, checklist và PDF đều thống nhất Figure 10 ở trang vật lý 24, không crop, có prose bên dưới; metric/artifact M1 không đổi.
+- Vướng gì / để lại cho phiên sau: không.
+
+### 2026-09-01 — đồng bộ trạng thái media và report cuối
+- Đã làm gì: loại tham chiếu hiện hành tới hai file kịch bản/PDF không còn trong workspace; giữ các mục lịch sử như bằng chứng công việc tại thời điểm chúng tồn tại; đồng bộ trạng thái theo xác nhận của nhóm rằng slide/video đã hoàn thành. Loại riêng `metadata.execution` khỏi 12 code cell của notebook C, không thay cell order/ID/source/output/execution count hoặc metadata khác.
+- Kết quả: f.1 không còn finding mở; bản cuối có 42 trang và Figure 10 ở trang vật lý 24. Caption hai dòng căn theo khối, cây không crop và prose/bảng kết quả tiếp tục ngay dưới hình. Notebook C giữ execution count 1→12, 0 error/timing metadata, qua validator; SHA-256 hiện tại là `2a9ee056f703cca7868425faee3d331a02e572e7f8fe2989ff281007998a6845`.
+- Vướng gì / để lại cho phiên sau: chỉ còn cổng kiểm tra file/link media và đóng gói do con người thực hiện.
+
+### 2026-09-01 — tận dụng khoảng trắng dưới Figure 10
+- Đã làm gì: đối chiếu PDF cũ và source f.1, xác định `\clearpage` ngay sau Figure 10 là nguyên nhân đẩy toàn bộ đoạn giải thích sang trang sau; bỏ lệnh này nhưng giữ `\clearpage` trước figure. Đồng thời đối chiếu `FINAL_FIX_CHECKLIST_BY_ROLE.md` và tick các mục đã có bằng chứng đạt.
+- Kết quả: preamble hỗ trợ XeLaTeX/LuaLaTeX nên không cần cài `vntex`; XeLaTeX/BibTeX build thành công PDF A4 dọc 44 trang. Render trang 25 xác nhận Figure 10 đầy đủ, caption hai dòng giữ căn theo khối mặc định, prose/tiêu đề f.1.3/bảng kết quả được đặt ngay trong phần trắng còn lại. Log không còn undefined reference/citation, rerun hay overfull warning; checklist có 58 mục đã đánh dấu và 21 mục còn lại.
+- Vướng gì / để lại cho phiên sau: không có vướng mắc Role C; các owner còn lại tiếp tục 21 mục chưa đạt trong final-fix checklist.
+
+### 2026-08-31 — soạn kịch bản video Role C
+- Đã làm gì: đối chiếu yêu cầu video trong đề gốc, checklist Role C, notebook pruning và các artifact M0/M1; tạo kịch bản tiếng Việt theo từng mốc thời gian với hai cột ACTION + SCRIPT.
+- Kết quả: `docs/report/ROLE_C_VIDEO_SCRIPT.md` có thời lượng mục tiêu 2:15–2:21; video bắt đầu trực tiếp tại cell tiêu đề của `notebooks/03_improve_pruning.ipynb`, không chiếu checklist, Markdown hoặc PDF kịch bản. Nội dung vẫn có đồ thị alpha, log grid/configuration, toàn bộ cây M1 không crop, accuracy/error rate, generalization gap, cơ chế giảm overfitting và trade-off recall Enrolled. Đã bổ sung thứ tự tab cần mở trên thanh VS Code, rà đủ ba ảnh canonical của Role C và đưa `C_cm_M1.png` vào đoạn kết để giải thích hàng Enrolled `29 / 55 / 75`. `output/pdf/ROLE_C_VIDEO_SCRIPT.pdf` đã được tái xuất thành 5 trang A4. Kiểm tra `pdfinfo`, `pypdf`, text extraction và render PNG đều đạt; không có trang rỗng, lỗi ký tự, crop, tràn lề hoặc chồng chữ.
+- Vướng gì / để lại cho phiên sau: không có lỗi chặn; người dùng cần điền họ tên, quay thử bằng đồng hồ và không ứng biến thêm nếu muốn giữ chắc giới hạn 2:30.
 
 ### 2026-08-30 — áp dụng vòng hoàn thiện cuối và kiểm chứng bản bàn giao
 - Đã làm gì: chỉnh lại toàn bộ văn phong học thuật của f.1; bổ sung giải thích giao thức chọn mô hình, trade-off accuracy/macro-F1 và giới hạn suy luận; tái sinh hai hình từ notebook; đặt cây M1 trên trang landscape; đồng bộ đánh số mục report, bibliography scikit-learn 1.9, trạng thái trong `docs/report/README.md` và các kết luận tổng hợp liên quan trực tiếp đến M1.

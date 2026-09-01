@@ -1,12 +1,14 @@
 # Tiến độ — Role B (Baseline & Tree Analysis)
 
-> Chỉ [Tên thành viên B] và agent trong phiên làm việc của B được sửa file này.
-> Agent: đọc file này ngay sau khi xác nhận mình đang phục vụ role B (bước 5, Mục 0 của `AGENT.md`), và **cập nhật lại trước khi bàn giao cuối mỗi phiên** (bước 8, Mục 0).
+> Owner: Nguyễn Văn Minh (Role B). Ngoài owner, chỉ agent đang làm task Role B
+> hoặc task integration/final-audit được người dùng giao rõ mới sửa file này.
+> Agent: đọc file này sau khi xác định phạm vi theo `AGENT.md` Mục 0 và cập
+> nhật ngay sau mỗi mốc đáng kể, đồng thời kiểm tra lại trước khi bàn giao.
 
 ## Trạng thái hiện tại
-_(cập nhật lần cuối: 2026-08-30)_
-- Đang làm: Đã hoàn tất và QA hai section LaTeX d/e; chờ người dùng review để commit/push.
-- Bị chặn bởi: —
+_(cập nhật lần cuối: 2026-09-01)_
+- Trạng thái: hoàn tất; hai section d/e đã được tích hợp, fact-check và đưa vào bản report cuối, không còn việc kỹ thuật mở.
+- Bị chặn bởi: không.
 
 ## Đã xong
 - [x] Viết `src/evaluate.py` — `evaluate_model()` tính đủ 16 cột, tự append `results.csv`
@@ -15,7 +17,7 @@ _(cập nhật lần cuối: 2026-08-30)_
 - [x] Xuất cây đầy đủ + cây rút gọn `max_depth=3` + confusion matrix + `rules_M0.txt`
 - [x] Viết phân tích 5 câu (root split, 3 tầng đầu, độ sâu/leaf, overfit, luật IF-THEN)
 - [x] Kiểm tra nhanh Gini vs Entropy (không tính vào 3 cải tiến chính — xem `docs/02-...` Phần C0)
-- [x] Viết `docs/report_draft_d_e.md` và cập nhật `README.md`
+- [x] Viết và tích hợp nội dung d/e vào report chính; bản nháp trung gian đã được xóa sau audit cuối
 - [x] Hoàn thành kiểm thử cuối và QA trực quan artifact
 - [x] Hoàn thiện bản tiếng Anh `docs/report/sections/d_baseline.tex` (6 TODO)
 - [x] Hoàn thiện và QA `docs/report/sections/e_analysis.tex` (7 TODO)
@@ -28,10 +30,24 @@ _(cập nhật lần cuối: 2026-08-30)_
 - An toàn tái sử dụng: kiểm tra conflict CSV trước khi chạm artifact; ghi report/PNG/rules qua file tạm rồi thay thế nguyên tử; retry khóa file Windows và coi artifact giống hệt là lần ghi idempotent (không ghi đè trực tiếp); renderer PNG dùng backend Agg nên chạy được cả notebook/script/headless; M0 chỉ serialize tập key tham số ổn định giữa các phiên bản sklearn.
 
 ## Việc tiếp theo
-- Người dùng review diff và tự commit/push; Role C/D/E có thể tái sử dụng helper của B.
+- Không còn việc Role B. Người dùng chỉ cần hoàn tất các cổng nộp bài trong `Cac_Cong_Viec_Can_Phai_Lam.md`, review diff và tự commit/push.
 
 ## Nhật ký phiên làm việc
 <!-- Mỗi phiên thêm 1 mục mới lên TRÊN CÙNG, không xóa mục cũ -->
+
+> Các entry dưới đây là snapshot lịch sử tại thời điểm được ghi. Khi số trang,
+> phiên bản, TODO hoặc trạng thái cũ khác phần đầu file, phần **Trạng thái hiện
+> tại** và artifact canonical mới nhất được ưu tiên.
+
+### 2026-09-01 — chuẩn hóa metadata progress cuối
+- Đã làm gì: điền owner thật, bỏ tham chiếu bước cũ của `AGENT.md`, phân biệt rõ trạng thái hiện hành với nhật ký lịch sử và đối chiếu lại artifact M0.
+- Kết quả: progress Role B không còn placeholder hoặc finding hiện hành; các số liệu canonical giữ nguyên.
+- Vướng gì / để lại cho phiên sau: không.
+
+### 2026-09-01 — xác nhận trạng thái cuối
+- Đã làm gì: đối chiếu lại số liệu, diễn giải và bố cục của d/e trong audit toàn report.
+- Kết quả: không có finding còn mở thuộc Role B; tên draft trong các log lịch sử là file trung gian đã được loại khỏi bản cuối.
+- Vướng gì / để lại cho phiên sau: không.
 
 ### 2026-08-30 — giai đoạn báo cáo
 - Đã làm gì: Đồng bộ `main`, đọc lại đề gốc/quy tắc LaTeX và chuyển toàn bộ 13 TODO của hai mục d--e sang tiếng Anh học thuật. Mục d bổ sung bảng split, metrics đầy đủ, classification report và so sánh Gini--Entropy. Mục e bổ sung phép tính root split, toàn bộ node từ depth 0 đến 3, thống kê độ phức tạp/overfitting, ba luật IF--THEN đầy đủ, cùng phân tích ưu/nhược điểm và giới hạn đạo đức.

@@ -1,44 +1,87 @@
 # Lab 2 - Decision Tree Modeling and Improvement
 
-Đồ án môn Trí tuệ nhân tạo xây dựng một cây quyết định baseline và ba hướng cải tiến trên bộ dữ liệu UCI **Predict Students' Dropout and Academic Success**. Mục tiêu là đánh giá mô hình, giải thích cấu trúc cây và kiểm chứng các cách giảm overfitting, xử lý mất cân bằng lớp và hỗ trợ dự báo sớm.
+Đồ án xây dựng một cây quyết định baseline và ba hướng cải tiến trên bộ dữ
+liệu UCI **Predict Students' Dropout and Academic Success**: pruning, xử lý
+mất cân bằng lớp và loại các biến kết quả học kỳ cho thí nghiệm dự báo sớm.
 
-## Cấu trúc chính
+## Trạng thái bản bàn giao — 2026-09-01
+
+Vòng audit tích hợp ngày **2026-09-01** xác nhận:
+
+- Sáu notebook `01`--`06` hợp lệ, execution count liên tục và không lưu error
+  output, timing metadata hoặc đường dẫn máy cá nhân.
+- `outputs/results.csv` có đúng năm cấu hình `M0`, `M1`, `M2a`, `M2b`, `M3`
+  với schema 16 cột; metric đã được fit lại độc lập và đối chiếu với
+  classification report/confusion matrix.
+- Source report cuối nằm trong `docs/report/`; các bản nháp Markdown cũ đã bị
+  loại bỏ để tránh tồn tại hai nguồn sự thật.
+- Bản PDF canonical 41 trang là `docs/report/report.pdf`; bản đặt tên để nộp
+  là `docs/report/2 - Report.pdf`. Hai bản có cùng SHA-256
+  `b8c9350fd40467aad3a4fb0ba961d092c3b0811318ac8fa1daaa93f91529d9be`.
+- Slide và video do nhóm quản lý ngoài workspace này. Trước khi nộp vẫn phải
+  kiểm tra tên file/quyền truy cập và đóng gói ZIP theo đề gốc.
+
+Checklist còn lại cho bước đóng gói nằm trong
+[`Cac_Cong_Viec_Can_Phai_Lam.md`](Cac_Cong_Viec_Can_Phai_Lam.md).
+
+## Cấu trúc repository
 
 ```text
-data/raw/       Dữ liệu gốc
+data/raw/       CSV gốc được version-control
 src/            Pipeline dữ liệu, đánh giá và trực quan hóa dùng chung
 notebooks/      EDA, baseline, ba cải tiến và notebook so sánh
-figures/        Hình cây, confusion matrix và biểu đồ
-outputs/        Bảng metrics, classification report và luật cây
-docs/           Đề bài, quy định kỹ thuật và bản thảo báo cáo
-progress/       Nhật ký theo role
+figures/        22 hình thí nghiệm canonical + logo báo cáo
+outputs/        Metrics, classification report, importance và luật cây
+docs/           Đề gốc, đặc tả kỹ thuật, provenance và report LaTeX
+progress/       Nhật ký kỹ thuật theo role
 ```
 
-## Cài đặt
+## Tài liệu liên quan
+
+- [`AGENT.md`](AGENT.md): nguồn quy tắc canonical cho coding agent;
+  [`AGENTS.md`](AGENTS.md) là cổng tương thích cho tool tìm tên số nhiều.
+- [`docs/00-DE-BAI-GOC.pdf`](docs/00-DE-BAI-GOC.pdf): đề bài gốc, nguồn yêu
+  cầu có thẩm quyền cao nhất.
+- [`docs/02-DATASET-VA-CONG-VIEC.md`](docs/02-DATASET-VA-CONG-VIEC.md): đặc
+  tả dataset, preprocessing, năm cấu hình model và metric contract.
+- [`docs/03-GIT-WORKFLOW-VA-CAU-TRUC-CODE.md`](docs/03-GIT-WORKFLOW-VA-CAU-TRUC-CODE.md):
+  ownership theo role và quy trình Git cho thành viên trong nhóm.
+- [`docs/dataset_provenance.md`](docs/dataset_provenance.md): phân biệt claim
+  kiểm chứng trực tiếp từ CSV với claim dựa trên nguồn xuất bản.
+- [`docs/feature_types.md`](docs/feature_types.md): cách phân loại và mã hóa 36
+  feature gốc.
+- [`docs/report/README.md`](docs/report/README.md): cấu trúc, build và QA report
+  LaTeX.
+- [`docs/report/FINAL_FIX_CHECKLIST_BY_ROLE.md`](docs/report/FINAL_FIX_CHECKLIST_BY_ROLE.md):
+  bằng chứng hoàn tất 79/79 finding của report.
+- [`Cac_Cong_Viec_Can_Phai_Lam.md`](Cac_Cong_Viec_Can_Phai_Lam.md): các cổng
+  danh tính, media và đóng gói còn cần con người xác minh trước khi nộp.
+
+## Môi trường canonical
+
+Artifact hiện tại được tạo với Python 3.14.0, `scikit-learn==1.9.0`,
+`imbalanced-learn==0.14.2`, `pandas==2.3.3`, `numpy==2.3.4` và
+`matplotlib==3.11.1`.
 
 ```powershell
-# Cách 1: Python Launcher đã nhận CPython 3.14
 py -3.14 -m venv .venv
-
-# Cách 2: nếu `py -3.14 --version` báo không tìm thấy Python
-& "C:\duong-dan-den-python-3.14.0\python.exe" -m venv .venv
-
-# Dùng đúng lock canonical để regenerate artifact M0/D/E
 .\.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
 .\.venv\Scripts\python.exe -m pip check
 
-# Đăng ký kernel trỏ tuyệt đối vào .venv; PYTHONUTF8 tránh lỗi console khi đường dẫn có tiếng Việt
 $env:PYTHONUTF8 = "1"
-.\.venv\Scripts\python.exe -m ipykernel install --prefix .venv --name lab2-canonical --display-name "Lab 2 canonical"
+.\.venv\Scripts\python.exe -m ipykernel install `
+    --prefix .venv `
+    --name lab2-canonical `
+    --display-name "Lab 2 canonical"
 ```
 
-Kiểm tra `.\.venv\Scripts\python.exe --version` phải trả về đúng `3.14.0` và `pip check` phải PASS trước khi tiếp tục. Trên macOS/Linux, thay `Scripts\python.exe` bằng `.venv/bin/python`.
+Trên macOS/Linux, thay `.venv\Scripts\python.exe` bằng
+`.venv/bin/python`. `requirements.txt` liệt kê dependency trực tiếp;
+`requirements-lock.txt` là lock đầy đủ để tái lập artifact canonical.
 
-Toàn bộ artifact M0/M1/M2a/M2b/M3 hiện tại được tái lập với môi trường canonical: Python 3.14.0, `scikit-learn==1.9.0`, `imbalanced-learn==0.14.2`, `pandas==2.3.3`, `numpy==2.3.4` và `matplotlib==3.11.1`. `requirements.txt` mô tả dependency trực tiếp ở mức mở; `requirements-lock.txt` khóa đầy đủ môi trường dùng để regenerate artifact.
+## Hợp đồng dữ liệu chung
 
-## Pipeline dữ liệu dùng chung
-
-Mọi model phải dùng đúng split stratified đã được cố định trong `src/data.py`:
+Mọi model dùng cùng một split từ `src/data.py`:
 
 ```python
 from src.data import get_train_test
@@ -46,11 +89,19 @@ from src.data import get_train_test
 X_train, X_test, y_train, y_test = get_train_test()
 ```
 
-Không tự load/split lại trong notebook và không dùng `StandardScaler` hoặc `MinMaxScaler`; decision tree không cần scale. Quy ước toàn dự án là `random_state=42` ở mọi bước có ngẫu nhiên.
+Split là 80/20, stratified và dùng `random_state=42`. Không notebook nào tự
+split lại, không áp dụng scaling, và SMOTE chỉ được fit trên tập train.
 
-## Chạy toàn bộ pipeline canonical
+Pipeline one-hot encode bốn nhóm nominal có cardinality thấp, tạo 90 cột đầu
+vào cho M0/M1/M2a/M2b. Các cột nominal cardinality cao vẫn được giữ dưới dạng
+mã số nguyên; đây là một giới hạn biểu diễn được công khai trong report. M3
+loại đúng 12 biến kết quả học kỳ, giữ 24 feature gốc/78 cột encoded. Việc xem
+các feature còn lại là có sẵn lúc nhập học là giả định của thí nghiệm, không
+phải điều CSV tự chứng minh.
 
-Chạy từ repo root theo đúng thứ tự `01 → 06`. Lệnh dưới đây dùng kernel canonical, tắt timestamp timing trong notebook và dừng nếu bất kỳ notebook nào lỗi:
+## Chạy toàn bộ pipeline
+
+Chạy từ repo root theo thứ tự `01` đến `06`:
 
 ```powershell
 $env:PYTHONUTF8 = "1"
@@ -77,155 +128,78 @@ foreach ($notebook in $notebooks) {
 }
 ```
 
-Sau khi chạy xong, `outputs/results.csv` phải có đúng năm model ID `M0`, `M1`, `M2a`, `M2b`, `M3`; `outputs/comparison_table.csv` và `figures/comparison.png` được notebook 06 tái tạo từ chính bảng kết quả này. Dữ liệu gốc `data/raw/data.csv` được version-control và không được sửa tay.
+Sau khi chạy, `outputs/results.csv` phải có đúng một dòng cho mỗi model. Notebook
+06 tái tạo `outputs/comparison_table.csv` và `figures/comparison.png` từ bảng
+kết quả này. Không sửa tay `data/raw/data.csv` hoặc các hàng metric.
 
-## Chạy baseline M0
+## Kết quả canonical
 
-Mở `notebooks/02_baseline.ipynb` và chọn **Restart & Run All**, hoặc chạy từ repo root:
+| Model | Cấu hình | Test accuracy | Error rate | Macro-F1 | ROC-AUC | Depth | Leaves |
+|---|---|---:|---:|---:|---:|---:|---:|
+| M0 | Baseline Gini không giới hạn | 0.668927 | 0.331073 | 0.608271 | 0.719456 | 27 | 634 |
+| M1 | Cost-complexity + depth/leaf constraints | 0.755932 | 0.244068 | 0.672925 | 0.847692 | 5 | 17 |
+| M2a | `class_weight="balanced"` | 0.650847 | 0.349153 | 0.585409 | 0.705321 | 28 | 696 |
+| M2b | Vanilla SMOTE trên train | 0.688136 | 0.311864 | 0.638747 | 0.742122 | 39 | 847 |
+| M3 | Loại 12 biến kết quả học kỳ | 0.541243 | 0.458757 | 0.493050 | 0.625355 | 30 | 963 |
 
-```powershell
-.\.venv\Scripts\python.exe -m nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=900 --ExecutePreprocessor.kernel_name=lab2-canonical --ExecutePreprocessor.record_timing=False --NotebookClient.record_timing=False notebooks/02_baseline.ipynb
-```
+M1 tốt nhất theo các metric tổng hợp và độ gọn. M2b có recall Dropout/Enrolled
+cao nhất nhưng phải đọc cùng giới hạn vanilla SMOTE trên feature categorical.
+M3 đo đánh đổi giữa độ chính xác và thời điểm dự báo dưới giả định availability
+được công bố trong report.
 
-M0 dùng đúng `DecisionTreeClassifier(random_state=42)` với Gini mặc định, không giới hạn độ sâu/split/leaf và không pruning.
+## Giới hạn đã biết
 
-Artifact M0:
+- Một số nominal feature cardinality cao vẫn được giữ dưới dạng mã số để tránh
+  tăng mạnh số chiều; split theo ngưỡng trên các mã này có thể áp đặt thứ tự
+  nhân tạo.
+- Vanilla SMOTE trên representation chứa one-hot/categorical không bảo toàn
+  mọi ràng buộc category; kết quả M2b phải được đọc cùng audit limitation trong
+  report.
+- So sánh model dựa trên một held-out split cố định. Kết quả đủ để so sánh nội
+  bộ trong thí nghiệm này nhưng không chứng minh hiệu năng trên quần thể khác.
+- M3 xem các feature còn lại là có sẵn lúc nhập học theo giả định nghiên cứu;
+  triển khai thật cần data dictionary và row-level snapshot timestamps.
 
-- `figures/B_tree_M0_full.png`
-- `figures/B_tree_M0_top3.png`
-- `figures/B_cm_M0.png`
-- `outputs/rules_M0.txt`
-- `outputs/classification_report_M0.txt`
-- Dòng `M0` trong `outputs/results.csv`
+## Artifact chính
 
-## Chạy Role D — M2a/M2b (Class Imbalance)
+- `figures/A_*.png`: năm hình EDA.
+- `figures/B_*.png`, `outputs/rules_M0.txt`: cây, confusion matrix và luật M0.
+- `figures/C_*.png`: pruning path, toàn bộ cây M1 và confusion matrix.
+- `figures/D_*.png`: cây và confusion matrix M2a/M2b.
+- `figures/E_*.png`, `outputs/E_*.csv`: cây M3 và hai phép đo importance.
+- `outputs/classification_report_M*.txt`: precision/recall/F1 theo lớp.
+- `outputs/results.csv`: nguồn metric canonical dùng chung.
 
-Role D thực hiện cải tiến Class Imbalance bằng hai cấu hình.
-Mở `notebooks/04_improve_imbalance.ipynb` và chọn **Restart & Run All**, hoặc chạy:
+## Dataset attribution và license
 
-```powershell
-.\.venv\Scripts\python.exe -m nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=900 --ExecutePreprocessor.kernel_name=lab2-canonical --ExecutePreprocessor.record_timing=False --NotebookClient.record_timing=False notebooks/04_improve_imbalance.ipynb
-```
+Dataset **Predict Students' Dropout and Academic Success** được phát hành theo
+CC BY 4.0. URL, DOI, ngày truy cập và phạm vi từng claim nằm trong
+[`docs/dataset_provenance.md`](docs/dataset_provenance.md).
 
-Cấu hình của Role D:
-- **M2a**: `DecisionTreeClassifier(class_weight="balanced", random_state=42)`
-- **M2b**: Dùng SMOTE với `sampling_strategy="auto", random_state=42, k_neighbors=5`, và chỉ resample trên tập train.
+Repository hiện không có file `LICENSE` riêng cho source code. Không suy diễn
+rằng code được phát hành theo CC BY 4.0 chỉ vì dataset dùng license đó; nếu
+nhóm công bố repository ngoài phạm vi nộp môn học, chủ sở hữu cần chọn và thêm
+code license một cách rõ ràng.
 
-Artifact Role D:
-- Báo cáo: [docs/report_draft_f2_imbalance.md](docs/report_draft_f2_imbalance.md)
-- Progress: [progress/D.md](progress/D.md)
-- `figures/D_cm_M2a.png`, `figures/D_cm_M2b.png`
-- `figures/D_tree_M2a.png`, `figures/D_tree_M2a_full.png`
-- `figures/D_tree_M2b.png`, `figures/D_tree_M2b_full.png`
-- `outputs/classification_report_M2a.txt`, `outputs/classification_report_M2b.txt`
-- Dòng `M2a` và `M2b` trong `outputs/results.csv`
+## Build report
 
-### Checklist bàn giao cho Role D
-- Chỉ gọi `get_train_test()` một lần; không tự split/scale lại dữ liệu.
-- SMOTE chỉ resample tập train sau khi split, chứng minh không leakage.
-- Các row D đúng author="D" và đúng params.
-- Run A/Run B độc lập cho kết quả khớp tuyệt đối.
-- Validator pass (đủ 6 hình, 2 báo cáo, audit).
-- Đồng nhất cross-file.
-- Không thay đổi M0/M1/M3 và dữ liệu chung.
-
-## Tái sử dụng helper cho M1/M2/M3
-
-Các role C/D/E truyền một model **đã fit** vào `evaluate_model()`. Nếu notebook được mở với working directory là `notebooks/`, chạy cell khởi tạo dưới đây trước để import luôn ổn định; không hard-code đường dẫn máy cá nhân:
-
-```python
-import sys
-from pathlib import Path
-
-def find_repo_root(start: Path | None = None) -> Path:
-    """Find the nearest ancestor containing the shared data pipeline."""
-    start = (start or Path.cwd()).resolve()
-    for candidate in (start, *start.parents):
-        if (candidate / "src" / "data.py").is_file():
-            return candidate
-    raise FileNotFoundError("Không tìm thấy repo root chứa src/data.py")
-
-REPO_ROOT = find_repo_root()
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
-```
-
-Chỉ ghi những tham số định nghĩa thí nghiệm vào `params` thay vì toàn bộ `model.get_params()`, để CSV ổn định giữa các phiên bản scikit-learn. Ví dụ cho M1:
-
-```python
-from src.evaluate import evaluate_model
-from src.visualize import plot_tree_figure
-
-OUTPUTS_DIR = REPO_ROOT / "outputs"
-FIGURES_DIR = REPO_ROOT / "figures"
-
-m1_result = evaluate_model(
-    m1,
-    X_train, y_train,
-    X_test, y_test,
-    model_id="M1",
-    model_name="Cost-complexity pruned tree",
-    params={
-        "ccp_alpha": float(best_alpha),
-        "max_depth": m1.get_params()["max_depth"],
-        "min_samples_leaf": m1.get_params()["min_samples_leaf"],
-        "random_state": 42,
-    },
-    author="C",
-    classification_report_path=OUTPUTS_DIR / "classification_report_M1.txt",
-    confusion_matrix_path=FIGURES_DIR / "C_cm_M1.png",
-)
-
-plot_tree_figure(
-    m1,
-    X_train.columns,
-    m1.classes_,
-    FIGURES_DIR / "C_tree_M1.png",
-)
-```
-
-Nếu `model_id` đã tồn tại với nội dung khác, helper dừng trước khi ghi đè artifact. Một lần chạy lại có nội dung giống hệt là idempotent, không thêm dòng trùng và giữ nguyên artifact byte-for-byte khi Windows không cho thay thế file đang được xem. Helper không hạ xuống kiểu ghi đè trực tiếp; nếu file đích thực sự khác và đang bị khóa, nó giữ nguyên file cũ rồi báo cách khắc phục.
-
-### Checklist bàn giao cho Role C
-
-- Chỉ gọi `get_train_test()` một lần; không tự split/scale lại dữ liệu.
-- Tạo `ccp_alphas` từ train, chọn hyperparameter bằng cross-validation chỉ trên train; tuyệt đối không dùng test accuracy để chọn mô hình.
-- Mọi bước CV có xáo trộn dùng `random_state=42`; grid bắt buộc bao gồm `max_depth ∈ {5, 8, 10, 15}` và `min_samples_leaf ∈ {1, 5, 10, 20}`.
-- Sau khi chốt cấu hình, fit lại M1 trên toàn bộ train rồi chỉ đánh giá test qua `evaluate_model()` với `model_id="M1"`, `author="C"`.
-- Xuất tối thiểu `figures/C_ccp_alpha_curve.png`, `figures/C_tree_M1.png`, `figures/C_cm_M1.png` và `outputs/classification_report_M1.txt`; lưu bảng grid search trong notebook.
-- Trước khi bàn giao, **Restart & Run All**, xác nhận `outputs/results.csv` chỉ có đúng một dòng M1 và không có cell lỗi.
-
-## Chạy Role E — M3 dự báo sớm
-
-Mở `notebooks/05_improve_features.ipynb` và chọn **Restart & Run All**, hoặc chạy từ repo root trong môi trường canonical Python 3.14.0, NumPy 2.3.4, pandas 2.3.3, SciPy 1.17.1 và scikit-learn 1.9.0:
+XeLaTeX là engine đã kiểm chứng và không cần cài `vntex`:
 
 ```powershell
-.\.venv\Scripts\python.exe -m nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=900 --ExecutePreprocessor.kernel_name=lab2-canonical --ExecutePreprocessor.record_timing=False --NotebookClient.record_timing=False notebooks/05_improve_features.ipynb
+Push-Location docs/report
+xelatex -interaction=nonstopmode -halt-on-error report.tex
+bibtex report
+xelatex -interaction=nonstopmode -halt-on-error report.tex
+xelatex -interaction=nonstopmode -halt-on-error report.tex
+xelatex -interaction=nonstopmode -halt-on-error report.tex
+Pop-Location
 ```
 
-Notebook tự dừng trước khi train nếu phiên bản môi trường không khớp. M3 loại đúng 12 feature kết quả HK1/HK2, giữ 24 feature gốc/78 cột encoded, gồm `International`, `Unemployment rate`, `Inflation rate` và `GDP`, rồi fit `DecisionTreeClassifier(random_state=42)` trên split chung.
+Nhánh pdfLaTeX dùng T5 và chỉ phù hợp khi máy đã có `vntex`. Chi tiết build và
+QA nằm trong [`docs/report/README.md`](docs/report/README.md).
 
-Artifact Role E:
+## Quy ước Git
 
-- `outputs/classification_report_M3.txt` và dòng `M3` trong `outputs/results.csv`
-- `outputs/E_feature_importance_comparison.csv`
-- `outputs/E_feature_importance_permutation.csv`
-- `figures/E_cm_M3.png`
-- `figures/E_tree_M3.png`
-- `figures/E_feature_importance.png`
-- `figures/E_feature_importance_permutation.png`
-- `progress/E.md`
-
-`E_feature_importance.png` là Gini/MDI của cây đã fit trên train và đã gộp dummy về feature gốc. `E_feature_importance_permutation.png` dùng grouped permutation trên đúng 885 test rows, 30 repeats, seed 42 và scorer accuracy; toàn bộ dummy của một feature categorical được hoán vị cùng nhau. Cả hai chỉ phản ánh association, không chứng minh quan hệ nhân quả.
-
-Kết quả canonical M3: test accuracy `0.5412429378531074`, macro-F1 `0.49305009179124043`, depth 30 và 963 leaf. Accuracy thấp hơn M0 là đánh đổi có chủ đích để dự báo được ngay từ thời điểm nhập học.
-
-Checklist bàn giao E cho phạm vi code hiện tại:
-
-- Notebook assert đúng môi trường, feature contract, split/target fingerprint và `random_state=42`.
-- Bốn row M0/M1/M2a/M2b cùng artifact D được snapshot/hash trước và sau evaluation, không bị E thay đổi.
-- Hai lần Run All độc lập phải cho cùng metric, classification report, hai CSV importance và bốn PNG.
-- Notebook phải validate, execution count liên tục và không có stored error hoặc path máy cá nhân.
-- Report, slide và video không thuộc phạm vi sửa Role E lần này; nhóm sẽ thực hiện chung ở giai đoạn sau.
-
-Đọc `AGENT.md` trước khi sửa repo để tuân thủ phạm vi file, workflow Git và trách nhiệm của từng role.
+Đọc `AGENT.md` và `docs/03-GIT-WORKFLOW-VA-CAU-TRUC-CODE.md` trước khi sửa.
+Coding agent không được tự `git add`, `git commit`, `git push` hoặc rewrite
+lịch sử. Người dùng phải review diff và tự thực hiện các thao tác Git.

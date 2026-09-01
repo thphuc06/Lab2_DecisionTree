@@ -1,7 +1,5 @@
-% Owner: Role B. Translated and adapted from the independently verified
-% Vietnamese source draft docs/report_draft_d_e.md. Every reported value
-% below traces to the canonical M0 result row, classification report, or
-% stored notebook output.
+% Final section; every reported value traces to the canonical M0 result,
+% classification report, fitted tree, or stored experiment output.
 
 \section{Baseline Model}
 \label{sec:d}
@@ -142,9 +140,9 @@ correctly identified, producing precision 0.3567, recall 0.3836, and F1 0.3697.
 Figure~\ref{fig:d3} provides the underlying counts. M0 correctly classifies
 193 of 284 Dropout observations and 338 of 442 Graduate observations. Among
 the 159 Enrolled observations, 61 are correct, while 45 are assigned to
-Dropout and 53 to Graduate. The errors in both directions are consistent with
-Enrolled representing an intermediate academic state rather than a sharply
-separated class.
+Dropout and 53 to Graduate. Errors occur in both directions; these held-out
+counts describe the observed confusion but do not by themselves establish
+the geometry of the classes in feature space.
 
 \subsection{Gini-versus-Entropy diagnostic}
 
