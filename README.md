@@ -135,7 +135,7 @@ kết quả này. Không sửa tay `data/raw/data.csv` hoặc các hàng metric.
 ## Kết quả canonical
 
 | Model | Cấu hình | Test accuracy | Error rate | Macro-F1 | ROC-AUC | Depth | Leaves |
-|---|---|---:|---:|---:|---:|---:|---:|
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | M0 | Baseline Gini không giới hạn | 0.668927 | 0.331073 | 0.608271 | 0.719456 | 27 | 634 |
 | M1 | Cost-complexity + depth/leaf constraints | 0.755932 | 0.244068 | 0.672925 | 0.847692 | 5 | 17 |
 | M2a | `class_weight="balanced"` | 0.650847 | 0.349153 | 0.585409 | 0.705321 | 28 | 696 |
