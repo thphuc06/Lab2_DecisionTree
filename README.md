@@ -4,9 +4,9 @@
 liệu UCI **Predict Students' Dropout and Academic Success**: pruning, xử lý
 mất cân bằng lớp và loại các biến kết quả học kỳ cho thí nghiệm dự báo sớm.
 
-## Trạng thái bản bàn giao — 2026-09-01
+## Trạng thái bản bàn giao — 2026-09-02
 
-Vòng audit tích hợp ngày **2026-09-01** xác nhận:
+Vòng audit tích hợp ngày **2026-09-02** xác nhận:
 
 - Sáu notebook `01`--`06` hợp lệ, execution count liên tục và không lưu error
   output, timing metadata hoặc đường dẫn máy cá nhân.
@@ -17,7 +17,7 @@ Vòng audit tích hợp ngày **2026-09-01** xác nhận:
   loại bỏ để tránh tồn tại hai nguồn sự thật.
 - Bản PDF canonical 41 trang là `docs/report/report.pdf`; bản đặt tên để nộp
   là `docs/report/2 - Report.pdf`. Hai bản có cùng SHA-256
-  `b8c9350fd40467aad3a4fb0ba961d092c3b0811318ac8fa1daaa93f91529d9be`.
+  `dfeeb1f165824983d0c5d7750781bb9bab519176900e8ba4d45c9ee4af198a26`.
 - Slide và video do nhóm quản lý ngoài workspace này. Trước khi nộp vẫn phải
   kiểm tra tên file/quyền truy cập và đóng gói ZIP theo đề gốc.
 
@@ -39,8 +39,7 @@ progress/       Nhật ký kỹ thuật theo role
 
 ## Tài liệu liên quan
 
-- [`AGENT.md`](AGENT.md): nguồn quy tắc canonical cho coding agent;
-  [`AGENTS.md`](AGENTS.md) là cổng tương thích cho tool tìm tên số nhiều.
+- [`AGENT.md`](AGENT.md): nguồn quy tắc canonical cho coding agent.
 - [`docs/00-DE-BAI-GOC.pdf`](docs/00-DE-BAI-GOC.pdf): đề bài gốc, nguồn yêu
   cầu có thẩm quyền cao nhất.
 - [`docs/02-DATASET-VA-CONG-VIEC.md`](docs/02-DATASET-VA-CONG-VIEC.md): đặc

@@ -35,6 +35,9 @@
 \graphicspath{{../../figures/}}
 \usepackage{booktabs}
 \usepackage{tabularx}
+% Ragged-right paragraph columns avoid stretched inter-word spacing in narrow
+% analytical tables while retaining controlled column widths.
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \usepackage{amsmath}
 \usepackage{float}
 \usepackage{caption}
@@ -137,6 +140,7 @@
 \bibliographystyle{plainnat}
 \begingroup
 \small
+\raggedright
 \setlength{\bibsep}{0.35em}
 \bibliography{references}
 \endgroup

@@ -11,7 +11,6 @@
 
 ```
 Lab2_DecisionTree/
-├── AGENTS.md                        ← cổng tương thích cho tool tìm tên số nhiều
 ├── AGENT.md                         ← đọc trước tiên khi mở agent, đừng để lệch chỗ
 ├── README.md                       ← Trưởng nhóm
 ├── requirements.txt                ← dependency trực tiếp; role đề xuất lib mới cho A
@@ -254,8 +253,8 @@ Prefix bằng ký hiệu tên để dễ tra `git log` và dễ dùng cho bảng
 
 Ngoại lệ lịch sử đã biết: commit `0969118` có prefix `[C]` nhưng nội dung thuộc
 Role E. Không dùng prefix sai này để tính contribution và không rewrite 23
-commit hậu duệ đã công bố chỉ để sửa nhãn; xem quy trình human-only trong
-[`Cac_Cong_Viec_Can_Phai_Lam.md`](../Cac_Cong_Viec_Can_Phai_Lam.md).
+commit hậu duệ đã công bố chỉ để sửa nhãn; trưởng nhóm xác nhận attribution
+trực tiếp từ nội dung commit khi đóng gói.
 
 ---
 

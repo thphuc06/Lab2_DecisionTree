@@ -1,8 +1,8 @@
 # AGENT.md — Hướng dẫn cho AI Coding Agent
 
-> File này là nguồn hướng dẫn canonical dành cho AI agent (Claude Code, Cursor,
-> Codex...) trước khi làm bất kỳ việc gì trong repo. `AGENTS.md` ở repo root chỉ
-> là cổng tương thích trỏ về file này; không sao chép quy tắc sang hai nơi.
+> File này là nguồn hướng dẫn canonical duy nhất dành cho AI agent (Claude Code,
+> Cursor, Codex...) trước khi làm bất kỳ việc gì trong repo; không sao chép quy
+> tắc sang nhiều nơi.
 
 ---
 

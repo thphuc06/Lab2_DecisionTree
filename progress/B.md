@@ -30,7 +30,7 @@ _(cập nhật lần cuối: 2026-09-01)_
 - An toàn tái sử dụng: kiểm tra conflict CSV trước khi chạm artifact; ghi report/PNG/rules qua file tạm rồi thay thế nguyên tử; retry khóa file Windows và coi artifact giống hệt là lần ghi idempotent (không ghi đè trực tiếp); renderer PNG dùng backend Agg nên chạy được cả notebook/script/headless; M0 chỉ serialize tập key tham số ổn định giữa các phiên bản sklearn.
 
 ## Việc tiếp theo
-- Không còn việc Role B. Người dùng chỉ cần hoàn tất các cổng nộp bài trong `Cac_Cong_Viec_Can_Phai_Lam.md`, review diff và tự commit/push.
+- Không còn việc Role B. Người dùng chỉ cần hoàn tất các cổng nộp bài theo đề gốc, review diff và tự commit/push.
 
 ## Nhật ký phiên làm việc
 <!-- Mỗi phiên thêm 1 mục mới lên TRÊN CÙNG, không xóa mục cũ -->

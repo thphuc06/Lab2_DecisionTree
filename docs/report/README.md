@@ -13,7 +13,6 @@ docs/report/
 ├── references.bib
 ├── report.pdf
 ├── 2 - Report.pdf
-├── FINAL_FIX_CHECKLIST_BY_ROLE.md
 ├── README.md
 └── sections/
     ├── a_group_intro.tex
@@ -35,7 +34,7 @@ bất kỳ thay đổi nào của `.tex`, `.bib` hoặc figure.
 
 ## Trạng thái cuối
 
-Vòng audit tích hợp ngày **2026-09-01** đã xác nhận:
+Vòng audit tích hợp ngày **2026-09-02** đã xác nhận:
 
 - Có đủ mục a--i theo đề gốc.
 - Group ID, năm họ tên, năm MSSV và contribution 20% mỗi người đã được điền.
@@ -48,14 +47,16 @@ Vòng audit tích hợp ngày **2026-09-01** đã xác nhận:
   M3 luôn đi cùng giả định về thời điểm availability của feature.
 - PDF cuối có 41 trang A4; Figure 10 là toàn bộ cây M1 ở trang mang số in 22
   (trang vật lý 23 của file PDF), không crop và prose tiếp tục bên dưới hình.
-- Toàn bộ trang PDF đã được render và kiểm tra trực quan sau build cuối.
+- Các trang bị ảnh hưởng bởi lần chỉnh layout cuối — bảng phân bố lớp, hai bảng
+  cây M0, Figure 10, bảng chọn model và References — đã được render và kiểm tra
+  trực quan sau build.
 - `report.pdf` và `2 - Report.pdf` có cùng SHA-256
-  `b8c9350fd40467aad3a4fb0ba961d092c3b0811318ac8fa1daaa93f91529d9be`.
+  `dfeeb1f165824983d0c5d7750781bb9bab519176900e8ba4d45c9ee4af198a26`.
+- XeLaTeX/BibTeX build sạch 41 trang A4, không còn `Underfull \hbox`,
+  `Overfull \hbox`, undefined reference/citation hoặc yêu cầu rerun.
 
-Checklist chi tiết và bằng chứng lệnh nằm trong
-`FINAL_FIX_CHECKLIST_BY_ROLE.md`. Các bước chỉ con người mới xác nhận được
-(media, tên chính thức, ZIP nộp bài và Git history) nằm ở
-`../../Cac_Cong_Viec_Can_Phai_Lam.md`.
+Các bước chỉ con người mới xác nhận được — media, tên chính thức, ZIP nộp bài
+và Git history — được đối chiếu trực tiếp với đề gốc và hệ thống nộp bài.
 
 ## Quy tắc caption
 

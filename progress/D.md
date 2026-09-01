@@ -47,7 +47,7 @@ _(cập nhật lần cuối: 2026-09-01)_
 - Môi trường đã tạo ra số liệu canonical: Python 3.14.0, numpy 2.3.4, pandas 2.3.3, scikit-learn 1.9.0, matplotlib 3.11.1, imbalanced-learn 0.14.2
 
 ## Việc tiếp theo
-- Không còn việc Role D trong workspace. Người dùng chỉ cần hoàn tất cổng nộp bài trong `Cac_Cong_Viec_Can_Phai_Lam.md`, review diff và tự commit/push.
+- Không còn việc Role D trong workspace. Người dùng chỉ cần hoàn tất cổng nộp bài theo đề gốc, review diff và tự commit/push.
 
 ## Manifest bàn giao (D10)
 

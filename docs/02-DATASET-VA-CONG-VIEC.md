@@ -358,7 +358,7 @@ roc_auc = roc_auc_score(
 
 ## PHẦN E — TRẠNG THÁI BÀN GIAO VÀ VIỆC CÒN LẠI
 
-> Trạng thái được đồng bộ ngày 2026-09-01. Code/thí nghiệm và written report đã hoàn tất vòng audit tích hợp. Việc còn lại chỉ là xác nhận thủ công media/thông tin chính thức và đóng gói submission; xem `Cac_Cong_Viec_Can_Phai_Lam.md`.
+> Trạng thái được đồng bộ ngày 2026-09-02. Code/thí nghiệm và written report đã hoàn tất vòng audit tích hợp. Việc còn lại chỉ là xác nhận thủ công media/thông tin chính thức và đóng gói submission theo đề gốc.
 
 ### E1. Việc chung (cả nhóm)
 
@@ -422,8 +422,8 @@ roc_auc = roc_auc_score(
 
 ### E7. Trưởng nhóm — đóng gói
 
-Các ô chưa hoàn thành bên dưới được đặc tả chi tiết và có tiêu chí nghiệm thu
-trong [`../Cac_Cong_Viec_Can_Phai_Lam.md`](../Cac_Cong_Viec_Can_Phai_Lam.md).
+Các ô chưa hoàn thành bên dưới là các cổng thủ công; trưởng nhóm đối chiếu trực
+tiếp với đề gốc và hệ thống nộp bài trước khi đóng gói.
 
 - [x] Điền bảng đóng góp cụ thể từng thành viên (mục **a**), tổng 100%
 - [x] Tạo `docs/report/2 - Report.pdf` theo đúng mẫu tên report cho Group 2
@@ -439,7 +439,6 @@ trong [`../Cac_Cong_Viec_Can_Phai_Lam.md`](../Cac_Cong_Viec_Can_Phai_Lam.md).
 ```
 Lab2_DecisionTree/
 ├── README.md
-├── AGENTS.md                     cổng tương thích, trỏ tới AGENT.md
 ├── AGENT.md
 ├── requirements.txt
 ├── requirements-lock.txt       ⭐ lock canonical — chỉ A/Integrator cập nhật

@@ -6,8 +6,9 @@
 > nhật ngay sau mỗi mốc đáng kể, đồng thời kiểm tra lại trước khi bàn giao.
 
 ## Trạng thái hiện tại
-_(cập nhật lần cuối: 2026-09-01 — audit nộp bài cuối)_
-- Trạng thái: hoàn tất; Figure 10 nằm trên trang mang số in 22 (trang vật lý 23 của file PDF), prose tiếp tục sau hình và quy tắc caption vẫn là một dòng căn giữa, nhiều dòng căn theo khối caption mặc định.
+_(cập nhật lần cuối: 2026-09-02 — đồng bộ PDF và audit cảnh báo LaTeX)_
+- Trạng thái: hoàn tất; report được build lại bằng XeLaTeX/BibTeX thành 41 trang A4, Figure 10 nằm trên trang mang số in 22 (trang vật lý 23), và log không còn Underfull/Overfull box hay reference/citation cần xử lý.
+- Hash hiện hành: `notebooks/03_improve_pruning.ipynb` = `edfbb84cf1f155f34a98f12fe14c79f591a64e74bf73ae99b1ff01d7b0d8c619`; hai PDF report = `dfeeb1f165824983d0c5d7750781bb9bab519176900e8ba4d45c9ee4af198a26`.
 - Bị chặn bởi: không.
 
 ## Đã xong
@@ -42,7 +43,7 @@ _(cập nhật lần cuối: 2026-09-01 — audit nộp bài cuối)_
 - M1 trên held-out test: accuracy `0.755932`, macro-F1 `0.672925`, ROC-AUC macro `0.847692`; depth `5`, leaves `17`.
 
 ## Việc tiếp theo
-- Không còn việc Role C trong workspace. Nhóm kiểm tra file/link video đã hoàn thành, đối chiếu số liệu với report và đóng gói theo `Cac_Cong_Viec_Can_Phai_Lam.md`.
+- Không còn việc Role C trong workspace. Nhóm đối chiếu file/link video, số liệu report và đóng gói trực tiếp theo đề gốc.
 - Người dùng review diff/PDF rồi tự `git add` / `git commit` / `git push` theo `AGENT.md`.
 
 ## Nhật ký phiên làm việc
@@ -52,9 +53,14 @@ _(cập nhật lần cuối: 2026-09-01 — audit nộp bài cuối)_
 > phiên bản, TODO hoặc trạng thái cũ khác phần đầu file, phần **Trạng thái hiện
 > tại** và artifact canonical mới nhất được ưu tiên.
 
+### 2026-09-02 — đồng bộ bản report nộp bài và trạng thái hiện hành
+- Đã làm gì: build lại report bằng XeLaTeX/BibTeX sau khi chuyển các cột mô tả hẹp sang ragged-right; đồng bộ bản PDF mang tên nộp bài và cập nhật hash hiện hành của notebook C/report.
+- Kết quả: report giữ 41 trang A4; Figure 10 giữ đúng vị trí; log cuối không còn Underfull/Overfull box, undefined reference/citation hoặc yêu cầu rerun; hai PDF có cùng SHA-256 được ghi ở phần trạng thái hiện tại.
+- Vướng gì / để lại cho phiên sau: không có việc kỹ thuật Role C; chỉ còn các cổng media/đóng gói do con người xác nhận.
+
 ### 2026-09-01 — đưa Figure 10 lên trang mang số in 22
 - Đã làm gì: xác định `\clearpage` ngay trước Figure 10 là nguyên nhân tạo khoảng trắng lớn; bỏ đúng lệnh ngắt trang này, giữ nguyên ảnh, kích thước, caption và prose; build lại bằng XeLaTeX/BibTeX rồi render kiểm tra toàn bộ 41 trang.
-- Kết quả: Figure 10 nằm trọn trên trang mang số in 22 (trang vật lý 23), caption hai dòng vẫn căn theo khối, prose tiếp tục ngay dưới hình; hai PDF qua `qpdf` và có cùng SHA-256 `b8c9350fd40467aad3a4fb0ba961d092c3b0811318ac8fa1daaa93f91529d9be`.
+- Kết quả: Figure 10 nằm trọn trên trang mang số in 22 (trang vật lý 23), caption hai dòng vẫn căn theo khối, prose tiếp tục ngay dưới hình; hai PDF tại snapshot này qua `qpdf`. Hash hiện hành được ghi ở phần trạng thái hiện tại.
 - Vướng gì / để lại cho phiên sau: không.
 
 ### 2026-09-01 — chuẩn hóa metadata và trạng thái Figure 10
@@ -64,11 +70,11 @@ _(cập nhật lần cuối: 2026-09-01 — audit nộp bài cuối)_
 
 ### 2026-09-01 — đồng bộ trạng thái media và report cuối
 - Đã làm gì: loại tham chiếu hiện hành tới hai file kịch bản/PDF không còn trong workspace; giữ các mục lịch sử như bằng chứng công việc tại thời điểm chúng tồn tại; đồng bộ trạng thái theo xác nhận của nhóm rằng slide/video đã hoàn thành. Loại riêng `metadata.execution` khỏi 12 code cell của notebook C, không thay cell order/ID/source/output/execution count hoặc metadata khác.
-- Kết quả: f.1 không còn finding mở; bản cuối có 42 trang và Figure 10 ở trang vật lý 24. Caption hai dòng căn theo khối, cây không crop và prose/bảng kết quả tiếp tục ngay dưới hình. Notebook C giữ execution count 1→12, 0 error/timing metadata, qua validator; SHA-256 hiện tại là `2a9ee056f703cca7868425faee3d331a02e572e7f8fe2989ff281007998a6845`.
+- Kết quả: f.1 không còn finding mở; bản tại snapshot này có 42 trang và Figure 10 ở trang vật lý 24. Caption hai dòng căn theo khối, cây không crop và prose/bảng kết quả tiếp tục ngay dưới hình. Notebook C giữ execution count 1→12, 0 error/timing metadata, qua validator; hash hiện hành được ghi ở phần trạng thái hiện tại.
 - Vướng gì / để lại cho phiên sau: chỉ còn cổng kiểm tra file/link media và đóng gói do con người thực hiện.
 
 ### 2026-09-01 — tận dụng khoảng trắng dưới Figure 10
-- Đã làm gì: đối chiếu PDF cũ và source f.1, xác định `\clearpage` ngay sau Figure 10 là nguyên nhân đẩy toàn bộ đoạn giải thích sang trang sau; bỏ lệnh này nhưng giữ `\clearpage` trước figure. Đồng thời đối chiếu `FINAL_FIX_CHECKLIST_BY_ROLE.md` và tick các mục đã có bằng chứng đạt.
+- Đã làm gì: đối chiếu PDF cũ và source f.1, xác định `\clearpage` ngay sau Figure 10 là nguyên nhân đẩy toàn bộ đoạn giải thích sang trang sau; bỏ lệnh này nhưng giữ `\clearpage` trước figure. Đồng thời đối chiếu checklist audit tại thời điểm đó và đánh dấu các mục đã có bằng chứng đạt.
 - Kết quả: preamble hỗ trợ XeLaTeX/LuaLaTeX nên không cần cài `vntex`; XeLaTeX/BibTeX build thành công PDF A4 dọc 44 trang. Render trang 25 xác nhận Figure 10 đầy đủ, caption hai dòng giữ căn theo khối mặc định, prose/tiêu đề f.1.3/bảng kết quả được đặt ngay trong phần trắng còn lại. Log không còn undefined reference/citation, rerun hay overfull warning; checklist có 58 mục đã đánh dấu và 21 mục còn lại.
 - Vướng gì / để lại cho phiên sau: không có vướng mắc Role C; các owner còn lại tiếp tục 21 mục chưa đạt trong final-fix checklist.
 

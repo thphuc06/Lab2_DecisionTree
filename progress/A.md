@@ -8,7 +8,7 @@
 ## Trạng thái hiện tại
 _(cập nhật lần cuối: 2026-09-01)_
 - Trạng thái: đã hoàn tất audit nộp bài cuối ở mức source, số liệu và nội dung; report không còn TODO/placeholder. Các file draft từng được nhắc trong nhật ký cũ chỉ là sản phẩm trung gian và đã được xóa sau khi nội dung chuẩn được tích hợp vào LaTeX.
-- Bị chặn bởi: không có blocker kỹ thuật trong workspace; chỉ còn kiểm tra danh tính, media và đóng gói do con người thực hiện theo `Cac_Cong_Viec_Can_Phai_Lam.md`.
+- Bị chặn bởi: không có blocker kỹ thuật trong workspace; chỉ còn kiểm tra danh tính, media và đóng gói do con người đối chiếu trực tiếp với đề gốc.
 
 ## Đã xong
 - [x] Tải dataset qua `ucimlrepo` (id=697), lưu `data/raw/data.csv`
@@ -31,7 +31,7 @@ _(Ghi các lựa chọn kỹ thuật đã quyết — để agent phiên sau kh�
 - Smoke test: `DecisionTreeClassifier(random_state=42)` trên output của `get_train_test()` cho test acc = 0.6689 — khớp khoảng kỳ vọng 0.65–0.72 ở `AGENT.md` §3. Accuracy này chỉ là sanity check, không tự nó chứng minh không có leakage; leakage được kiểm soát bằng split cố định và chỉ fit trên train.
 
 ## Việc tiếp theo
-- Trưởng nhóm thực hiện các cổng con người/ngoài workspace trong `Cac_Cong_Viec_Can_Phai_Lam.md`: xác minh tên–MSSV–giảng viên–ngày nộp, kiểm tra video/đường dẫn chia sẻ và tạo gói `2.zip` đúng đề.
+- Trưởng nhóm thực hiện các cổng con người/ngoài workspace: xác minh tên–MSSV–giảng viên–ngày nộp, kiểm tra video/đường dẫn chia sẻ và tạo gói `2.zip` đúng đề.
 - Người dùng review toàn bộ diff rồi tự `git add` / `git commit` / `git push` theo `AGENT.md`; agent không thực hiện ba thao tác này.
 - Commit `0969118` ghi nhầm `[C]` nhưng là công việc Role E. Không dùng prefix đó để tính contribution; nếu nhóm vẫn muốn sửa lịch sử đã công bố, chỉ con người thực hiện quy trình phối hợp trong runbook vì thao tác này viết lại 23 commit hậu duệ.
 
@@ -43,13 +43,13 @@ _(Ghi các lựa chọn kỹ thuật đã quyết — để agent phiên sau kh�
 > tại** và artifact canonical mới nhất được ưu tiên.
 
 ### 2026-09-01 — chuẩn hóa toàn bộ hệ Markdown trước bàn giao
-- Đã làm gì: audit 15 file Markdown theo đúng vai trò từng tài liệu; hoàn thiện README, thêm cổng `AGENTS.md`, sửa quy trình Git/agent, contribution, provenance, heading hierarchy và trạng thái progress.
+- Đã làm gì: audit 15 file Markdown theo đúng vai trò từng tài liệu; hoàn thiện README, sửa quy trình Git/agent, contribution, provenance, heading hierarchy và trạng thái progress.
 - Kết quả: không còn placeholder owner/template hiện hành; link, H1/heading, code fence, model-ID schema và wording safety gate đều đạt. Các việc chưa tick chỉ còn ở runbook/đóng gói do con người thực hiện.
 - Vướng gì / để lại cho phiên sau: không có finding Markdown kỹ thuật mở.
 
 ### 2026-09-01 — audit nộp bài cuối và đồng bộ tài liệu
 - Đã làm gì: đối chiếu đề gốc, source LaTeX, toàn bộ artifact, số liệu M0–M3, Git/progress và tài liệu Markdown; loại năm draft trung gian sau khi xác nhận nội dung chuẩn đã có trong report chính.
-- Kết quả: phần report và code không còn việc kỹ thuật mở; các đầu việc còn lại đều là xác minh danh tính/media/đóng gói và được tập trung vào `Cac_Cong_Viec_Can_Phai_Lam.md`.
+- Kết quả: phần report và code không còn việc kỹ thuật mở; các đầu việc còn lại đều là xác minh danh tính, media và đóng gói theo đề gốc.
 - Vướng gì / để lại cho phiên sau: con người phải thực hiện các cổng ngoài workspace và tự commit/push sau khi review.
 
 ### 2026-08-30 (phiên 17) — resolve merge conflict giữa local (A) và origin/main (nhánh Role E)

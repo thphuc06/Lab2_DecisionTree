@@ -6,8 +6,8 @@
 > nhật ngay sau mỗi mốc đáng kể, đồng thời kiểm tra lại trước khi bàn giao.
 
 ## Trạng thái hiện tại
-_(cập nhật lần cuối: 2026-09-01)_
-- Trạng thái: hoàn tất; code/notebook/artifact M3 và f.3 đã được đối chiếu trong audit toàn report, không còn việc kỹ thuật mở.
+_(cập nhật lần cuối: 2026-09-02 — refresh manifest artifact hiện hành)_
+- Trạng thái: hoàn tất; metric M3, notebook, classification report, hai CSV importance và bốn PNG E đã được đối chiếu; manifest bên dưới phản ánh đúng byte hiện hành trong workspace.
 - Bị chặn bởi: không.
 
 ## Đã xong
@@ -32,7 +32,7 @@ _(cập nhật lần cuối: 2026-09-01)_
 - Gini/MDI là train-derived; grouped permutation là kiểm tra bổ sung trên held-out test. Không dùng importance để tune M3 và không diễn giải causal.
 
 ## Việc tiếp theo
-- Không còn việc Role E trong workspace. Nhóm kiểm tra media/đóng gói theo `Cac_Cong_Viec_Can_Phai_Lam.md`; người dùng review rồi tự commit/push.
+- Không còn việc Role E trong workspace. Nhóm kiểm tra media/đóng gói trực tiếp theo đề gốc; người dùng review rồi tự commit/push.
 
 ## Manifest bàn giao code E
 
@@ -51,8 +51,8 @@ Artifact E canonical SHA-256:
 - `outputs/E_feature_importance_comparison.csv`: `119d56393bcb2ab366a6f42e72af1126694f20bc8b72a41361cadd82f4f1f631`
 - `outputs/E_feature_importance_permutation.csv`: `7f3c32662d98e5af35849da19a97b479e1c868c473666367fc14abbb9034056c`
 - `figures/E_cm_M3.png`: `b02d913eb8e39410c03c6b07e4e3e516eb0463d43e635a64d17705e4976e6067`
-- `figures/E_tree_M3.png`: `d59cea8c64f616702dfdd88b3bb16119154495f29a1b5fbabe24d107ea77440a`
-- `figures/E_feature_importance.png`: `f7c1d3b5e955f9fae92cb80bf797fa3a721c57e9998fa65a122a5c3e2dce822a`
+- `figures/E_tree_M3.png`: `48f2da501befe82dd8379443d34f53b01243cbd390a89adcc45b2bd3914d7f61`
+- `figures/E_feature_importance.png`: `25037da442d7407b3eaa1fa87f16f0b61c0aacd2f7114f11bbd9fb1347944572`
 - `figures/E_feature_importance_permutation.png`: `eac66257924cc89c9a7e0f187aa1421dd60cda2f3b48b6e61f1dffa0933b957b`
 
 Trong audit cuối, notebook D được Run All bằng kernel canonical để khép execution count 1→13, không đổi code thí nghiệm hay artifact; SHA-256 hiện tại là `41b9590a6f58535a50f778767a1e563382dfd2a65a3751405851fe58e8b8e3cb`. `results.csv`, hai classification report và sáu hình D giữ nguyên byte. Không lưu hash của README/progress/report source ở đây vì các tài liệu đó tiếp tục được đồng bộ trong vòng audit cuối; dùng Git diff và manifest bản nộp để kiểm tra phiên bản cuối.
@@ -63,6 +63,11 @@ Trong audit cuối, notebook D được Run All bằng kernel canonical để kh
 > Các entry dưới đây là snapshot lịch sử tại thời điểm được ghi. Khi số trang,
 > phiên bản, TODO hoặc trạng thái cũ khác phần đầu file, phần **Trạng thái hiện
 > tại** và artifact canonical mới nhất được ưu tiên.
+
+### 2026-09-02 — refresh manifest artifact E hiện hành
+- Đã làm gì: tính lại SHA-256 trực tiếp cho notebook, classification report, hai CSV importance và bốn PNG E; đối chiếu lại metric M3 với `outputs/results.csv`.
+- Kết quả: metric và sáu artifact còn lại giữ nguyên hash; cập nhật đúng hash hiện hành của `E_tree_M3.png` và `E_feature_importance.png`, là hai figure đã được polish phần tiêu đề sau Run All canonical. Không thay đổi notebook, model hay số liệu.
+- Vướng gì / để lại cho phiên sau: không; nếu tái sinh figure từ notebook trong tương lai, cần refresh manifest sau Run All.
 
 ### 2026-09-01 — chuẩn hóa metadata progress cuối
 - Đã làm gì: điền owner thật, loại entry template rỗng và làm mềm cách mô tả chênh lệch M3 thành kết quả sau khi loại feature trong thí nghiệm kiểm soát.
