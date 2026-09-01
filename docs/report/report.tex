@@ -16,9 +16,10 @@
   \usepackage[T5,T1]{fontenc}
   % pdfLaTeX needs the MiKTeX/TeX Live `vntex` package for T5.  The
   % Vietnamese encoding is scoped to member names so the English report
-  % keeps T1 hyphenation rules.
-  \usepackage[vietnamese,english]{babel}
-  \newcommand{\vnname}[1]{\foreignlanguage{vietnamese}{#1}}
+  % keeps T1 hyphenation rules.  Loading Vietnamese through babel would also
+  % request hyphenation patterns that are unnecessary for these proper names.
+  \usepackage[english]{babel}
+  \newcommand{\vnname}[1]{{\fontencoding{T5}\selectfont #1}}
 \else
   % XeLaTeX/LuaLaTeX render the UTF-8 member names directly and therefore
   % do not require `vntex` or the T5 encoding files.
@@ -33,6 +34,7 @@
 % without repeating the relative path everywhere.
 \graphicspath{{../../figures/}}
 \usepackage{booktabs}
+\usepackage{tabularx}
 \usepackage{amsmath}
 \usepackage{float}
 \usepackage{caption}
@@ -45,6 +47,16 @@
 \hypersetup{pdftitle={Lab 2: Decision Tree Modeling and Improvement},
             pdfauthor={Group 2}}
 
+% --- Header / Footer ---
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Introduction to Artificial Intelligence}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headheight}{14pt}
+
 % The assignment specifies lettered sections a--i. Let LaTeX generate those
 % letters so headings do not show redundant combinations such as "6 f.".
 % The dot is a heading decoration only, so \ref returns "f" rather than "f.".
@@ -56,16 +68,20 @@
 
 \begin{document}
 
+% The title page is unnumbered, so suppress its PDF page anchor.  Re-enable
+% anchors for the Roman-numbered front matter and Arabic-numbered body to keep
+% every hyperref destination unique.
+\hypersetup{pageanchor=false}
 \begin{titlepage}
   \centering
   \vspace*{0.3cm}
-  {\Large VIETNAM NATIONAL UNIVERSITY -- HO CHI MINH CITY\par}
+  {\LARGE VIETNAM NATIONAL UNIVERSITY - HO CHI MINH CITY\par}
   \vspace{0.3cm}
-  {\Large UNIVERSITY OF SCIENCE\par}
+  {\LARGE UNIVERSITY OF SCIENCE\par}
   \vspace{0.3cm}
-  {\Large FACULTY OF INFORMATION TECHNOLOGY\par}
+  {\LARGE FACULTY OF INFORMATION TECHNOLOGY\par}
   \vspace{1.6cm}
-  \includegraphics[width=0.3\textwidth]{logo_hcmus.png}\par
+  \includegraphics[width=0.45\textwidth]{logo_hcmus.png}\par
   \vspace{1.6cm}
   {\LARGE\bfseries TECHNICAL REPORT\par}
   \vspace{0.6cm}
@@ -76,7 +92,7 @@
   \vspace{0.5cm}
   \rule{\linewidth}{0.6pt}\par
   \vspace{1.2cm}
-  {\large\bfseries Course: Introduction to Artificial Intelligence\par}
+  {\Large\bfseries Course: Introduction to Artificial Intelligence\par}
   \vspace{0.6cm}
   {\itshape Instructors:\par}
   {Dr.\ Bui Tien Len\par}
@@ -87,8 +103,11 @@
   {\large September 2, 2026\par}
 \end{titlepage}
 
+\hypersetup{pageanchor=true}
+\pagenumbering{roman}
 \tableofcontents
 \newpage
+\pagenumbering{arabic}
 
 \input{sections/a_group_intro}
 \input{sections/b_introduction}
@@ -112,6 +131,9 @@
 \input{sections/h_conclusion}
 
 % i. References -- generated from the bibliography database.
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{i. References}
 \bibliographystyle{plainnat}
 \begingroup
 \small
