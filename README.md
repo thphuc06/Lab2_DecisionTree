@@ -21,8 +21,9 @@ Vòng audit tích hợp ngày **2026-09-01** xác nhận:
 - Slide và video do nhóm quản lý ngoài workspace này. Trước khi nộp vẫn phải
   kiểm tra tên file/quyền truy cập và đóng gói ZIP theo đề gốc.
 
-Checklist còn lại cho bước đóng gói nằm trong
-[`Cac_Cong_Viec_Can_Phai_Lam.md`](Cac_Cong_Viec_Can_Phai_Lam.md).
+Các bước cuối cùng cho giai đoạn đóng gói và xác minh hồ sơ được thực hiện
+ngoài workspace repo; không còn file checklist dạng Markdown nào được giữ lại
+trong repository để tránh nhiều nguồn sự thật.
 
 ## Cấu trúc repository
 
@@ -52,10 +53,9 @@ progress/       Nhật ký kỹ thuật theo role
   feature gốc.
 - [`docs/report/README.md`](docs/report/README.md): cấu trúc, build và QA report
   LaTeX.
-- [`docs/report/FINAL_FIX_CHECKLIST_BY_ROLE.md`](docs/report/FINAL_FIX_CHECKLIST_BY_ROLE.md):
-  bằng chứng hoàn tất 79/79 finding của report.
-- [`Cac_Cong_Viec_Can_Phai_Lam.md`](Cac_Cong_Viec_Can_Phai_Lam.md): các cổng
-  danh tính, media và đóng gói còn cần con người xác minh trước khi nộp.
+- Các checklist theo role và đóng gói đã được loại bỏ khỏi repo để tránh dư thừa
+  nguồn thông tin; người phụ trách vẫn cần đối chiếu với report canonical và
+  tài liệu tổ chức ngoài workspace trước khi nộp.
 
 ## Môi trường canonical
 
