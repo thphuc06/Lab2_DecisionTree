@@ -115,6 +115,7 @@
 \pagenumbering{arabic}
 
 \input{sections/a_group_intro}
+\newpage
 \input{sections/b_introduction}
 \input{sections/c_dataset}
 \input{sections/d_baseline}
@@ -137,10 +138,12 @@
 
 % i. References -- generated from the bibliography database.
 \clearpage
-\phantomsection
-\addcontentsline{toc}{section}{i. References}
+\section{References}
+\label{sec:i}
 \bibliographystyle{plainnat}
-\renewcommand{\refname}{i. References}
+% The numbered section above provides the heading and ToC entry. Suppress
+% natbib's additional unnumbered bibliography heading.
+\renewcommand{\bibsection}{}
 \begingroup
 \small
 \raggedright
