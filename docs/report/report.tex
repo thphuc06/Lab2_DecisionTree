@@ -67,8 +67,6 @@
 \renewcommand{\thesubsection}{\alph{section}.\arabic{subsection}}
 \renewcommand{\thesubsubsection}{\alph{section}.\arabic{subsection}.\arabic{subsubsection}}
 \titleformat{\section}{\normalfont\Large\bfseries}{\thesection.}{1em}{}
-\renewcommand{\refname}{i. References}
-
 \begin{document}
 
 % The title page is unnumbered, so suppress its PDF page anchor.  Re-enable
@@ -108,8 +106,12 @@
 
 \hypersetup{pageanchor=true}
 \pagenumbering{roman}
+% Keep the Contents pages visually unnumbered while retaining Roman numbering
+% internally for stable PDF destinations and a clean transition to the body.
+\fancyfoot[C]{}
 \tableofcontents
-\newpage
+\clearpage
+\fancyfoot[C]{\thepage}
 \pagenumbering{arabic}
 
 \input{sections/a_group_intro}
@@ -138,6 +140,7 @@
 \phantomsection
 \addcontentsline{toc}{section}{i. References}
 \bibliographystyle{plainnat}
+\renewcommand{\refname}{i. References}
 \begingroup
 \small
 \raggedright
