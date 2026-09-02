@@ -36,8 +36,8 @@ features.
 Under this study's feature-availability assumption, M3 treats the remaining 24
 original features as available at enrollment. They include application and
 program information, prior academic background, tuition and scholarship status,
-demographics, and the three macroeconomic variables---unemployment rate,
-inflation rate, and GDP---associated with the year of enrollment. The
+demographics, and the three macroeconomic variables-unemployment rate,
+inflation rate, and GDP-associated with the year of enrollment. The
 \texttt{International} indicator is retained: M3 deliberately changes only
 semester-result inclusion, rather than combining the timing intervention
 with correlation-based removal.
@@ -206,7 +206,7 @@ to Graduate (60) or Dropout (47) than are correctly classified (52).
   \end{tabular}
 \end{table}
 
-\subsubsection{Why accuracy does not improve --- and why this is expected}
+\subsubsection{Why accuracy does not improve - and why this is expected}
 
 M3 does not improve predictive accuracy because M0 has a substantial
 information advantage. Several of M0's strongest predictors are semester
@@ -219,12 +219,12 @@ second-semester approvals causes the largest accuracy loss for M0.
 
 The experiment also preserves the unconstrained M0 tree setting to isolate
 the effect of timing. M3 consequently fits the training data perfectly while
-generalizing poorly, with a 0.458757 train--test accuracy gap. Its greater
+generalizing poorly, with a 0.458757 train-test accuracy gap. Its greater
 depth and leaf count show that removing variables is not a substitute for
 pruning: when the strongest signals disappear, the tree can fragment the
 training data using weaker associations among the retained variables.
 
-The result should therefore be interpreted as a performance--timeliness
+The result should therefore be interpreted as a performance-timeliness
 trade-off, not as a failed experiment. M0 is the stronger classifier once
 semester outcomes exist. Under this study's feature-availability assumption,
 M3 is the only configuration in this comparison designed to operate at

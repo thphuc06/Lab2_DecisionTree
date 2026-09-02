@@ -31,7 +31,7 @@ contract.
 \subsubsection{Method description}
 \label{sec:f2-method}
 
-\textbf{M2a -- class weighting.} M2a trains a single
+\textbf{M2a - class weighting.} M2a trains a single
 \texttt{DecisionTreeClassifier} with \texttt{class\_weight=}\allowbreak\texttt{`balanced'} and
 \texttt{random\_state=42}, fit directly on the original (non-resampled) training
 data:
@@ -42,7 +42,7 @@ Under this setting, scikit-learn scales each class's contribution to the impurit
 criterion inversely to its frequency in the training data. No synthetic samples are
 created; the sample size and the feature space are identical to those used by M0.
 
-\textbf{M2b -- Synthetic Minority Over-sampling Technique (SMOTE).} M2b applies
+\textbf{M2b - Synthetic Minority Over-sampling Technique (SMOTE).} M2b applies
 SMOTE \citep{chawla2002smote,imblearn_smote_api} to the training split only, after
 the shared split has already been produced, and fits an otherwise unmodified
 decision tree on the resampled data:
@@ -161,7 +161,7 @@ Precision (macro)     & 0.607642 & 0.584250 & \textbf{0.636513} & $-0.023392$ & 
 Recall (macro)         & 0.609310 & 0.587848 & \textbf{0.642937} & $-0.021462$ & \textbf{$+0.033627$} \\
 F1-score (macro)       & 0.608271 & 0.585409 & \textbf{0.638747} & $-0.022862$ & \textbf{$+0.030475$} \\
 ROC-AUC (macro, OvR)   & 0.719456 & 0.705321 & \textbf{0.742122} & $-0.014135$ & \textbf{$+0.022667$} \\
-Tree depth / leaves   & 27 / 634 & 28 / 696 & \textbf{39 / 847} & -- & -- \\
+Tree depth / leaves   & 27 / 634 & 28 / 696 & \textbf{39 / 847} & - & - \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -234,9 +234,9 @@ M2b has higher Dropout and Enrolled recall than both M0 and M2a.
 The shared preprocessing pipeline one-hot encodes only four
 categorical groups (\textit{Marital Status}, \textit{Application mode},
 \textit{Course}, \textit{Previous qualification}); the remaining high-cardinality
-categorical variables -- \textit{Mother's/Father's qualification},
+categorical variables - \textit{Mother's/Father's qualification},
 \textit{Mother's/Father's occupation}, \textit{Nacionality} (nominal), and
-\textit{Application order} (ordinal) --- are retained as integer codes. Vanilla
+\textit{Application order} (ordinal) - are retained as integer codes. Vanilla
 SMOTE treats every input feature as continuous and linearly interpolates between a
 sample and its nearest neighbours, which can in principle generate values that do
 not correspond to any real category.
@@ -292,7 +292,7 @@ interpolated fractional values were truncated to integers during
 \texttt{fit\_resample()}'s dtype-restoration step, which would make this
 measurement, at the level of raw values, unable to detect the interpolation that
 still occurred. Even where a value is an integer, it can still fail to correspond
-to any real category --- and the out-of-vocabulary-rate column above shows exactly
+to any real category - and the out-of-vocabulary-rate column above shows exactly
 this: up to $3.01\%$ of synthetic values for \textit{Mother's qualification} are
 integer codes that never appear anywhere in the real training data.
 
@@ -324,7 +324,7 @@ part of the synthetic training data the tree learns from does not represent a
 In a class-imbalanced classification problem, overall accuracy alone cannot be the
 sole acceptance criterion. A model may legitimately trade a reduction in overall
 accuracy for less majority-class dominance; when this happens,
-per-class recall --- not a return to M0's accuracy figure --- is the correct measure
+per-class recall - not a return to M0's accuracy figure - is the correct measure
 of success.
 
 M2a illustrates that this trade-off is not automatic: its accuracy falls
@@ -360,7 +360,7 @@ percentage points relative to M0, while simultaneously raising \textit{Enrolled}
 precision from $0.3567$ to $0.4044$ and lowering the overall error rate from
 $0.331073$ to $0.311864$. M2b is therefore adopted as the more successful
 class-imbalance configuration within the scope of this experiment. M2a is
-retained in this report rather than discarded, both for transparency --- not every
-class-balancing technique improves a given model on a given dataset --- and to
+retained in this report rather than discarded, both for transparency - not every
+class-balancing technique improves a given model on a given dataset - and to
 document, alongside M2b, the quantitative categorical-representation limitation
 of vanilla SMOTE rather than presenting only favorable figures.

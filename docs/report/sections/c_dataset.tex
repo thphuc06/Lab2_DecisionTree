@@ -21,7 +21,7 @@ several administrative sources at enrollment time (admission records,
 socio-economic data) with academic outcomes at the end of each of the
 first two semesters \citep[Section~2, ``Data Description'']{realinho2022predicting}.
 
-\subsection{Dataset description --- numbers confirmed from actual data}
+\subsection{Dataset description - numbers confirmed from actual data}
 
 The group did not copy figures from the UCI metadata page; instead it
 directly inspected the raw dataset to confirm:
@@ -177,7 +177,7 @@ only known once a semester has actually happened:
 
 Median values are 0 for Dropout, 4 for Enrolled, and 6 for Graduate. This
 is the single most important feature in Table~\ref{tab:c-importance}
-(rank~1, importance 0.340, more than the sum of ranks 2--5 combined), but
+(rank~1, importance 0.340, more than the sum of ranks 2-5 combined), but
 it is defined as a second-semester outcome and is therefore excluded from M3.
 
 \subsection{Preprocessing performed}
@@ -318,7 +318,7 @@ difference from M0.
 The dataset contains sensitive variables: gender, nationality, marital
 status, and parents' education/occupation. Any tree splits on these
 variables only reflect \textbf{correlations observed in one Portuguese
-institution's sample from academic years 2008/09--2018/19
+institution's sample from academic years 2008/09-2018/19
 \citep[Section~2]{realinho2022predicting}}, not causal relationships, and
 should not be used as grounds for any discriminatory policy toward
 students in practice.

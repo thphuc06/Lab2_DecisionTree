@@ -53,7 +53,7 @@ The three improvement directions highlight distinct lessons:
     Enrolled recall by 8.18 points and Dropout recall by 2.82 points
     without a corresponding drop in Enrolled precision
     (Section~\ref{sec:g}), so the gain is not pure over-prediction of
-    Enrolled -- though SMOTE on one-hot-encoded categorical features
+    Enrolled - though SMOTE on one-hot-encoded categorical features
     still carries known limitations.
   \item Dropping the 12 semester-outcome columns (M3) costs 12.77
     accuracy points. Under the stated feature-availability assumption,
@@ -82,7 +82,7 @@ more than 5.5 second-semester course units \emph{and}
 observation in Figure~\ref{fig:c2} that paying tuition on time
 correlates strongly with graduating. Long condition chains like these
 are themselves a sign of the overfitting discussed above: a rule that
-needs 9--16 ANDed conditions to stay 100\% pure is fitting narrow
+needs 9-16 ANDed conditions to stay 100\% pure is fitting narrow
 pockets of the training set rather than a simple general pattern, one of
 the concrete costs of leaving M0 unpruned. After preprocessing, the tree
 can split numerical and one-hot indicator columns without feature
