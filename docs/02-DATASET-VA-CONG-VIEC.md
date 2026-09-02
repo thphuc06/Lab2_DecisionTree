@@ -550,7 +550,7 @@ Một đoạn ngắn thôi, nhưng nó thể hiện độ chín của nhóm và 
 | Nguyễn Văn Minh | 24127205 | Xây dựng và đánh giá baseline, trực quan hóa cây, trích luật quyết định; viết Baseline Model và Analysis of the Tree | 20% |
 | Thái Quang Huy | 24127177 | Triển khai cost-complexity pruning cùng giới hạn depth/leaf; viết Improvement Method 1 (f.1) | 20% |
 | Nguyễn Hữu Gia Minh | 24127078 | Triển khai class weighting và SMOTE cho xử lý mất cân bằng lớp; viết Improvement Method 2 (f.2) | 20% |
-| Mai Phương Thùy | 24127249 | Triển khai feature selection cho early warning; phụ trách slides, video, references và viết Improvement Method 3 (f.3) | 20% |
+| Mai Phương Thùy | 24127249 | Triển khai feature selection cho early warning; phụ trách video, references và viết Improvement Method 3 (f.3) | 20% |
 
 > Nếu đóng góp thực tế không đều thì ghi đúng thực tế. Trưởng nhóm đối chiếu bảng này với **ai thực sự nói phần nào trong video** trước khi nộp (checklist E7).
 
